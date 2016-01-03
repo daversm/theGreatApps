@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Sign up</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="../public/css/base.css"  />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="info"></div>
+    <div class="arrow-down"></div>
+      <div class="logo"><h5>TGA</h6></div>
+      <div id="naviBar">
+          <a href="/"><h6>Login</h6></a>
+          <a href="/passwordReset"><h6>Forgot Password</h6></a>
+      </div>
+
+      <div id="signupSection" ></div>
+
+      <script type="text/babel">
+
+          var LoginSection = React.createClass({
+            getInitialState: function() {
+              return {email: '', password: '',passwordTwo:'',passMatch:'',preMessage:'', showResults: false, displayName:''};
+            },
+            handleUserNameChange: function(e) {
+              this.setState({email: e.target.value});
+              this.setState({message: '', preMessageEmail:'', showResults: false});
+
+            },
+            handlePasswordChange: function(e) {
+              this.setState(
+                    {password: e.target.value, showResults: false, message:'', preMessageEmail:''},
+                    function () {
+                      if(this.state.password != this.state.passwordTwo){
+                        this.setState({passMatch: " - passwords don't match", preMessage:"X"});
+                      }else{
+                        this.setState({passMatch: '', preMessage:''});
+                      }
+              });
+            },
+            handlePasswordTwoChange: function(e) {
+
+            this.setState(
+                  {passwordTwo: e.target.value, showResults: false,message:'', preMessageEmail:'' },
+                  function () {
+                    if(this.state.password != this.state.passwordTwo){
+                      this.setState({passMatch: " - passwords don't match", preMessage:"X"});
+                    }else{
+                      this.setState({passMatch: '', preMessage:''});
+                    }
+            });
+
+
+            },
+            CheckPasswordMatch: function(e) {
+
+              if(this.state.password != this.state.passwordTwo){
+                this.setState({passMatch: " - passwords don't match", preMessage:"X"});
+              }else{
+                this.setState({passMatch: '', preMessage:''});
+              }
+            },
+            handlePinChange: function(e) {
+              if(e.target.value.length < 5){
+              this.setState({pin: e.target.value, showResults: false, message:'', preMessageEmail:''});
+             }
+            },
+            handleDisplayNameChange: function(e) {
+              this.setState({displayName: e.target.value, showResults: false, message:'', preMessageEmail:''});
+            },
+            handleClickRedirect: function(e) {
+              window.location.href= "/";
+            },
+            handleSubmit: function(e) {
+              if (this.state.email == '' || this.state.password == '' || this.state.passwordTwo == ''|| this.state.pin == ''|| this.state.displayName == ''){
+                this.setState({message: " - all fields must be filled", preMessageEmail:"X"});
+                return;
+              }
+              var outerThis = this;
+              $.ajax({
+                url: '/signup',
+                type: 'POST',
+                data: {email:this.state.email, password:this.state.password, displayName:this.state.displayName, pin:this.state.pin},
+                success: function(data) {
+                  if(data.redirect == "true"){
+                   outerThis.setState({showResults: true, email:'', pin:'', password:'', displayName:'', passwordTwo:''});
+                  }else{
+                   outerThis.setState({message: data.message, preMessageEmail:"X", email:''});
+
+
+                 }
+                }
+
+              });
+            },
+
+            render: function() {
+              return (
+                <div className="loginForm">
+                  <h1> THE GREAT APPS : SIGN UP </h1>
+                  <input
+                    type="text"
+                    placeholder="email:"
+                    name = "email"
+                    value={this.state.email}
+                    onChange={this.handleUserNameChange}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                    placeholder="password:"
+                    name = "password"
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                    placeholder="password: once again"
+                    name = "password"
+                    value={this.state.passwordTwo}
+                    onChange={this.handlePasswordTwoChange}
+                  />
+                  <div id="errorBox"><h2><strong>{this.state.preMessage}</strong> {this.state.passMatch} </h2></div>
+
+                  <input
+                    type="text"
+                    placeholder="display name: can you your name"
+                    name = "displayName"
+                    value={this.state.displayName}
+                    onChange={this.handleDisplayNameChange}
+                  />
+                  <br />
+                  <input
+                    type="text"
+                    placeholder="pin: used for password recovery"
+                    name = "pin"
+                    value={this.state.pin}
+                    onChange={this.handlePinChange}
+                  />
+                  <div id="errorBoxEmail"><h2><strong>{this.state.preMessageEmail}</strong> {this.state.message} </h2></div>
+
+                  { this.state.showResults ?
+                    <div id="completionBox"><h4><strong>&#x2713;</strong> - done - login with your credentials</h4></div>
+                    : null
+                  }
+                    <input onClick={this.handleSubmit} type="submit" value="register" />
+
+                  { this.state.showResults ?
+                      <input id="doneButton" type="submit" value="login" onClick={this.handleClickRedirect}  />
+                      : null
+                  }
+
+
+                </div>
+              );
+            }
+          });
+
+          ReactDOM.render(
+          <LoginSection />,
+          document.getElementById('signupSection')
+          );
+
+      </script>
+
+  </body>
+</html>

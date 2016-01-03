@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>TheGreatApps</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="../public/css/base.css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <script src="../public/css/parallax.min.js"></script>
+
+  </head>
+  <body>
+    <div class="info"></div>
+    <div class="logo"><h5>TGA</h6></div>
+    <div class="arrow-down"></div>
+    <div class="arrow-up"></div>
+    <div id="naviBar">
+        <a href="/signup"><h6>Register </h6></a>
+
+        <a href="/passwordReset"><h6>Forgot Password</h6></a>
+    </div>
+      <div id="loginSection" class="parallax-window" data-parallax="scroll"  data-image-src="../public/css/c4.jpg">
+
+      </div>
+
+      <script type="text/babel">
+      $('.arrow-up').hide();
+
+      $(window).scroll(function() {
+        if ($(this).scrollTop() >= $('body').height() / 7) {        // If page is scrolled more than 50px
+          $('.arrow-down').fadeOut(250);    // Fade in the arrow
+        } else {
+          $('.arrow-down').fadeIn(250);   // Else fade out the arrow
+        }
+      });
+
+      $(window).scroll(function() {
+        if ($(this).scrollTop() >= $('body').height() / 1.2) {        // If page is scrolled more than 50px
+          $('.arrow-up').fadeIn(250);    // Fade in the arrow
+        } else {
+          $('.arrow-up').fadeOut(250);   // Else fade out the arrow
+        }
+      });
+
+
+          var LoginSection = React.createClass({
+            getInitialState: function() {
+              return {username: '', password: '', message:'',preMessage:''};
+            },
+            handleUserNameChange: function(e) {
+              this.setState({email: e.target.value,  message:'',preMessage:''});
+            },
+            handlePasswordChange: function(e) {
+              this.setState({password: e.target.value, message:'',preMessage:''});
+            },
+            handleDemoButton: function(e) {
+              window.location.href= "/demo";
+            },
+
+            handleSubmit: function(e) {
+              if (this.state.email == '' || this.state.password == ''){
+                this.setState({message: " - all fields must be filled", preMessage:"X"});
+                return;
+              }
+              var outerThis = this;
+
+                $.ajax({
+                  url: '/login',
+                  type: 'POST',
+                  data: {email: this.state.email, password: this.state.password },
+                  success: function(data) {
+                    if(data.redirect == "true"){
+                     window.location.href = '/profile';
+                    }else{
+                     outerThis.setState({message: data.message, preMessage:"X"});
+
+                   }
+                  }
+
+                });
+
+
+              this.setState({password: ''});
+            },
+
+            render: function() {
+              return (
+                <div className="loginForm" >
+                  <h1> THE GREAT APPS </h1>
+                  <input
+                    type="text"
+                    placeholder="username:"
+                    label="email"
+                    value={this.state.email}
+                    onChange={this.handleUserNameChange}
+                  />
+                  <br />
+                  <input
+                    type="password"
+                    size="20"
+                    placeholder="magic word:"
+                    lable="password"
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                  />
+                  <br />
+                  <div id="errorBox"><h2><strong>{this.state.preMessage}</strong> {this.state.message} </h2></div>
+                    <input type="submit" value="enter" onClick={this.handleSubmit}/>
+                    <input id="doneButton" type="submit" value="demo" onClick={this.handleDemoButton}/>
+
+                </div>
+              );
+            }
+          });
+
+          ReactDOM.render(
+          <LoginSection />,
+          document.getElementById('loginSection')
+          );
+
+      </script>
+
+    <div id=aboutSection ></div>
+  </body>
+</html>

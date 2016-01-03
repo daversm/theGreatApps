@@ -1,0 +1,317 @@
+body, html {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+.homePageRedirect{
+  position:fixed;
+  top:50%;
+  right:50%;
+  width: 50%;
+  height: 50%;
+  -webkit-box-shadow: 0px 0px 4px 1px rgba(77, 77, 77, 0.73);
+-moz-box-shadow: 0px 0px 4px 1px rgba(77, 77, 77, 0.73);
+box-shadow: 0px 0px 4px 1px rgba(77, 77, 77, 0.73);
+  background-color: rgba(255, 255, 255, 0.88);
+  border-radius: 3px;
+  transform: translate(50%, -50%);
+}
+.info{
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  left:5px;
+  bottom:5px;
+  background-image: url("infoIcon.png");
+}
+
+.logo{
+  position: fixed;
+  right:6px;
+  bottom:6px;
+  border: solid 2px rgba(140, 140, 140, 1);
+  border-radius: 1px;
+}
+
+.arrow-down {
+  position: fixed;
+  margin-bottom: 15px;
+  bottom: 15px;
+  right:50%;
+  border-right:3px solid rgba(167, 167, 167, 1);
+  border-bottom:3px solid rgba(167, 167, 167, 1);
+  width:33px;
+  height:33px;
+  transform: rotate(45deg) translate(50%,0);
+
+
+}
+.arrow-left {
+  position: fixed;
+  left:15px;
+  top:45%;
+  border-left:3px solid rgba(167, 167, 167, 1);
+  border-bottom:3px solid rgba(167, 167, 167, 1);
+  width:33px;
+  height:33px;
+  transform: rotate(45deg);
+
+}
+
+.arrow-up {
+  position: fixed;
+  top:15px;
+  right:50%;
+  border-left:3px solid rgba(167, 167, 167, 1);
+  border-top:3px solid rgba(167, 167, 167, 1);
+  width:33px;
+  height:33px;
+  transform: rotate(45deg);
+
+}
+
+a {
+  text-decoration: none;
+  margin-left:6px;
+}
+
+#userNameLogOutDiv{
+  display: flex;
+}
+
+/* This might cause probs later - make specific to class */
+input[type="text"] {
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  padding: 2px;
+  width: 400px;
+  height: 35px;
+  border: none;
+  border: solid 2px #5a5a5a;
+  border-radius: 2px;
+  padding-left: 4px;
+  font-weight: 300;
+  color: #5a5a5a;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  transition: box-shadow 150ms ease;
+  background: rgba(255,255,255,1);
+}
+
+input[type="password"] {
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  padding: 2px;
+  width: 400px;
+  height: 35px;
+  border: none;
+  border: solid 2px #5a5a5a;
+  border-radius: 2px;
+  padding-left: 4px;
+  font-weight: 300;
+  color: #5a5a5a;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  transition: box-shadow 150ms ease;
+  background: rgba(255,255,255,1);
+}
+
+input[type="submit"]{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  padding: 8px;
+  min-width: 100px;
+  height: 50px;
+  border: solid 2px #5a5a5a;
+  border-radius: 2px;
+  font-weight: 500;
+  color: #5a5a5a;
+  margin-right: 8px;
+  margin-left: 0px;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  transition: box-shadow 100ms ease;
+  background: rgba(255,255,255,1);
+}
+input[type="submit"]:focus{
+  outline: 0;
+}
+
+input[type="submit"].newUser {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  width: auto;
+  height: auto;
+  padding: 3px;
+  border: solid 2px rgba(255,255,255, 0);
+  border-radius: 2px;
+  font-weight: 400;
+  transition: box-shadow 100ms ease;
+  background: rgba(255,255,255,1);
+}
+
+input#doneButton{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  padding: 8px;
+  min-width: 130px;
+  height: 50px;
+  -webkit-appearance: none;
+  outline: none;
+  border: solid 2px #0099FF;
+  border-radius: 2px;
+  font-weight: 500;
+  color: white;
+  margin-right: 8px;
+  margin-left: 0px;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  transition: box-shadow 100ms ease;
+  background: #0099FF;
+}
+input#doneButton:hover{
+  background: #0085dd;
+  border: solid 2px #0085dd;
+}
+
+input[type="submit"]:hover {
+  transition: box-shadow 100ms ease;
+  border-color: #0099FF;
+  background: #0099FF;
+  color:white;
+  -webkit-box-shadow: 0 4px 4px -4px gray;
+   -moz-box-shadow: 0 4px 4px -4px gray;
+        box-shadow: 0 4px 4px -4px gray;
+}
+
+input[type="password"]:hover {
+  transition: box-shadow 100ms ease;
+  border-color: #5a5a5a;
+  -webkit-box-shadow: 0 4px 4px -4px gray;
+   -moz-box-shadow: 0 4px 4px -4px gray;
+        box-shadow: 0 4px 4px -4px gray;
+}
+
+input[type="password"]:focus {
+  outline: none;
+  transition: box-shadow 100ms ease;
+ border-color:#0099FF;
+  -webkit-box-shadow: 0 4px 4px -4px gray;
+   -moz-box-shadow: 0 4px 4px -4px gray;
+        box-shadow: 0 4px 4px -4px gray;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  transition: box-shadow 100ms ease;
+  border-color: #0099FF;
+
+  -webkit-box-shadow: 0 4px 4px -4px gray;
+   -moz-box-shadow: 0 4px 4px -4px gray;
+        box-shadow: 0 4px 4px -4px gray;
+}
+
+input[type="text"]:hover{
+  transition: box-shadow 100ms ease;
+  -webkit-box-shadow: 0 4px 4px -4px gray;
+   -moz-box-shadow: 0 4px 4px -4px gray;
+        box-shadow: 0 4px 4px -4px gray;
+}
+
+#loginSection{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: transparent;
+
+}
+
+#signupSection{
+  display: flex;
+  align-items: center;
+  padding-left: 100px;
+  background-size:cover;
+  background-image: url('c4.jpg');
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+#aboutSection{
+  height: 100%;
+  background-color: rgb(198, 224, 255);
+}
+
+#naviBar{
+  background: transparent;
+  width: 99.5%;
+  display:flex;
+  height: 15px;
+  margin-top: 7px;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+
+form{
+  margin-top: -40px;
+  display:inline;
+}
+h1{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+  color:#5a5a5a;
+  margin:0;
+  padding: 0;
+  font-size: 34px;
+}
+h6{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color:#5a5a5a;
+  margin:1px;
+  padding: 0;
+  font-size: 14px;
+}
+h5{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+  color:rgba(140, 140, 140, 1);
+  margin:0;
+  padding: 5px;
+  font-size: 15px;
+}
+
+h2{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color:rgb(255, 109, 69);
+  margin:0;
+  padding: 0;
+  font-size: 14px;
+}
+h4{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #0099FF;
+  margin:0;
+  padding: 0;
+  font-size: 14px;
+}
+
+h3{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color:rgb(165, 161, 159);
+  margin:0;
+  padding: 0;
+  font-size: 13px;
+}
