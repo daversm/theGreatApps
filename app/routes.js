@@ -11,6 +11,10 @@ module.exports = function(app, passport) {
 		res.sendfile('view/signup.html');
 	});
 
+  app.get('/demo', function(req, res) {
+		res.sendfile('view/demo.html');
+	});
+
 	app.get('/passwordReset', function(req, res) {
 		res.sendfile('view/passwordReset.html');
 	});
