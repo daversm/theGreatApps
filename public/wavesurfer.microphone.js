@@ -23,10 +23,10 @@
 
             // cross-browser getUserMedia
             this.getUserMedia = (
-                MediaDevices.getUserMedia ||
-                MediaDevices.webkitGetUserMedia ||
-                MediaDevices.mozGetUserMedia ||
-                MediaDevices.msGetUserMedia
+                navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia
             ).bind(navigator);
 
             // The buffer size in units of sample-frames.

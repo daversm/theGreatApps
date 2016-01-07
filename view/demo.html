@@ -17,7 +17,53 @@
   <body>
     <div class="logo"><h5>TGA</h6></div>
     <div id="naviBar"></div>
-    <div id="tracksDiv"></div>
+    <div id="waveform"><div>
+      <script>
+
+        var wavesurfer = Object.create(WaveSurfer);
+
+        wavesurfer.init({
+          container     : '#waveform',
+          waveColor     : 'black',
+          interact      : false,
+          cursorWidth   : 0
+        });
+
+        var microphone = Object.create(WaveSurfer.Microphone);
+
+        microphone.init({
+            wavesurfer: wavesurfer
+        });
+
+        microphone.on('deviceReady', function(stream) {
+            console.log('Device ready!', stream);
+        });
+        microphone.on('deviceError', function(code) {
+            console.warn('Device error: ' + code);
+        });
+
+        // start the microphone
+        microphone.start();
+
+        // pause rendering
+        //microphone.pause();
+
+        // resume rendering
+        //microphone.play();
+
+        // stop visualization and disconnect microphone
+        //microphone.stopDevice();
+
+        // same as stopDevice() but also clears the wavesurfer canvas
+        //microphone.stop();
+
+        // destroy the plugin
+        //microphone.destroy();
+
+        </script>
+
+
+
       <script type="text/babel">
 
 
@@ -39,22 +85,7 @@
           document.getElementById('naviBar')
           );
 
-          var TracksSection = React.createClass({
 
-            render: function() {
-              return (
-                <div id="tracksSectionDiv">
-
-                </div>
-              );
-            }
-
-          });
-
-          ReactDOM.render(
-          <TracksSection />,
-          document.getElementById('tracksDiv')
-          );
 
 
       </script>
