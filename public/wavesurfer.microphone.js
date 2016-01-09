@@ -10,7 +10,7 @@
     WaveSurfer.Microphone = {
         init: function (params) {
             this.params = params;
-
+            var audioRecord;
             var wavesurfer = this.wavesurfer = params.wavesurfer;
 
             if (!this.wavesurfer) {
@@ -173,9 +173,12 @@
          *
          * @param {LocalMediaStream} stream: the microphone's media stream.
          */
+
+
         gotStream: function(stream) {
             this.stream = stream;
             this.active = true;
+            audioRecord = this.stream.record();
 
             // start visualization
             this.play();
@@ -198,6 +201,7 @@
         /**
          * Device error callback.
          */
+
         deviceError: function(code) {
             // notify listeners
             this.fireEvent('deviceError', code);
