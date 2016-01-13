@@ -10,7 +10,6 @@
     WaveSurfer.Microphone = {
         init: function (params) {
             this.params = params;
-            var audioRecord;
             var wavesurfer = this.wavesurfer = params.wavesurfer;
 
             if (!this.wavesurfer) {
@@ -178,7 +177,7 @@
         gotStream: function(stream) {
             this.stream = stream;
             this.active = true;
-            audioRecord = this.stream.record();
+
 
             // start visualization
             this.play();

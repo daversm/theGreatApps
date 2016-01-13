@@ -128,7 +128,7 @@ input[type="submit"]{
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
   padding: 8px;
-  min-width: 100px;
+  min-width: 130px;
   height: 50px;
   border: solid 2px #5a5a5a;
   border-radius: 2px;
@@ -247,7 +247,7 @@ input[type="text"]:hover{
 
 #aboutSection{
   height: 100%;
-  background-color: rgb(108, 108, 108);
+  background-color: rgb(88, 88, 88);
 }
 
 #naviBar{
