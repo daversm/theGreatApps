@@ -5,7 +5,10 @@
     <title>Sign up</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="../public/css/base.css"  />
+    <script src="../public/tracks.js"></script>
     <script src="../public/Recorderjs/recorder.js"></script>
+    <script src="../public/wavesurfer.min.js"></script>
+    <script src="../public/wavesurfer.microphone.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
@@ -15,130 +18,79 @@
   </head>
   <body>
     <div class="logo"><h5>TGA</h6></div>
-    <div id="naviBar"></div>
-    <div id="waveform"></div>
+    <div id="masterPanel"></div>
+    <div id="tracksDiv"></div>
     <div id="controlPanel">
       <button onclick="record()">Record</button>
       <button onclick="stop()">Stop</button>
+      <button onclick="pause()">Pause</button>
+      <button onclick="start()">Start</button>
+      <button onclick="download()">Download</button>
     </div>
-      <script>
-
-      var navigator = window.navigator;
-      navigator.getUserMedia = ( navigator.getUserMedia ||
-                             navigator.webkitGetUserMedia ||
-                             navigator.mozGetUserMedia ||
-                             navigator.msGetUserMedia);
-
-var Context = window.AudioContext || window.webkitAudioContext;
-var context = new Context();
-
-      var Context = window.AudioContext || window.webkitAudioContext;
-      var context = new Context();
-      var mediaStream;
-      var rec;
-
-      function record() {
-        // ask for permission and start recording
-        navigator.getUserMedia({audio: true}, function(localMediaStream){
-          mediaStream = localMediaStream;
-
-          // create a stream source to pass to Recorder.js
-          var mediaStreamSource = context.createMediaStreamSource(localMediaStream);
-
-          // create new instance of Recorder.js using the mediaStreamSource
-          rec = new Recorder(mediaStreamSource, {
-            //pass the path to recorderWorker.js file here
-           workerPath: '../public/Recorderjs/recorderWorker.js'
-         });
-          //rec = new Recorder(mediaStreamSource);
-
-          // start recording
-          rec.record();
-        }, function(err){
-          console.log('Browser not supported');
-        });
-      }
-
-      function stop() {
-  // stop the media stream
-        mediaStream.getTracks()[0].stop();
-        //MediaStreamTrack.stop();
-  // stop Recorder.js
-        rec.stop();
-
-  // export it to WAV
-        rec.exportWAV(function(e){
-            rec.clear();
-            Recorder.forceDownload(e, "filename.wav");
-          });
-      }
-/*
-        var wavesurfer = Object.create(WaveSurfer);
-
-        wavesurfer.init({
-          container     : '#waveform',
-          waveColor     : 'black',
-          interact      : false,
-          cursorWidth   : 0
-        });
-
-        var microphone = Object.create(WaveSurfer.Microphone);
-
-        microphone.init({
-            wavesurfer: wavesurfer
-        });
-
-        microphone.on('deviceReady', function(stream) {
-            console.log('Device ready!', stream);
-        });
-        microphone.on('deviceError', function(code) {
-            console.warn('Device error: ' + code);
-        });
-
-        // start the microphone
-        microphone.start();
-
-        // pause rendering
-        //microphone.pause();
-
-        // resume rendering
-        //microphone.play();
-
-        // stop visualization and disconnect microphone
-        //microphone.stopDevice();
-
-        // same as stopDevice() but also clears the wavesurfer canvas
-        //microphone.stop();
-
-        // destroy the plugin
-        //microphone.destroy();
-
-*/
-
-        </script>
-
-
-
       <script type="text/babel">
 
 
-          var LoginSection = React.createClass({
+      var MasterController = React.createClass({
+        getInitialState: function() {
+          return {micSwitchState: false};
+        },
+        handleMasterPlay: function(){
+          console.log(this.mediaStream);
+        },
+        handleMicSwitchChange: function(e) {
+          console.log(e.target.checked);
+          var outerThis = this;
+          if(e.target.checked == true){
+            navigator.getUserMedia({audio: true}, function(localMediaStream){
+              outerThis.mediaStream = localMediaStream;
 
-            render: function() {
-              return (
-                <div id="userNameLogOutDiv">
-                <a href="/"><h6>Home</h6></a>
-                <a href="/signup"><h6>Register</h6></a>
-                <a href="/"><h6>Login</h6></a>
-                </div>
-              );
-            }
+            }, function(err){
+              console.log('Browser not supported');
+            });
+          }else{
+            outerThis.mediaStream.getTracks()[0].stop();
+          }
+        },
 
-          });
-          ReactDOM.render(
-          <LoginSection />,
-          document.getElementById('naviBar')
+        render: function() {
+          var navigator = window.navigator;
+          navigator.getUserMedia = ( navigator.getUserMedia ||
+                                 navigator.webkitGetUserMedia ||
+                                 navigator.mozGetUserMedia ||
+                                 navigator.msGetUserMedia);
+
+          var Context = window.AudioContext || window.webkitAudioContext;
+          var context = new Context();
+
+          var rec;
+
+          return (
+            <div className="masterControllPanel" >
+              <p>MASTER CONTROLLER</p>
+              <div className="onoffswitch">
+                  <input
+                        type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
+                        id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
+                  />
+                  <label className="onoffswitch-label" htmlFor="myonoffswitch">
+                      <span className="onoffswitch-inner"></span>
+                      <span className="onoffswitch-switch"></span>
+                  </label>
+              </div>
+              <div id="play" onClick={this.handleMasterPlay}></div>
+              <div id="pause"></div>
+              <div id="stop"></div>
+              <div id="rec"></div>
+            </div>
           );
+        }
+      });
+
+      ReactDOM.render(
+      <MasterController />,
+      document.getElementById('masterPanel')
+      );
+
 
       </script>
 

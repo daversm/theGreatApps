@@ -21,17 +21,11 @@
             this.reloadBufferFunction = this.reloadBuffer.bind(this);
 
             // cross-browser getUserMedia
-            this.getUserMedia = (
-                navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia
-            ).bind(navigator);
 
             // The buffer size in units of sample-frames.
             // If specified, the bufferSize must be one of the following values:
             // 256, 512, 1024, 2048, 4096, 8192, 16384. Defaults to 4096.
-            this.bufferSize = this.params.bufferSize || 4096;
+            this.bufferSize  = this.params.bufferSize || 4096;
 
             // Integer specifying the number of channels for this node's input,
             // defaults to 1. Values of up to 32 are supported.
@@ -44,20 +38,15 @@
             // wavesurfer's AudioContext where we'll route the mic signal to
             this.micContext = this.wavesurfer.backend.getAudioContext();
         },
-
         /**
          * Allow user to select audio input device, eg. microphone, and
          * start the visualization.
          */
-        start: function() {
-            this.getUserMedia({
-                video: false,
-                audio: true
-            },
-            this.gotStream.bind(this),
-            this.deviceError.bind(this));
-        },
+        start: function(a) {
 
+              this.gotStream(a);
+
+        },
         /**
          * Pause/resume visualization.
          */
@@ -94,7 +83,6 @@
 
             // disconnect sources so they can be used elsewhere
             // (eg. during audio playback)
-            this.disconnect();
         },
 
         /**
@@ -177,11 +165,8 @@
         gotStream: function(stream) {
             this.stream = stream;
             this.active = true;
-
-
             // start visualization
             this.play();
-
             // notify listeners
             this.fireEvent('deviceReady', stream);
         },

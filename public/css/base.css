@@ -1,7 +1,6 @@
 body, html {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
-
   margin: 0px;
   padding: 0px;
   height: 100%;
@@ -9,6 +8,30 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+
+.masterControllPanel{
+  color: #5a5a5a;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  padding-left: 12px;
+  padding-right: 12px;
+  top:0px;
+  width: 450px;
+  height: 35px;
+  right:50%;
+  transform: translate(50%, 0%);
+  border: solid 2px #5a5a5a;
+  border-top: none;
+
+}
+
+#tracksDiv{
+  padding-top: 40px;
+}
+
 .homePageRedirect{
   position:fixed;
   top:50%;
@@ -251,13 +274,11 @@ input[type="text"]:hover{
 }
 
 #naviBar{
-  background: transparent;
-  width: 99.5%;
-  display:flex;
-  height: 15px;
-  margin-top: 7px;
-  align-items: flex-end;
-  justify-content: flex-end;
+  position:fixed;
+  top:7px;
+  right:6px;
+  display: flex;
+  flex-direction: row;
 }
 
 
@@ -314,4 +335,113 @@ h3{
   margin:0;
   padding: 0;
   font-size: 13px;
+}
+
+
+.onoffswitch {
+    position: relative; width: 65px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #5A5A5A; border-radius: 40px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.2s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 17px; padding: 0; line-height: 17px;
+    font-size: 8px; color: white; font-weight: 600;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "MIC ON";
+    padding-left: 5px;
+    background-color: #FF6D45; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "MIC OFF";
+    padding-right: 5px;
+    background-color: #EEEEEE; color: #5A5A5A;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 22px; margin: -2.5px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 42px;
+    border: 2px solid #5A5A5A; border-radius: 40px;
+    transition: all 0.2s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+
+
+
+
+
+#play {
+    transition: border-color 150ms ease;
+    border-left: 17px solid #5A5A5A;
+    border-right: 0px solid transparent;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    content: "";
+}
+
+#play:hover {
+    border-left: 17px solid #0099FF;
+    transition: border-color 150ms ease;
+}
+
+#rec {
+    transition: border-color 150ms ease;
+    transition: background-color 150ms ease;
+    width: 9px;
+    height: 9px;
+    border: 8px solid #5A5A5A;
+    border-radius: 16px;
+    background-color: #FF4D1D;
+    content: "";
+}
+
+#rec:hover {
+    transition: border-color 150ms ease;
+    border: 8px solid #0099FF;
+}
+
+#stop {
+    transition: border-color 150ms ease;
+    border-left: 23px solid #5A5A5A;
+    height: 23px;
+    content: "";
+}
+
+#stop:hover {
+    border-left: 23px solid #0099FF;
+    height: 23px;
+    content: "";
+}
+
+#pause{
+    transition: border-color 150ms ease;
+    border-left: 8px solid #5A5A5A;
+    border-right: 8px solid #5A5A5A;
+    width: 5px;
+    height: 23px;
+    content: "";
+}
+
+#pause:hover{
+    transition: border-color 150ms ease;
+    border-left: 8px solid #0099FF;
+    border-right: 8px solid #0099FF;
 }
