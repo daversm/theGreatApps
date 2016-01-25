@@ -3,7 +3,7 @@ function Track(params){
   var wavesurfer = Object.create(WaveSurfer);
 
   wavesurfer.init({
-    container     : '#tracksDiv',
+    container     : '#tracksTesing',
     waveColor     : 'black',
     interact      : false,
     cursorWidth   : 0
@@ -14,17 +14,14 @@ function Track(params){
   microphone.init({
       wavesurfer: wavesurfer
   });
-  
-  var navigator = window.navigator;
-  navigator.getUserMedia = ( navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia ||
-                         navigator.mozGetUserMedia ||
-                         navigator.msGetUserMedia);
+
+
 
   var Context = window.AudioContext || window.webkitAudioContext;
   var context = new Context();
-  var mediaStream;
+  var mediaStream ;
   var rec;
+
 
   function record() {
     // ask for permission and start recording

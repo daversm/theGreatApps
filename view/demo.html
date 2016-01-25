@@ -20,79 +20,190 @@
     <div class="logo"><h5>TGA</h6></div>
     <div id="masterPanel"></div>
     <div id="tracksDiv"></div>
-    <div id="controlPanel">
-      <button onclick="record()">Record</button>
-      <button onclick="stop()">Stop</button>
-      <button onclick="pause()">Pause</button>
-      <button onclick="start()">Start</button>
-      <button onclick="download()">Download</button>
+    <div id="tracksTesting">
+      <button onclick=record()>record</button>
     </div>
-      <script type="text/babel">
 
 
-      var MasterController = React.createClass({
-        getInitialState: function() {
-          return {micSwitchState: false};
-        },
-        handleMasterPlay: function(){
-          console.log(this.mediaStream);
-        },
-        handleMicSwitchChange: function(e) {
-          console.log(e.target.checked);
-          var outerThis = this;
-          if(e.target.checked == true){
-            navigator.getUserMedia({audio: true}, function(localMediaStream){
-              outerThis.mediaStream = localMediaStream;
+    </div>
+      <script>
+      /*
+      var wavesurfer = Object.create(WaveSurfer);
 
-            }, function(err){
-              console.log('Browser not supported');
-            });
-          }else{
-            outerThis.mediaStream.getTracks()[0].stop();
-          }
-        },
-
-        render: function() {
-          var navigator = window.navigator;
-          navigator.getUserMedia = ( navigator.getUserMedia ||
-                                 navigator.webkitGetUserMedia ||
-                                 navigator.mozGetUserMedia ||
-                                 navigator.msGetUserMedia);
-
-          var Context = window.AudioContext || window.webkitAudioContext;
-          var context = new Context();
-
-          var rec;
-
-          return (
-            <div className="masterControllPanel" >
-              <p>MASTER CONTROLLER</p>
-              <div className="onoffswitch">
-                  <input
-                        type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
-                        id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
-                  />
-                  <label className="onoffswitch-label" htmlFor="myonoffswitch">
-                      <span className="onoffswitch-inner"></span>
-                      <span className="onoffswitch-switch"></span>
-                  </label>
-              </div>
-              <div id="play" onClick={this.handleMasterPlay}></div>
-              <div id="pause"></div>
-              <div id="stop"></div>
-              <div id="rec"></div>
-            </div>
-          );
-        }
+      wavesurfer.init({
+        container     : '#tracksTesting',
+        waveColor     : 'black',
+        interact      : false,
+        cursorWidth   : 0
       });
 
-      ReactDOM.render(
-      <MasterController />,
-      document.getElementById('masterPanel')
-      );
+      var microphone = Object.create(WaveSurfer.Microphone);
+
+      microphone.init({
+          wavesurfer: wavesurfer
+      });
+
+      var navigator = window.navigator;
+      navigator.getUserMedia = ( navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia);
+
+      var Context = window.AudioContext || window.webkitAudioContext;
+      var context = new Context();
+      var mediaStream;
+
+  navigator.getUserMedia({audio: true}, function(localMediaStream){
+    mediaStream = localMediaStream;
+
+    microphone.gotStream(localMediaStream);
+
+  }, function(err){
+    console.log('Browser not supported');
+  });
+  */
+
+  var wavesurfer = Object.create(WaveSurfer);
+
+  wavesurfer.init({
+    container     : '#tracksTesting',
+    waveColor     : 'black',
+    interact      : false,
+    cursorWidth   : 0
+  });
+
+  var microphone = Object.create(WaveSurfer.Microphone);
+
+  microphone.init({
+      wavesurfer: wavesurfer
+  });
+
+
+  var navigator = window.navigator;
+  navigator.getUserMedia = ( navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia);
+  var Context = window.AudioContext || window.webkitAudioContext;
+  var context = new Context();
+
+  var rec;
+
+  //var mediaStream;
+
+
 
 
       </script>
+
+
+      <script type="text/babel">
+
+
+          var MasterController = React.createClass({
+            getInitialState: function() {
+              return {micSwitchState: false};
+            },
+            handleMasterPlay: function(){
+              console.log(this.mediaStream);
+              microphone.gotStream(this.mediaStream);
+            },
+            handleMicSwitchChange: function(e) {
+              console.log(e.target.checked);
+              var outerThis = this;
+              if(e.target.checked == true){
+                navigator.getUserMedia({audio: true}, function(localMediaStream){
+                  outerThis.mediaStream = localMediaStream;
+
+                }, function(err){
+                  console.log('Browser not supported');
+                });
+              }else{
+                this.mediaStream.getTracks()[0].stop();
+              }
+
+            },
+
+            render: function() {
+
+              return (
+                <div className="masterControllPanel" >
+                  <p>MASTER CONTROLLER</p>
+                  <div className="onoffswitch">
+                      <input
+                            type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
+                            id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
+                      />
+                      <label className="onoffswitch-label" htmlFor="myonoffswitch">
+                          <span className="onoffswitch-inner"></span>
+                          <span className="onoffswitch-switch"></span>
+                      </label>
+                  </div>
+                  <div id="play" onClick={this.handleMasterPlay}></div>
+                  <div id="pause"></div>
+                  <div id="stop"></div>
+                  <div id="rec"></div>
+                </div>
+              );
+            }
+          });
+
+          ReactDOM.render(
+          <MasterController />,
+          document.getElementById('masterPanel')
+          );
+
+/*
+          var TracksPanel = React.createClass({
+            render: function(){
+              return(
+                <div>
+                  <Tracks />
+                </div>
+              );
+            }
+          });
+
+          var Tracks = React.createClass({
+            componentDidMount: function(){
+              this.trackOne = new Track(mediaStream);
+
+            },
+            handleRecord: function(){
+              //this.trackOne.record();
+              console.log(mediaStream);
+            },
+            render: function(){
+
+              return (
+                  <div>
+                  <div id="trackOne"></div>
+                    {this.trackOne}
+                    <div>
+                      <button onClick={this.handleRecord}>record</button>
+                    </div>
+                  </div>
+              );
+            }
+          });
+
+          ReactDOM.render(
+          <MasterController />,
+          document.getElementById('masterPanel')
+          );
+
+          ReactDOM.render(
+          <TracksPanel />,
+          document.getElementById('tracksDiv')
+          );
+
+
+
+
+*/
+      </script>
+
+
 
   </body>
 </html>
