@@ -1,4 +1,4 @@
-function Track(params){
+function Track(){
 
   var wavesurfer = Object.create(WaveSurfer);
 
@@ -19,8 +19,15 @@ function Track(params){
 
   var Context = window.AudioContext || window.webkitAudioContext;
   var context = new Context();
-  var mediaStream ;
+
   var rec;
+
+
+  function startWaveform(micSignal){
+
+    microphone.gotStream(micSignal);
+
+  }
 
 
   function record() {
@@ -37,8 +44,6 @@ function Track(params){
         //pass the path to recorderWorker.js file here
        workerPath: '../public/Recorderjs/recorderWorker.js'
      });
-      //rec = new Recorder(mediaStreamSource);
-      // start recording
 
       rec.record();
     }, function(err){

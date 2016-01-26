@@ -20,86 +20,19 @@
     <div class="logo"><h5>TGA</h6></div>
     <div id="masterPanel"></div>
     <div id="tracksDiv"></div>
-    <div id="tracksTesting">
-      <button onclick=record()>record</button>
-    </div>
 
-
-    </div>
       <script>
-      /*
-      var wavesurfer = Object.create(WaveSurfer);
-
-      wavesurfer.init({
-        container     : '#tracksTesting',
-        waveColor     : 'black',
-        interact      : false,
-        cursorWidth   : 0
-      });
-
-      var microphone = Object.create(WaveSurfer.Microphone);
-
-      microphone.init({
-          wavesurfer: wavesurfer
-      });
-
-      var navigator = window.navigator;
-      navigator.getUserMedia = ( navigator.getUserMedia ||
-                             navigator.webkitGetUserMedia ||
-                             navigator.mozGetUserMedia ||
-                             navigator.msGetUserMedia);
-
-      var Context = window.AudioContext || window.webkitAudioContext;
-      var context = new Context();
-      var mediaStream;
-
-  navigator.getUserMedia({audio: true}, function(localMediaStream){
-    mediaStream = localMediaStream;
-
-    microphone.gotStream(localMediaStream);
-
-  }, function(err){
-    console.log('Browser not supported');
-  });
-  */
-
-  var wavesurfer = Object.create(WaveSurfer);
-
-  wavesurfer.init({
-    container     : '#tracksTesting',
-    waveColor     : 'black',
-    interact      : false,
-    cursorWidth   : 0
-  });
-
-  var microphone = Object.create(WaveSurfer.Microphone);
-
-  microphone.init({
-      wavesurfer: wavesurfer
-  });
-
-
-  var navigator = window.navigator;
-  navigator.getUserMedia = ( navigator.getUserMedia ||
+        var navigator = window.navigator;
+        navigator.getUserMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia ||
                          navigator.msGetUserMedia);
-  var Context = window.AudioContext || window.webkitAudioContext;
-  var context = new Context();
-
-  var rec;
-  var mediaStream;
-
-  //var mediaStream;
-
-
-
+        var mediaStream;
 
       </script>
 
-
       <script type="text/babel">
-          
+
 
           var MasterController = React.createClass({
             getInitialState: function() {
@@ -107,7 +40,6 @@
             },
             handleMasterPlay: function(){
               console.log(mediaStream);
-              microphone.gotStream(mediaStream);
             },
             handleMicSwitchChange: function(e) {
               console.log(e.target.checked);
@@ -149,12 +81,6 @@
             }
           });
 
-          ReactDOM.render(
-          <MasterController />,
-          document.getElementById('masterPanel')
-          );
-
-/*
           var TracksPanel = React.createClass({
             render: function(){
               return(
@@ -167,21 +93,41 @@
 
           var Tracks = React.createClass({
             componentDidMount: function(){
-              this.trackOne = new Track(mediaStream);
+              this.wavesurfer = Object.create(WaveSurfer);
+              this.wavesurfer.init({
+                container     : '#trackOne',
+                waveColor     : 'black',
+                interact      : false,
+                cursorWidth   : 0
+              });
+              this.microphone = Object.create(WaveSurfer.Microphone);
+              this.microphone.init({
+                  wavesurfer: this.wavesurfer
+              });
 
             },
-            handleRecord: function(){
-              //this.trackOne.record();
-              console.log(mediaStream);
+            handleLiveFeed: function(){
+              this.microphone.gotStream(mediaStream);
             },
+            handleDownloadTrack: function(){
+              this.microphone.gotStream(mediaStream);
+            },
+            handlePause: function(){
+              this.microphone.gotStream(mediaStream);
+            },
+            handlePlay: function(){
+              this.microphone.gotStream(mediaStream);
+            },
+
             render: function(){
-
               return (
                   <div>
                   <div id="trackOne"></div>
-                    {this.trackOne}
                     <div>
-                      <button onClick={this.handleRecord}>record</button>
+                      <div onClick={this.handleLiveFeed}>LIVE</div>
+                      <div onClick={this.handleLiveFeed}>RECORD</div>
+                      <div onClick={this.handleLiveFeed}>PLAY</div>
+                      <div onClick={this.handleLiveFeed}>STOP</div>
                     </div>
                   </div>
               );
@@ -198,10 +144,6 @@
           document.getElementById('tracksDiv')
           );
 
-
-
-
-*/
       </script>
 
 
