@@ -121,14 +121,23 @@
 
             render: function(){
               return (
-                  <div>
-                  <div id="trackOne"></div>
-                    <div>
-                      <div onClick={this.handleLiveFeed}>LIVE</div>
-                      <div onClick={this.handleLiveFeed}>RECORD</div>
-                      <div onClick={this.handleLiveFeed}>PLAY</div>
-                      <div onClick={this.handleLiveFeed}>STOP</div>
+                  <div className="containerTrackDiv">
+
+                    <div className="playbackRecordingDiv">
+
+                      <div className="playbackOptionsDiv">
+                        <div onClick={this.handleLiveFeed}>PLAY</div>
+                        <div onClick={this.handleLiveFeed}>STOP</div>
+                      </div>
+                      <div className="recordingOptionsDiv">
+                        <div onClick={this.handleLiveFeed}>LIVE</div>
+                        <div onClick={this.handleLiveFeed}>RECORD</div>
+                      </div>
+                      
                     </div>
+
+                    <div id="trackOne" className="waveformContainerDiv"></div>
+
                   </div>
               );
             }

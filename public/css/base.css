@@ -9,6 +9,7 @@ body, html {
   -webkit-font-smoothing: antialiased;
 }
 
+
 .masterControllPanel{
   color: #5a5a5a;
   font-weight: 500;
@@ -26,6 +27,19 @@ body, html {
   border: solid 2px #5a5a5a;
   border-top: none;
 
+}
+
+.containerTrackDiv{
+  display: flex;
+  flex-direction: row;
+}
+
+.playbackRecordingDiv{
+  width: 100px;
+}
+.waveformContainerDiv{
+  flex-grow: 1;
+  width:600px;
 }
 
 #tracksDiv{
