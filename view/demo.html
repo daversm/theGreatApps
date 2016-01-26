@@ -88,6 +88,7 @@
   var context = new Context();
 
   var rec;
+  var mediaStream;
 
   //var mediaStream;
 
@@ -98,28 +99,28 @@
 
 
       <script type="text/babel">
-
+          
 
           var MasterController = React.createClass({
             getInitialState: function() {
               return {micSwitchState: false};
             },
             handleMasterPlay: function(){
-              console.log(this.mediaStream);
-              microphone.gotStream(this.mediaStream);
+              console.log(mediaStream);
+              microphone.gotStream(mediaStream);
             },
             handleMicSwitchChange: function(e) {
               console.log(e.target.checked);
               var outerThis = this;
               if(e.target.checked == true){
                 navigator.getUserMedia({audio: true}, function(localMediaStream){
-                  outerThis.mediaStream = localMediaStream;
+                  mediaStream = localMediaStream;
 
                 }, function(err){
                   console.log('Browser not supported');
                 });
               }else{
-                this.mediaStream.getTracks()[0].stop();
+                mediaStream.getTracks()[0].stop();
               }
 
             },
