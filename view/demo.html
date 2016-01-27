@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>Sign up</title>
-    <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="../public/css/base.css"  />
     <script src="../public/tracks.js"></script>
     <script src="../public/Recorderjs/recorder.js"></script>
@@ -15,8 +14,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <style>
+      body{
+        background-image: url("../public/css/c4.jpg");
+        background-position: center;
+        background-size: cover;
+      }
+
+    </style>
   </head>
-  <body>
+  <body id="demoPage">
+
+    <div id="naviBar">
+        <a href="/"><h6>Home </h6></a>
+        <a href="/"><h6>About </h6></a>
+        <a href="/signup"><h6>Register </h6></a>
+        <a href="/passwordReset"><h6>Forgot Password</h6></a>
+    </div>
+
     <div class="logo"><h5>TGA</h6></div>
     <div id="masterPanel"></div>
     <div id="tracksDiv"></div>
@@ -133,7 +148,7 @@
                         <div onClick={this.handleLiveFeed}>LIVE</div>
                         <div onClick={this.handleLiveFeed}>RECORD</div>
                       </div>
-                      
+
                     </div>
 
                     <div id="trackOne" className="waveformContainerDiv"></div>

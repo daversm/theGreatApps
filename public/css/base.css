@@ -5,9 +5,12 @@ body, html {
   padding: 0px;
   height: 100%;
   width: 100%;
+
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+
+
 
 
 .masterControllPanel{
@@ -32,14 +35,36 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
+  border-top: solid 3px #5a5a5a;
+  border-bottom: solid 3px #5a5a5a;
+  height: 150px;
 }
 
 .playbackRecordingDiv{
-  width: 100px;
+  display: flex;
+  width: 150px;
+  flex-direction: column;
 }
+
+.playbackOptionsDiv{
+  flex-grow: 1;
+  border-right: solid 2px #5a5a5a;
+  border-bottom: solid 2px #5a5a5a;
+  padding: 5px;
+}
+.recordingOptionsDiv{
+  border-right: solid 2px #5a5a5a;
+  flex-grow: 1;
+  padding: 5px;
+}
+
+
 .waveformContainerDiv{
   flex-grow: 1;
   width:600px;
+  background-color: gray;
+  opacity: .5;
+
 }
 
 #tracksDiv{
@@ -289,8 +314,8 @@ input[type="text"]:hover{
 
 #naviBar{
   position:fixed;
-  top:7px;
-  right:6px;
+  top:3px;
+  right:5px;
   display: flex;
   flex-direction: row;
 }
