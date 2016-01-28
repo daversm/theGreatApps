@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Sign up</title>
+
+    <link rel="stylesheet" href="../public/css/icono.min.css"  />
     <link rel="stylesheet" href="../public/css/base.css"  />
     <script src="../public/tracks.js"></script>
     <script src="../public/Recorderjs/recorder.js"></script>
@@ -108,17 +110,43 @@
 
           var Tracks = React.createClass({
             componentDidMount: function(){
+              this.currentColorMicIcon = "#5A5A5A";
+              this.waveSurferOn = false;
               this.wavesurfer = Object.create(WaveSurfer);
               this.wavesurfer.init({
                 container     : '#trackOne',
-                waveColor     : 'black',
+                waveColor     : "#5A5A5A",
                 interact      : false,
-                cursorWidth   : 0
+                cursorWidth   : 0,
+                height        : 170
+
+
               });
               this.microphone = Object.create(WaveSurfer.Microphone);
               this.microphone.init({
                   wavesurfer: this.wavesurfer
               });
+            },
+            mouseOver: function (e) {
+              e.target.style.color = "#0099FF";
+            },
+
+            mouseOut: function (e) {
+              e.target.style.color =  this.currentColorMicIcon;
+            },
+            handleShowWaveLive: function(e){
+
+              if(this.waveSurferOn == false){
+                this.microphone.gotStream(mediaStream);
+                e.target.style.color = "#FF4D1D";
+                this.currentColorMicIcon = "#FF4D1D";
+                this.waveSurferOn = true;
+              }else{
+                this.microphone.pause();
+                e.target.style.color = "#5A5A5A";
+                this.currentColorMicIcon = "#5A5A5A";
+                this.waveSurferOn = false;
+              }
 
             },
             handleLiveFeed: function(){
@@ -141,17 +169,25 @@
                     <div className="playbackRecordingDiv">
 
                       <div className="playbackOptionsDiv">
-                        <div onClick={this.handleLiveFeed}>PLAY</div>
-                        <div onClick={this.handleLiveFeed}>STOP</div>
+                        <div id="play"></div>
+                        <div id="stop"></div>
+                        <div id="pause"></div>
                       </div>
                       <div className="recordingOptionsDiv">
-                        <div onClick={this.handleLiveFeed}>LIVE</div>
-                        <div onClick={this.handleLiveFeed}>RECORD</div>
+
+                        <div id="recTrack"></div>
+                        <div className="icono-microphone" currentColor = "red"
+                             onMouseOver= {this.mouseOver}  onMouseOut= {this.mouseOut} onClick={this.handleShowWaveLive}>
+                        </div>
+                        <div className="icono-headphone"></div>
+
                       </div>
 
                     </div>
 
-                    <div id="trackOne" className="waveformContainerDiv"></div>
+                    <div id="trackOne" className="waveformContainerDiv">
+
+                    </div>
 
                   </div>
               );

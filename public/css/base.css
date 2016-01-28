@@ -5,7 +5,6 @@ body, html {
   padding: 0px;
   height: 100%;
   width: 100%;
-
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
@@ -35,9 +34,10 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
-  border-top: solid 3px #5a5a5a;
-  border-bottom: solid 3px #5a5a5a;
-  height: 150px;
+  border-top: solid 5px #5a5a5a;
+  border-bottom: solid 5px #5a5a5a;
+  height: 170px;
+
 }
 
 .playbackRecordingDiv{
@@ -47,23 +47,36 @@ body, html {
 }
 
 .playbackOptionsDiv{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
   flex-grow: 1;
+  flex-direction: row;
   border-right: solid 2px #5a5a5a;
   border-bottom: solid 2px #5a5a5a;
-  padding: 5px;
+  padding: 3px;
 }
 .recordingOptionsDiv{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
   border-right: solid 2px #5a5a5a;
+  flex-direction: row;
   flex-grow: 1;
-  padding: 5px;
+  padding: 3px;
 }
 
 
 .waveformContainerDiv{
   flex-grow: 1;
-  width:600px;
-  background-color: gray;
-  opacity: .5;
+  width: 600px;
+  height: 170px;
+  background-color: rgba(255, 255, 255, 0.71);
+
+
+
 
 }
 
@@ -425,6 +438,10 @@ h3{
 
 
 
+[class*=icono-]{
+  color:#5A5A5A;
+}
+
 
 
 #play {
@@ -456,6 +473,23 @@ h3{
     transition: border-color 150ms ease;
     border: 8px solid #0099FF;
 }
+
+#recTrack {
+    transition: border-color 150ms ease;
+    transition: background-color 150ms ease;
+    width: 13px;
+    height: 13px;
+    border: 10px solid #5A5A5A;
+    border-radius: 20px;
+    background-color: #FF4D1D;
+    content: "";
+}
+
+#recTrack:hover {
+    transition: border-color 150ms ease;
+    border: 10px solid #0099FF;
+}
+
 
 #stop {
     transition: border-color 150ms ease;
