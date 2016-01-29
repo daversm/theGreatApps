@@ -46,6 +46,12 @@
                          navigator.msGetUserMedia);
         var mediaStream;
 
+        var Context = window.AudioContext || window.webkitAudioContext;
+        var contextForRec = new Context();
+
+        var mediaStreamSource;
+
+
       </script>
 
       <script type="text/babel">
@@ -64,6 +70,8 @@
               if(e.target.checked == true){
                 navigator.getUserMedia({audio: true}, function(localMediaStream){
                   mediaStream = localMediaStream;
+                  mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
+
 
                 }, function(err){
                   console.log('Browser not supported');
@@ -111,6 +119,8 @@
           var Tracks = React.createClass({
             componentDidMount: function(){
               this.currentColorMicIcon = "#5A5A5A";
+              this.currentlyRecording = false;
+              this.trackIsArmed = false;
               this.waveSurferOn = false;
               this.wavesurfer = Object.create(WaveSurfer);
               this.wavesurfer.init({
@@ -126,6 +136,8 @@
               this.microphone.init({
                   wavesurfer: this.wavesurfer
               });
+
+
             },
             mouseOver: function (e) {
               e.target.style.color = "#0099FF";
@@ -134,32 +146,62 @@
             mouseOut: function (e) {
               e.target.style.color =  this.currentColorMicIcon;
             },
+            handleRecord: function(){
+              if(this.currentlyRecording == false){
+                this.currentlyRecording = true;
+                this.microphone.gotStream(mediaStream);
+                this.rec.record();
+              }else{
+                this.currentlyRecording = false;
+                this.microphone.pause();
+                this.rec.stop();
+              }
+
+            },
             handleShowWaveLive: function(e){
 
-              if(this.waveSurferOn == false){
-                this.microphone.gotStream(mediaStream);
-                e.target.style.color = "#FF4D1D";
-                this.currentColorMicIcon = "#FF4D1D";
-                this.waveSurferOn = true;
-              }else{
-                this.microphone.pause();
-                e.target.style.color = "#5A5A5A";
-                this.currentColorMicIcon = "#5A5A5A";
-                this.waveSurferOn = false;
+              if(this.currentlyRecording == false){
+                if(this.waveSurferOn == false){
+                  this.microphone.gotStream(mediaStream);
+                  e.target.style.color = "#FF4D1D";
+                  this.currentColorMicIcon = "#FF4D1D";
+                  this.waveSurferOn = true;
+                }else{
+                  this.microphone.pause();
+                  e.target.style.color = "#5A5A5A";
+                  this.currentColorMicIcon = "#5A5A5A";
+                  this.waveSurferOn = false;
+                }
               }
 
             },
             handleLiveFeed: function(){
-              this.microphone.gotStream(mediaStream);
+
             },
             handleDownloadTrack: function(){
-              this.microphone.gotStream(mediaStream);
+              var outerThis = this;
+              this.rec.exportWAV(function(e){
+                  outerThis.rec.clear();
+                  Recorder.forceDownload(e, "filename.wav");
+                });
+
             },
             handlePause: function(){
-              this.microphone.gotStream(mediaStream);
             },
             handlePlay: function(){
-              this.microphone.gotStream(mediaStream);
+            },
+            handleTrackArm: function(e){
+              if(this.trackIsArmed == false){
+                this.rec = new Recorder(mediaStreamSource, {
+                  //pass the path to recorderWorker.js file here
+                 workerPath: '../public/Recorderjs/recorderWorker.js'
+                });
+                this.trackIsArmed = true;
+                e.target.style.color = "#FF4D1D";
+              }else{
+                this.trackIsArmed = false;
+                e.target.style.color = "#5A5A5A";
+              }
             },
 
             render: function(){
@@ -175,18 +217,18 @@
                       </div>
                       <div className="recordingOptionsDiv">
 
-                        <div id="recTrack"></div>
+                        <div id="recTrack" onClick={this.handleRecord}></div>
                         <div className="icono-microphone" currentColor = "red"
                              onMouseOver= {this.mouseOver}  onMouseOut= {this.mouseOut} onClick={this.handleShowWaveLive}>
                         </div>
-                        <div className="icono-headphone"></div>
+                        <div className="icono-headphone" onClick={this.handleDownloadTrack}></div>
 
                       </div>
 
                     </div>
 
                     <div id="trackOne" className="waveformContainerDiv">
-
+                        <div className="icono-power" onClick={this.handleTrackArm}></div>
                     </div>
 
                   </div>
