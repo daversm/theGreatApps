@@ -142,21 +142,21 @@
             mouseOver: function (e) {
               e.target.style.color = "#0099FF";
             },
-
             mouseOut: function (e) {
               e.target.style.color =  this.currentColorMicIcon;
             },
             handleRecord: function(){
-              if(this.currentlyRecording == false){
-                this.currentlyRecording = true;
-                this.microphone.gotStream(mediaStream);
-                this.rec.record();
-              }else{
-                this.currentlyRecording = false;
-                this.microphone.pause();
-                this.rec.stop();
+              if(this.trackIsArmed == true){
+                if(this.currentlyRecording == false){
+                  this.currentlyRecording = true;
+                  this.microphone.gotStream(mediaStream);
+                  this.rec.record();
+                }else{
+                  this.currentlyRecording = false;
+                  this.microphone.pause();
+                  this.rec.stop();
+                }
               }
-
             },
             handleShowWaveLive: function(e){
 
@@ -212,15 +212,13 @@
 
               this.rec.exportWAV(function(audio){
                 var blob= new Blob([audio]);
-                outerThis2.wavesurfer2.loadBlob(blob);
+                outerThis2.wavesurfer.loadBlob(blob);
 
               });
 
             },
             handlePlay: function(){
-              this.wavesurfer2.play();
-
-
+              this.wavesurfer.play();
             },
             handleTrackArm: function(e){
               if(masterMicStatus == true){
@@ -235,7 +233,6 @@
                   e.target.style.color = "#5A5A5A";
                 }
               }
-
             },
 
             render: function(){
