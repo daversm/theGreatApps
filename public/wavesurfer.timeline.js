@@ -30,8 +30,8 @@
             this.notchPercentHeight = this.params.notchPercentHeight || 90;
             this.primaryColor = this.params.primaryColor || '#5A5A5A';
             this.secondaryColor = this.params.secondaryColor || '#5A5A5A';
-            this.primaryFontColor = this.params.primaryFontColor || '#333333';
-            this.secondaryFontColor = this.params.secondaryFontColor || '#333333';
+            this.primaryFontColor = this.params.primaryFontColor || '#5A5A5A';
+            this.secondaryFontColor = this.params.secondaryFontColor || '#5A5A5A';
             this.fontFamily = 'Impact' || 'Arial';
             this.fontSize = this.params.fontSize || 11;
             this.timeInterval = this.params.timeInterval;
