@@ -108,10 +108,7 @@
             // stop visualization
             this.disconnect();
 
-            // stop stream from device
-            if (this.stream) {
-                this.stream.stop();
-            }
+      
         },
 
         /**
