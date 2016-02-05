@@ -23,7 +23,7 @@ body, html {
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(128, 128, 128, 0.3);
+  background: rgba(128, 128, 128, 0.27);
   height: 23px;
 
   flex-direction: row;
@@ -70,7 +70,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(128, 128, 128, 0.25);
   flex-grow: 1;
   flex-direction: row;
   border-right: solid 2px #5a5a5a;
@@ -80,7 +80,7 @@ body, html {
 .recordingOptionsDiv{
   display: flex;
   align-items: center;
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(128, 128, 128, 0.25);
   justify-content: space-around;
 
   border-right: solid 2px #5a5a5a;
