@@ -23,7 +23,7 @@ body, html {
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(128, 128, 128, 0.3);
   height: 23px;
 
   flex-direction: row;
@@ -41,6 +41,7 @@ body, html {
   padding-left: 12px;
   padding-right: 12px;
   top:0px;
+  border-radius: 1px;
   width: 450px;
   height: 35px;
   right:50%;
@@ -69,7 +70,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: space-around;
-
+  background: rgba(128, 128, 128, 0.2);
   flex-grow: 1;
   flex-direction: row;
   border-right: solid 2px #5a5a5a;
@@ -79,6 +80,7 @@ body, html {
 .recordingOptionsDiv{
   display: flex;
   align-items: center;
+  background: rgba(128, 128, 128, 0.2);
   justify-content: space-around;
 
   border-right: solid 2px #5a5a5a;
@@ -241,7 +243,7 @@ input[type="submit"]:focus{
   border: solid 2px #5a5a5a;
   border-bottom: none;
   margin-left: 3px;
-  border-radius: 2px;
+  border-radius: 3px;
   font-size: 11px;
   padding: 6px;
   width: 60px;
@@ -254,12 +256,11 @@ input[type="submit"]:focus{
 }
 .trackName{
   font-family: 'Roboto', sans-serif;
-
-  margin-left: 3px;
+  margin-left: 1px;
   border-radius: 2px;
-  font-size: 14px;
+  font-size: 19px;
   padding: 6px;
-  width: 60px;
+  width: 79px;
   height: 12px;
   font-weight: 800;
   color: #5a5a5a;
