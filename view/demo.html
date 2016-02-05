@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
     <style>
       body{
-        background-image: url("../public/css/c4.jpg");
+        background-image: url("../public/css/c41.jpg");
         background-position: center;
         background-size: cover;
       }
@@ -263,12 +263,19 @@
 
             render: function(){
               return (
+                <div className="trackMasterPanel">
+
+                 <div className="trackInfoPanel">
+                    <div className="trackName"> TRACK 1 </div>
+                    <div className="buttonsInsideTrack" onClick={this.handleTrackArm}> Arm Track </div>
+                    <div className="buttonsInsideTrack"> Show Wave </div>
+                 </div>
                   <div className="containerTrackDiv">
 
                     <div className="playbackRecordingDiv">
 
                       <div className="playbackOptionsDiv">
-                        <div className="icono-power" onClick={this.handleTrackArm}></div>
+
                         <div id="play" onClick={this.handlePlay}></div>
                         <div id="stop" onClick={this.handleStop}></div>
                         <div id="pause"></div>
@@ -285,8 +292,11 @@
 
                     </div>
 
+
                     <div id="trackOne" className="waveformContainerDiv"> </div>
 
+                  </div>
+                  <div className="trackStatusPanel"></div>
                   </div>
               );
             }

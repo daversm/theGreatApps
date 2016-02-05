@@ -9,7 +9,26 @@ body, html {
   -webkit-font-smoothing: antialiased;
 }
 
+.trackMasterPanel{
+  display:flex;
+  flex-direction: column;
+}
+.trackInfoPanel{
+  display: flex;
 
+  height: 23px;
+  flex-direction: row;
+
+}
+
+.trackStatusPanel{
+  display: flex;
+  background: rgba(128, 128, 128, 0.2);
+  height: 23px;
+
+  flex-direction: row;
+
+}
 
 
 .masterControllPanel{
@@ -75,13 +94,10 @@ body, html {
   height: 170px;
   background-color: rgba(255, 255, 255, 0.71);
 
-
-
-
 }
 
 #tracksDiv{
-  padding-top: 40px;
+  padding-top: 50px;
 }
 
 .homePageRedirect{
@@ -218,6 +234,38 @@ input[type="submit"]{
 }
 input[type="submit"]:focus{
   outline: 0;
+}
+
+.buttonsInsideTrack{
+  font-family: 'Roboto', sans-serif;
+  border: solid 2px #5a5a5a;
+  border-bottom: none;
+  margin-left: 3px;
+  border-radius: 2px;
+  font-size: 11px;
+  padding: 6px;
+  width: 60px;
+  height: 12px;
+  font-weight: 500;
+  color: #5a5a5a;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 12px;
+}
+.trackName{
+  font-family: 'Roboto', sans-serif;
+
+  margin-left: 3px;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 6px;
+  width: 60px;
+  height: 12px;
+  font-weight: 800;
+  color: #5a5a5a;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 12px;
 }
 
 input[type="submit"].newUser {
