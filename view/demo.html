@@ -123,9 +123,7 @@
             getInitialState: function() {
               return {trackStatusMsg: 'TRACK UNARMED'};
             },
-            componentDidUpdate: function() {
 
-            },
             componentDidMount: function(){
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
@@ -143,6 +141,7 @@
               this.microphone.init({
                   wavesurfer: this.wavesurfer
               });
+
             },
             mouseOver: function (e) {
               e.target.style.color = "#0099FF";
@@ -154,8 +153,24 @@
               if(this.trackIsArmed == true){
                 if(this.currentlyRecording == false){
                   this.setState({trackStatusMsg:'RECORDING'});
-                  this.currentlyRecording = true;
+                  this.microphone.destroy();
+                  this.wavesurfer.empty();
+                  this.wavesurfer.destroy();
+                  this.wavesurfer = Object.create(WaveSurfer);
+                  this.wavesurfer.init({
+                    container     : '#trackOne',
+                    waveColor     : "#5A5A5A",
+                    interact      : false,
+                    cursorWidth   : 0,
+                    height        : 170
+                  });
+                  this.microphone = Object.create(WaveSurfer.Microphone);
+                  this.microphone.init({
+                      wavesurfer: this.wavesurfer
+                  });
                   this.microphone.gotStream(mediaStream);
+                  this.currentlyRecording = true;
+                  this.microphone.play();
                   this.rec.record();
 
                 }else{
@@ -170,6 +185,7 @@
             handleShowWaveLive: function(e){
               if(this.currentlyRecording == false){
                 if(this.waveSurferOn == false){
+
                   this.microphone.gotStream(mediaStream);
                   e.target.style.color = "#FF4D1D";
                   this.currentColorMicIcon = "#FF4D1D";
@@ -196,7 +212,6 @@
             },
             handleStop: function(){
               this.microphone.destroy();
-              console.log(this.wavesurfer);
               this.wavesurfer.empty();
               this.wavesurfer.destroy();
               console.log(this.wavesurfer);
@@ -213,8 +228,8 @@
               });
 
               this.wavesurferPostRecording.on('ready', function () {
-                this.timeline = Object.create(WaveSurfer.Timeline);
-                this.timeline.init({
+                outerThis2.timeline = Object.create(WaveSurfer.Timeline);
+                outerThis2.timeline.init({
                     wavesurfer: outerThis2.wavesurferPostRecording,
                     container: "#trackOne",
                     primaryColor: '#5A5A5A',
@@ -224,7 +239,7 @@
                 });
               });
 
-            
+
 
 
                   var outerThis2 = this;

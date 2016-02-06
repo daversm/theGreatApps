@@ -108,7 +108,7 @@
             // stop visualization
             this.disconnect();
 
-      
+
         },
 
         /**
@@ -163,7 +163,7 @@
             this.stream = stream;
             this.active = true;
             // start visualization
-            this.play();
+            
             // notify listeners
             this.fireEvent('deviceReady', stream);
         },
