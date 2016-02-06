@@ -113,7 +113,7 @@
             render: function(){
               return(
                 <div>
-                  <Tracks />
+                  <Tracks trackName="track1"/>
                 </div>
               );
             }
@@ -125,13 +125,14 @@
             },
 
             componentDidMount: function(){
+              var outerThis = this;
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
               this.trackIsArmed = false;
               this.waveSurferOn = false;
               this.wavesurfer = Object.create(WaveSurfer);
               this.wavesurfer.init({
-                container     : '#trackOne',
+                container     : "#" + outerThis.props.trackName,
                 waveColor     : "#5A5A5A",
                 interact      : false,
                 cursorWidth   : 0,
@@ -150,6 +151,7 @@
               e.target.style.color =  this.currentColorMicIcon;
             },
             handleRecord: function(){
+              var outerThis = this;
               if(this.trackIsArmed == true){
                 if(this.currentlyRecording == false){
                   this.setState({trackStatusMsg:'RECORDING'});
@@ -158,7 +160,7 @@
                   this.wavesurfer.destroy();
                   this.wavesurfer = Object.create(WaveSurfer);
                   this.wavesurfer.init({
-                    container     : '#trackOne',
+                    container     : "#" + outerThis.props.trackName,
                     waveColor     : "#5A5A5A",
                     interact      : false,
                     cursorWidth   : 0,
@@ -183,6 +185,7 @@
               }
             },
             handleShowWaveLive: function(e){
+              var outerThis = this;
               if(this.currentlyRecording == false){
                 if(this.waveSurferOn == false){
                   this.microphone.destroy();
@@ -190,7 +193,7 @@
                   this.wavesurfer.destroy();
                   this.wavesurfer = Object.create(WaveSurfer);
                   this.wavesurfer.init({
-                    container     : '#trackOne',
+                    container     : "#" + outerThis.props.trackName,
                     waveColor     : "#5A5A5A",
                     interact      : false,
                     cursorWidth   : 0,
@@ -234,7 +237,7 @@
               var outerThis2 = this;
 
               this.wavesurferPostRecording.init({
-                  container: '#trackOne',
+                  container: "#" + outerThis2.props.trackName,
                   waveColor: '#0099FF',
                   progressColor: '#5A5A5A',
                   interact      : true,
@@ -246,7 +249,7 @@
                 outerThis2.timeline = Object.create(WaveSurfer.Timeline);
                 outerThis2.timeline.init({
                     wavesurfer: outerThis2.wavesurferPostRecording,
-                    container: "#trackOne",
+                    container: "#" + outerThis2.props.trackName,
                     primaryColor: '#5A5A5A',
                     secondaryColor: '#5A5A5A',
                     primaryFontColor: '#5A5A5A',
@@ -330,7 +333,7 @@
                     </div>
 
 
-                    <div id="trackOne" className="waveformContainerDiv"> </div>
+                    <div id={this.props.trackName} className="waveformContainerDiv"> </div>
 
                   </div>
                   <div className="trackStatusPanel">
