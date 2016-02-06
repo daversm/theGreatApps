@@ -12,6 +12,7 @@ body, html {
 .trackMasterPanel{
   display:flex;
   flex-direction: column;
+  width: 100%;
 }
 .trackInfoPanel{
   display: flex;
@@ -23,11 +24,24 @@ body, html {
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(128, 128, 128, 0.27);
+  background: rgba(128, 128, 128, 0.30);
   height: 23px;
 
   flex-direction: row;
 
+}
+
+.trackStatusMsg{
+  text-align: center;
+  vertical-align: middle;
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 500;
+  border-bottom: solid 2px #5a5a5a;
+  border-right: solid 2px #5a5a5a;
+  color: white;
+  width: 148px;
+  background: #5a5a5a;
 }
 
 
@@ -58,6 +72,7 @@ body, html {
   border-bottom: solid 5px #5a5a5a;
   height: 170px;
 
+
 }
 
 .playbackRecordingDiv{
@@ -70,7 +85,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: rgba(128, 128, 128, 0.25);
+  background: rgba(128, 128, 128, 0.35);
   flex-grow: 1;
   flex-direction: row;
   border-right: solid 2px #5a5a5a;
@@ -80,7 +95,7 @@ body, html {
 .recordingOptionsDiv{
   display: flex;
   align-items: center;
-  background: rgba(128, 128, 128, 0.25);
+  background: rgba(128, 128, 128, 0.35);
   justify-content: space-around;
 
   border-right: solid 2px #5a5a5a;
@@ -92,8 +107,8 @@ body, html {
 
 .waveformContainerDiv{
   flex-grow: 1;
-  width: 600px;
   height: 170px;
+
   background-color: rgba(255, 255, 255, 0.71);
 
 }

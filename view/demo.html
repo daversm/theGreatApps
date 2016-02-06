@@ -120,6 +120,12 @@
           });
 
           var Tracks = React.createClass({
+            getInitialState: function() {
+              return {trackStatusMsg: 'TRACK UNARMED'};
+            },
+            componentDidUpdate: function() {
+
+            },
             componentDidMount: function(){
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
@@ -147,18 +153,21 @@
             handleRecord: function(){
               if(this.trackIsArmed == true){
                 if(this.currentlyRecording == false){
+                  this.setState({trackStatusMsg:'RECORDING'});
                   this.currentlyRecording = true;
                   this.microphone.gotStream(mediaStream);
                   this.rec.record();
+
                 }else{
+                  this.setState({trackStatusMsg:'RECORDING PAUSED'});
                   this.currentlyRecording = false;
                   this.microphone.pause();
                   this.rec.stop();
+
                 }
               }
             },
             handleShowWaveLive: function(e){
-
               if(this.currentlyRecording == false){
                 if(this.waveSurferOn == false){
                   this.microphone.gotStream(mediaStream);
@@ -215,32 +224,25 @@
                 });
               });
 
-                  this.timeline = Object.create(WaveSurfer.Timeline);
-                  this.timeline.init({
-                      wavesurfer: this.wavesurferPostRecording,
-                      container: "#trackOne",
-                      primaryColor: "#5A5A5A",
-                      primaryFontColor: "primaryFontColor",
-                      height: 40
+            
+
+
+                  var outerThis2 = this;
+                  this.rec.getBuffer(function(buffers){
+                    var newSource = audioContext.createBufferSource();
+                    var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+                    newBuffer.getChannelData(0).set(buffers[0]);
+                    newBuffer.getChannelData(1).set(buffers[1]);
+                    newSource.buffer = newBuffer;
+
+                    newSource.connect( audioContext.destination );
+                    newSource.start(0);
                   });
 
-
-              var outerThis2 = this;
-              this.rec.getBuffer(function(buffers){
-                var newSource = audioContext.createBufferSource();
-                var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
-                newBuffer.getChannelData(0).set(buffers[0]);
-                newBuffer.getChannelData(1).set(buffers[1]);
-                newSource.buffer = newBuffer;
-
-                newSource.connect( audioContext.destination );
-                newSource.start(0);
-              });
-
-              this.rec.exportWAV(function(audio){
-                var blob= new Blob([audio]);
-                outerThis2.wavesurferPostRecording.loadBlob(blob);
-              });
+                  this.rec.exportWAV(function(audio){
+                    var blob= new Blob([audio]);
+                    outerThis2.wavesurferPostRecording.loadBlob(blob);
+                  });
 
             },
             handlePlay: function(){
@@ -253,10 +255,13 @@
                    workerPath: '../public/Recorderjs/recorderWorker.js'
                   });
                   this.trackIsArmed = true;
-                  e.target.style.color = "#FF4D1D";
+                  //e.target.style.color = "#FF4D1D";
+                  //document.getElementById("p1").innerHTML
+                  this.setState({trackStatusMsg:'TRACK ARMED'});
                 }else{
                   this.trackIsArmed = false;
                   e.target.style.color = "#5A5A5A";
+                  this.setState({trackStatusMsg:'TRACK UNARMED'});
                 }
               }
             },
@@ -269,6 +274,8 @@
                     <div className="trackName"> TRACK 1 </div>
                     <div className="buttonsInsideTrack" onClick={this.handleTrackArm}> Arm Track </div>
                     <div className="buttonsInsideTrack"> Show Wave </div>
+                    <div className="buttonsInsideTrack"> Mute </div>
+                    <div className="buttonsInsideTrack"> Solo </div>
                  </div>
                   <div className="containerTrackDiv">
 
@@ -296,7 +303,9 @@
                     <div id="trackOne" className="waveformContainerDiv"> </div>
 
                   </div>
-                  <div className="trackStatusPanel"></div>
+                  <div className="trackStatusPanel">
+                    <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
+                  </div>
                   </div>
               );
             }
