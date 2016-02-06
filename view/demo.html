@@ -185,8 +185,23 @@
             handleShowWaveLive: function(e){
               if(this.currentlyRecording == false){
                 if(this.waveSurferOn == false){
-
+                  this.microphone.destroy();
+                  this.wavesurfer.empty();
+                  this.wavesurfer.destroy();
+                  this.wavesurfer = Object.create(WaveSurfer);
+                  this.wavesurfer.init({
+                    container     : '#trackOne',
+                    waveColor     : "#5A5A5A",
+                    interact      : false,
+                    cursorWidth   : 0,
+                    height        : 170
+                  });
+                  this.microphone = Object.create(WaveSurfer.Microphone);
+                  this.microphone.init({
+                      wavesurfer: this.wavesurfer
+                  });
                   this.microphone.gotStream(mediaStream);
+                  this.microphone.play();
                   e.target.style.color = "#FF4D1D";
                   this.currentColorMicIcon = "#FF4D1D";
                   this.waveSurferOn = true;
