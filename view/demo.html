@@ -126,6 +126,7 @@
 
             componentDidMount: function(){
               var outerThis = this;
+              this.enablePlayBackButtons = false;
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
               this.recordingIsPaused = false;
@@ -155,6 +156,7 @@
               var outerThis = this;
               if(this.trackIsArmed == true){
                 if(this.currentlyRecording == false){
+                  this.enablePlayBackButtons = false;
                   this.setState({trackStatusMsg:'RECORDING'});
                   this.microphone.destroy();
                   this.wavesurfer.empty();
@@ -178,6 +180,7 @@
                   this.recordingIsPaused = false;
 
                 }else{
+                  this.enablePlayBackButtons = false;
                   this.setState({trackStatusMsg:'RECORDING PAUSED'});
                   this.currentlyRecording = false;
                   this.recordingIsPaused = true;
@@ -250,7 +253,8 @@
                         waveColor: '#0099FF',
                         progressColor: '#5A5A5A',
                         interact      : true,
-                        cursorWidth   : 2,
+                        cursorWidth   : 3,
+                        cursorColor   : '#FF6D45',
                         height        : 170
                     });
                     this.wavesurferPostRecording.on('ready', function () {
@@ -281,18 +285,28 @@
                           var blob= new Blob([audio]);
                           outerThis2.wavesurferPostRecording.loadBlob(blob);
                         });
+                        this.enablePlayBackButtons = true;
 
                 }
 
             },
             handlePlay: function(){
-              this.wavesurferPostRecording.play();
+              if( this.trackIsArmed && !this.currentlyRecording &&
+                  !this.recordingIsPaused && this.enablePlayBackButtons){
+                      this.wavesurferPostRecording.play();
+              }
             },
             handleStop: function(){
-              this.wavesurferPostRecording.stop();
+              if( this.trackIsArmed && !this.currentlyRecording &&
+                  !this.recordingIsPaused && this.enablePlayBackButtons){
+                      this.wavesurferPostRecording.stop();
+              }
             },
             handlePause: function(){
-              this.wavesurferPostRecording.pause();
+              if( this.trackIsArmed && !this.currentlyRecording &&
+                  !this.recordingIsPaused && this.enablePlayBackButtons){
+                      this.wavesurferPostRecording.pause();
+              }
             },
             handleTrackArm: function(e){
               if(masterMicStatus == true){

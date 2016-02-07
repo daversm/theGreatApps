@@ -511,15 +511,15 @@ h3{
 
 #play {
     transition: border-color 150ms ease;
-    border-left: 20px solid #5A5A5A;
+    border-left: 22px solid #5A5A5A;
     border-right: 0px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
     content: "";
 }
 
 #play:hover {
-    border-left: 20px solid #0099FF;
+    border-left: 22px solid #0099FF;
     transition: border-color 150ms ease;
 }
 
@@ -574,28 +574,28 @@ h3{
 
 #stop {
     transition: border-color 150ms ease;
-    border-left: 30px solid #5A5A5A;
-    height: 30px;
+    border-left: 32px solid #5A5A5A;
+    height: 32px;
     content: "";
 }
 
 #stop:hover {
-    border-left: 30px solid #0099FF;
-    height: 30px;
+    border-left: 32px solid #0099FF;
+    height: 32px;
     content: "";
 }
 
 #pause{
     transition: border-color 150ms ease;
-    border-left: 9px solid #5A5A5A;
-    border-right: 9px solid #5A5A5A;
+    border-left: 10px solid #5A5A5A;
+    border-right: 10px solid #5A5A5A;
     width: 5px;
-    height: 30px;
+    height: 31px;
     content: "";
 }
 
 #pause:hover{
     transition: border-color 150ms ease;
-    border-left: 9px solid #0099FF;
-    border-right: 9px solid #0099FF;
+    border-left: 10px solid #0099FF;
+    border-right: 10px solid #0099FF;
 }
