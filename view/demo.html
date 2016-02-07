@@ -228,7 +228,7 @@
                 });
 
             },
-            handleStop: function(){
+            handleRecStop: function(){
               this.microphone.destroy();
               this.wavesurfer.empty();
               this.wavesurfer.destroy();
@@ -244,7 +244,6 @@
                   cursorWidth   : 2,
                   height        : 170
               });
-
               this.wavesurferPostRecording.on('ready', function () {
                 outerThis2.timeline = Object.create(WaveSurfer.Timeline);
                 outerThis2.timeline.init({
@@ -256,9 +255,6 @@
                     height: 40
                 });
               });
-
-
-
 
                   var outerThis2 = this;
                   this.rec.getBuffer(function(buffers){
@@ -281,6 +277,12 @@
             handlePlay: function(){
               this.wavesurferPostRecording.play();
             },
+            handleStop: function(){
+              this.wavesurferPostRecording.stop();
+            },
+            handlePause: function(){
+              this.wavesurferPostRecording.pause();
+            },
             handleTrackArm: function(e){
               if(masterMicStatus == true){
                 if(this.trackIsArmed == false){
@@ -288,8 +290,6 @@
                    workerPath: '../public/Recorderjs/recorderWorker.js'
                   });
                   this.trackIsArmed = true;
-                  //e.target.style.color = "#FF4D1D";
-                  //document.getElementById("p1").innerHTML
                   this.setState({trackStatusMsg:'TRACK ARMED'});
                 }else{
                   this.trackIsArmed = false;
@@ -306,7 +306,7 @@
                  <div className="trackInfoPanel">
                     <div className="trackName"> TRACK 1 </div>
                     <div className="buttonsInsideTrack" onClick={this.handleTrackArm}> Arm Track </div>
-                    <div className="buttonsInsideTrack"> Show Wave </div>
+                    <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
                     <div className="buttonsInsideTrack"> Mute </div>
                     <div className="buttonsInsideTrack"> Solo </div>
                  </div>
@@ -315,23 +315,17 @@
                     <div className="playbackRecordingDiv">
 
                       <div className="playbackOptionsDiv">
-
-                        <div id="play" onClick={this.handlePlay}></div>
-                        <div id="stop" onClick={this.handleStop}></div>
-                        <div id="pause"></div>
+                        <div id="play"  onClick={this.handlePlay}></div>
+                        <div id="stop"  onClick={this.handleStop}></div>
+                        <div id="pause" onClick={this.handlePause}></div>
                       </div>
                       <div className="recordingOptionsDiv">
-
                         <div id="recTrack" onClick={this.handleRecord}></div>
-                        <div className="icono-microphone" currentColor = "red"
-                             onMouseOver= {this.mouseOver}  onMouseOut= {this.mouseOut} onClick={this.handleShowWaveLive}>
-                        </div>
+                        <div id="recStop" onClick={this.handleRecStop}></div>
                         <div className="icono-headphone" onClick={this.handleDownloadTrack}></div>
-
                       </div>
 
                     </div>
-
 
                     <div id={this.props.trackName} className="waveformContainerDiv"> </div>
 
