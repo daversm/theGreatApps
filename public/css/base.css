@@ -263,7 +263,12 @@ input[type="submit"]:focus{
   color: #5a5a5a;
   text-align: center;
   vertical-align: middle;
-  line-height: 12px;
+  line-height: 11px;
+}
+.buttonsInsideTrack:hover{
+  color: white;
+  background-color: #0099FF;
+  border-color: #0099FF;
 }
 .trackName{
   font-family: 'Roboto', sans-serif;

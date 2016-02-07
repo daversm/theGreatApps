@@ -128,6 +128,7 @@
               var outerThis = this;
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
+              this.recordingIsPaused = false;
               this.trackIsArmed = false;
               this.waveSurferOn = false;
               this.wavesurfer = Object.create(WaveSurfer);
@@ -174,10 +175,12 @@
                   this.currentlyRecording = true;
                   this.microphone.play();
                   this.rec.record();
+                  this.recordingIsPaused = false;
 
                 }else{
                   this.setState({trackStatusMsg:'RECORDING PAUSED'});
                   this.currentlyRecording = false;
+                  this.recordingIsPaused = true;
                   this.microphone.pause();
                   this.rec.stop();
 
@@ -229,49 +232,57 @@
 
             },
             handleRecStop: function(){
-              this.microphone.destroy();
-              this.wavesurfer.empty();
-              this.wavesurfer.destroy();
-              console.log(this.wavesurfer);
-              this.wavesurferPostRecording = Object.create(WaveSurfer);
-              var outerThis2 = this;
+              if(this.currentlyRecording || this.recordingIsPaused){
+                    this.setState({trackStatusMsg: "RECORDING DONE"});
+                    this.currentlyRecording = false;
+                    this.recordingIsPaused = false;
+                    this.microphone.pause();
+                    this.rec.stop();
+                    this.microphone.destroy();
+                    this.wavesurfer.empty();
+                    this.wavesurfer.destroy();
 
-              this.wavesurferPostRecording.init({
-                  container: "#" + outerThis2.props.trackName,
-                  waveColor: '#0099FF',
-                  progressColor: '#5A5A5A',
-                  interact      : true,
-                  cursorWidth   : 2,
-                  height        : 170
-              });
-              this.wavesurferPostRecording.on('ready', function () {
-                outerThis2.timeline = Object.create(WaveSurfer.Timeline);
-                outerThis2.timeline.init({
-                    wavesurfer: outerThis2.wavesurferPostRecording,
-                    container: "#" + outerThis2.props.trackName,
-                    primaryColor: '#5A5A5A',
-                    secondaryColor: '#5A5A5A',
-                    primaryFontColor: '#5A5A5A',
-                    height: 40
-                });
-              });
+                    this.wavesurferPostRecording = Object.create(WaveSurfer);
+                    var outerThis2 = this;
 
-                  var outerThis2 = this;
-                  this.rec.getBuffer(function(buffers){
-                    var newSource = audioContext.createBufferSource();
-                    var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
-                    newBuffer.getChannelData(0).set(buffers[0]);
-                    newBuffer.getChannelData(1).set(buffers[1]);
-                    newSource.buffer = newBuffer;
+                    this.wavesurferPostRecording.init({
+                        container: "#" + outerThis2.props.trackName,
+                        waveColor: '#0099FF',
+                        progressColor: '#5A5A5A',
+                        interact      : true,
+                        cursorWidth   : 2,
+                        height        : 170
+                    });
+                    this.wavesurferPostRecording.on('ready', function () {
+                      outerThis2.timeline = Object.create(WaveSurfer.Timeline);
+                      outerThis2.timeline.init({
+                          wavesurfer: outerThis2.wavesurferPostRecording,
+                          container: "#" + outerThis2.props.trackName,
+                          primaryColor: '#5A5A5A',
+                          secondaryColor: '#5A5A5A',
+                          primaryFontColor: '#5A5A5A',
+                          height: 40
+                      });
+                    });
 
-                    newSource.connect( audioContext.destination );
-                    newSource.start(0);
-                  });
+                      var outerThis2 = this;
+                        this.rec.getBuffer(function(buffers){
+                          var newSource = audioContext.createBufferSource();
+                          var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+                          newBuffer.getChannelData(0).set(buffers[0]);
+                          newBuffer.getChannelData(1).set(buffers[1]);
+                          newSource.buffer = newBuffer;
 
-                  this.rec.exportWAV(function(audio){
-                    var blob= new Blob([audio]);
-                    outerThis2.wavesurferPostRecording.loadBlob(blob);
-                  });
+                          newSource.connect( audioContext.destination );
+                          newSource.start(0);
+                        });
+
+                        this.rec.exportWAV(function(audio){
+                          var blob= new Blob([audio]);
+                          outerThis2.wavesurferPostRecording.loadBlob(blob);
+                        });
+
+                }
 
             },
             handlePlay: function(){
@@ -293,7 +304,6 @@
                   this.setState({trackStatusMsg:'TRACK ARMED'});
                 }else{
                   this.trackIsArmed = false;
-                  e.target.style.color = "#5A5A5A";
                   this.setState({trackStatusMsg:'TRACK UNARMED'});
                 }
               }
