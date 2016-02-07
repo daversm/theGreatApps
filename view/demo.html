@@ -236,7 +236,9 @@
             },
             handleRecStop: function(){
               if(this.currentlyRecording || this.recordingIsPaused){
-                    this.setState({trackStatusMsg: "RECORDING DONE"});
+
+                    this.setState({trackStatusMsg:"LOADING AUDIO"});
+
                     this.currentlyRecording = false;
                     this.recordingIsPaused = false;
                     this.microphone.pause();
@@ -284,6 +286,7 @@
                         this.rec.exportWAV(function(audio){
                           var blob= new Blob([audio]);
                           outerThis2.wavesurferPostRecording.loadBlob(blob);
+                          outerThis2.setState({trackStatusMsg: "RECORDING DONE"});
                         });
                         this.enablePlayBackButtons = true;
 
@@ -307,6 +310,7 @@
                   !this.recordingIsPaused && this.enablePlayBackButtons){
                       this.wavesurferPostRecording.pause();
               }
+
             },
             handleTrackArm: function(e){
               if(masterMicStatus == true){
