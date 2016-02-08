@@ -28,6 +28,7 @@ body, html {
 }
 
 .trackStatusMsg{
+  cursor: default;
   text-align: center;
   vertical-align: middle;
   font-size: 13px;
@@ -138,6 +139,7 @@ box-shadow: 0px 0px 4px 1px rgba(77, 77, 77, 0.73);
 }
 
 .logo{
+  cursor:default;
   position: fixed;
   right:6px;
   bottom:6px;
@@ -264,6 +266,7 @@ input[type="submit"]:focus{
   text-align: center;
   vertical-align: middle;
   line-height: 11px;
+  cursor: pointer;
 }
 .buttonsInsideTrack:hover{
   color: white;
@@ -271,6 +274,7 @@ input[type="submit"]:focus{
   border-color: #0099FF;
 }
 .trackName{
+  cursor: default;
   font-family: 'Roboto', sans-serif;
   margin-left: 1px;
   border-radius: 2px;
@@ -516,6 +520,7 @@ h3{
     border-top: 16px solid transparent;
     border-bottom: 16px solid transparent;
     content: "";
+    cursor: pointer;
 }
 
 #play:hover {
@@ -532,6 +537,7 @@ h3{
     border-radius: 16px;
     background-color: #FF4D1D;
     content: "";
+    cursor: pointer;
 }
 
 #rec:hover {
@@ -545,7 +551,7 @@ h3{
     width: 10px;
     height: 10px;
     border: 11px solid #5A5A5A;
-
+    cursor: pointer;
     background-color: #FF4D1D;
     content: "";
 }
@@ -556,6 +562,7 @@ h3{
 }
 
 #recTrack {
+    cursor: pointer;
     transition: border-color 150ms ease;
     transition: background-color 150ms ease;
     width: 13px;
@@ -573,6 +580,7 @@ h3{
 
 
 #stop {
+    cursor: pointer;
     transition: border-color 150ms ease;
     border-left: 32px solid #5A5A5A;
     height: 32px;
@@ -586,6 +594,7 @@ h3{
 }
 
 #pause{
+    cursor: pointer;
     transition: border-color 150ms ease;
     border-left: 10px solid #5A5A5A;
     border-right: 10px solid #5A5A5A;
