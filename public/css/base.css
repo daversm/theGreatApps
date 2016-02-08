@@ -13,6 +13,7 @@ body, html {
   display:flex;
   flex-direction: column;
   width: 100%;
+
 }
 .trackInfoPanel{
   display: flex;
@@ -22,7 +23,7 @@ body, html {
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(128, 128, 128, 0.30);
+  background: rgba(255, 255, 255, 0.4);
   height: 23px;
   flex-direction: row;
 }
@@ -59,6 +60,8 @@ body, html {
   transform: translate(50%, 0%);
   border: solid 2px #5a5a5a;
   border-top: none;
+  z-index: 100;
+  background-color: white;
 
 }
 
@@ -267,12 +270,14 @@ input[type="submit"]:focus{
   vertical-align: middle;
   line-height: 11px;
   cursor: pointer;
+
 }
 .buttonsInsideTrack:hover{
   color: white;
   background-color: #0099FF;
   border-color: #0099FF;
 }
+
 .trackName{
   cursor: default;
   font-family: 'Roboto', sans-serif;
@@ -510,7 +515,15 @@ h3{
 [class*=icono-]{
   color:#5A5A5A;
 }
-
+#playMaster {
+    transition: border-color 150ms ease;
+    border-left: 16px solid #5A5A5A;
+    border-right: 0px solid transparent;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    content: "";
+    cursor: pointer;
+}
 
 
 #play {
@@ -525,6 +538,10 @@ h3{
 
 #play:hover {
     border-left: 22px solid #0099FF;
+    transition: border-color 150ms ease;
+}
+#playMaster:hover {
+    border-left: 16px solid #0099FF;
     transition: border-color 150ms ease;
 }
 
@@ -593,6 +610,20 @@ h3{
     content: "";
 }
 
+#stopMaster{
+    cursor: pointer;
+    transition: border-color 150ms ease;
+    border-left: 25px solid #5A5A5A;
+    height: 25px;
+    content: "";
+}
+
+#stopMaster:hover {
+    border-left: 25px solid #0099FF;
+    height: 25px;
+    content: "";
+}
+
 #pause{
     cursor: pointer;
     transition: border-color 150ms ease;
@@ -607,4 +638,20 @@ h3{
     transition: border-color 150ms ease;
     border-left: 10px solid #0099FF;
     border-right: 10px solid #0099FF;
+}
+
+#pauseMaster{
+    cursor: pointer;
+    transition: border-color 150ms ease;
+    border-left: 7px solid #5A5A5A;
+    border-right: 7px solid #5A5A5A;
+    width: 5px;
+    height: 25px;
+    content: "";
+}
+
+#pauseMaster:hover{
+    transition: border-color 150ms ease;
+    border-left: 7px solid #0099FF;
+    border-right: 7px solid #0099FF;
 }
