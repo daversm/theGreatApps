@@ -110,12 +110,38 @@
           });
 
           var TracksPanel = React.createClass({
+
+            getInitialState: function(){
+              return {
+                tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
+                                  {trackName:"track2", tracksTitle:"TRACK 2"}
+                                ]
+              };
+            },
+            handleDeleteTrack: function(){
+              this.state.tracksArray.pop();
+              this.setState({tracksArray: this.state.tracksArray});
+            },
+
             render: function(){
-              return(
-                <div>
-                  <Tracks trackName="track1"/>
-                </div>
-              );
+
+              var trackListItems = this.state.tracksArray.map(function(trackData) {
+                        return (
+                        	<Tracks
+                          		key={trackData.trackName}
+                          		trackName={trackData.trackName}
+                              trackTitle={trackData.tracksTitle}
+                          />
+                        );
+                      });
+
+               return(
+                 <div>
+                    <button onClick={this.handleDeleteTrack}> Delete Track </button>
+
+                   {trackListItems}
+                 </div>
+               );
             }
           });
 
@@ -329,10 +355,11 @@
 
             render: function(){
               return (
+                <div>
                 <div className="trackMasterPanel">
 
                  <div className="trackInfoPanel">
-                    <div className="trackName"> TRACK 1 </div>
+                    <div className="trackName"> {this.props.trackTitle} </div>
                     <div className="buttonsInsideTrack" onClick={this.handleTrackArm}> {this.state.armTrackButtom} </div>
                     <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
                     <div className="buttonsInsideTrack"> Mute </div>
@@ -361,6 +388,8 @@
                   <div className="trackStatusPanel">
                     <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
                   </div>
+                  </div>
+                  <br />
                   </div>
               );
             }
