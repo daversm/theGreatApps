@@ -118,9 +118,24 @@
                                 ]
               };
             },
-            handleDeleteTrack: function(){
-              this.state.tracksArray.pop();
-              this.setState({tracksArray: this.state.tracksArray});
+            handleRecordTrack: function(){
+              this.refs['track1'].handleRecord();
+              this.refs['track2'].handleRecord();
+              //this.refs.item0.animate()
+              //this.state.tracksArray.pop();
+              //this.setState({tracksArray: this.state.tracksArray});
+            },
+            handleStopTrack: function(){
+              this.refs['track1'].handleRecStop();
+              this.refs['track2'].handleRecStop();
+
+              //this.refs.item0.animate()
+              //this.state.tracksArray.pop();
+              //this.setState({tracksArray: this.state.tracksArray});
+            },
+            handlePlayTrack: function(){
+              this.refs['track1'].handlePlay();
+              this.refs['track2'].handlePlay();
             },
 
             render: function(){
@@ -128,6 +143,7 @@
               var trackListItems = this.state.tracksArray.map(function(trackData) {
                         return (
                         	<Tracks
+                              ref={trackData.trackName}
                           		key={trackData.trackName}
                           		trackName={trackData.trackName}
                               trackTitle={trackData.tracksTitle}
@@ -137,8 +153,9 @@
 
                return(
                  <div>
-                    <button onClick={this.handleDeleteTrack}> Delete Track </button>
-
+                    <button onClick={this.handleRecordTrack}> Record All </button>
+                    <button onClick={this.handleStopTrack}> Stop All </button>
+                    <button onClick={this.handlePlayTrack}> Play All </button>
                    {trackListItems}
                  </div>
                );
@@ -392,7 +409,10 @@
                   <br />
                   </div>
               );
-            }
+            },
+            animate: function() {
+    console.log('Pretend %s is animating', this.props.title);
+  }
           });
 
           ReactDOM.render(
