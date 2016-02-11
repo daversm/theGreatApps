@@ -23,7 +23,6 @@
         background-position: center;
         background-size: cover;
       }
-
     </style>
   </head>
   <body id="demoPage">
@@ -38,7 +37,6 @@
     <div class="logo"><h5>TGA</h6></div>
     <div id="masterContainer"></div>
 
-
       <script>
         var navigator = window.navigator;
         navigator.getUserMedia = ( navigator.getUserMedia ||
@@ -46,13 +44,10 @@
                          navigator.mozGetUserMedia ||
                          navigator.msGetUserMedia);
         var mediaStream;
-
         var Context = window.AudioContext || window.webkitAudioContext;
         var contextForRec = new Context();
-
         var audioContext = new Context;
         var masterMicStatus = false;
-
         var mediaStreamSource;
       </script>
 
@@ -60,10 +55,30 @@
 
           var MasterController = React.createClass({
             getInitialState: function() {
-              return {micSwitchState: false};
+              return {micSwitchState: false,
+                      tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
+                                     {trackName:"track2", tracksTitle:"TRACK 2"}]
+              };
             },
             handleMasterPlay: function(){
-              console.log(mediaStream);
+              this.refs['track1'].handlePlay();
+              this.refs['track2'].handlePlay();
+            },
+            handleMasterStopRecord: function(){
+              this.refs['track1'].handleRecStop();
+              this.refs['track2'].handleRecStop();
+            },
+            handleMasterRecord: function(){
+              this.refs['track1'].handleRecord();
+              this.refs['track2'].handleRecord();
+            },
+            handleMasterPause: function(){
+              this.refs['track1'].handlePause();
+              this.refs['track2'].handlePause();
+            },
+            handleMasterStop: function(){
+              this.refs['track1'].handleStop();
+              this.refs['track2'].handleStop();
             },
             handleMicSwitchChange: function(e) {
               console.log(e.target.checked);
@@ -73,7 +88,6 @@
                   mediaStream = localMediaStream;
                   mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
                   masterMicStatus = true;
-
                 }, function(err){
                   console.log('Browser not supported');
                 });
@@ -81,90 +95,50 @@
                 mediaStream.getTracks()[0].stop();
                 masterMicStatus = false;
               }
-
             },
 
             render: function() {
-
-              return (
-                <div>
-                <div className="masterControllPanel" >
-                  <p>MASTER CONTROLLER</p>
-                  <div className="onoffswitch">
-                      <input
-                            type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
-                            id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
-                      />
-                      <label className="onoffswitch-label" htmlFor="myonoffswitch">
-                          <span className="onoffswitch-inner"></span>
-                          <span className="onoffswitch-switch"></span>
-                      </label>
-                  </div>
-                  <div id="playMaster" onClick={this.handleMasterPlay}></div>
-                  <div id="pauseMaster"></div>
-                  <div id="stopMaster"></div>
-                  <div id="rec"></div>
-                </div>
-                <div id="tracksDiv">
-                  <TracksPanel />
-                </div>
-                </ div>
-              );
-            }
-          });
-
-          var TracksPanel = React.createClass({
-
-            getInitialState: function(){
-              return {
-                tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
-                                  {trackName:"track2", tracksTitle:"TRACK 2"}
-                                ]
-              };
-            },
-            handleRecordTrack: function(){
-              this.refs['track1'].handleRecord();
-              this.refs['track2'].handleRecord();
-              //this.refs.item0.animate()
-              //this.state.tracksArray.pop();
-              //this.setState({tracksArray: this.state.tracksArray});
-            },
-            handleStopTrack: function(){
-              this.refs['track1'].handleRecStop();
-              this.refs['track2'].handleRecStop();
-
-              //this.refs.item0.animate()
-              //this.state.tracksArray.pop();
-              //this.setState({tracksArray: this.state.tracksArray});
-            },
-            handlePlayTrack: function(){
-              this.refs['track1'].handlePlay();
-              this.refs['track2'].handlePlay();
-            },
-
-            render: function(){
-
               var trackListItems = this.state.tracksArray.map(function(trackData) {
                         return (
-                        	<Tracks
+                          <Tracks
                               ref={trackData.trackName}
-                          		key={trackData.trackName}
-                          		trackName={trackData.trackName}
+                              key={trackData.trackName}
+                              trackName={trackData.trackName}
                               trackTitle={trackData.tracksTitle}
                           />
                         );
                       });
 
-               return(
-                 <div>
-                    <button onClick={this.handleRecordTrack}> Record All </button>
-                    <button onClick={this.handleStopTrack}> Stop All </button>
-                    <button onClick={this.handlePlayTrack}> Play All </button>
-                   {trackListItems}
-                 </div>
-               );
+              return (
+                <div>
+                  <div className="masterControllPanel" >
+                    <p>MASTER CONTROLLER</p>
+                    <div className="onoffswitch">
+                        <input
+                              type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
+                              id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
+                        />
+                        <label className="onoffswitch-label" htmlFor="myonoffswitch">
+                            <span className="onoffswitch-inner"></span>
+                            <span className="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div id="playMaster"    onClick={this.handleMasterPlay}></div>
+                    <div id="pauseMaster"   onClick={this.handleMasterPause}></div>
+                    <div id="stopMaster"    onClick={this.handleMasterStop}></div>
+                    <div id="rec"           onClick={this.handleMasterRecord}></div>
+                    <div id="recStopMaster" onClick={this.handleMasterStopRecord}></div>
+                  </div>
+                    <div id="tracksDiv">
+                      <div>
+                        {trackListItems}
+                      </div>
+                    </div>
+                </ div>
+              );
             }
           });
+
 
           var Tracks = React.createClass({
             getInitialState: function() {

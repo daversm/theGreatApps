@@ -578,6 +578,22 @@ h3{
     border: 11px solid #0099FF;
 }
 
+#recStopMaster {
+    transition: border-color 150ms ease;
+    transition: background-color 150ms ease;
+    width: 7px;
+    height: 7px;
+    border: 9px solid #5A5A5A;
+    cursor: pointer;
+    background-color: #FF4D1D;
+    content: "";
+}
+
+#recStopMaster:hover {
+    transition: border-color 150ms ease;
+    border: 9px solid #0099FF;
+}
+
 #recTrack {
     cursor: pointer;
     transition: border-color 150ms ease;
