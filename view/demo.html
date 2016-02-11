@@ -36,9 +36,8 @@
     </div>
 
     <div class="logo"><h5>TGA</h6></div>
-    <div id="masterPanel"></div>
-    <div id="tracksDiv"></div>
-    <div id="testPlayback"></div>
+    <div id="masterContainer"></div>
+
 
       <script>
         var navigator = window.navigator;
@@ -88,6 +87,7 @@
             render: function() {
 
               return (
+                <div>
                 <div className="masterControllPanel" >
                   <p>MASTER CONTROLLER</p>
                   <div className="onoffswitch">
@@ -105,6 +105,10 @@
                   <div id="stopMaster"></div>
                   <div id="rec"></div>
                 </div>
+                <div id="tracksDiv">
+                  <TracksPanel />
+                </div>
+                </ div>
               );
             }
           });
@@ -409,21 +413,14 @@
                   <br />
                   </div>
               );
-            },
-            animate: function() {
-    console.log('Pretend %s is animating', this.props.title);
-  }
+            }
           });
 
           ReactDOM.render(
           <MasterController />,
-          document.getElementById('masterPanel')
+          document.getElementById('masterContainer')
           );
 
-          ReactDOM.render(
-          <TracksPanel />,
-          document.getElementById('tracksDiv')
-          );
 
       </script>
 
