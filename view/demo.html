@@ -47,7 +47,6 @@
         var mediaStream;
         var Context = window.AudioContext || window.webkitAudioContext;
         var contextForRec = new Context();
-        var contextForRec2 = new COntext();
         var audioContext = new Context;
         var masterMicStatus = false;
         var mediaStreamSource;
@@ -89,6 +88,7 @@
               this.refs['track2'].handleStop();
               this.refs['track3'].handleStop();
             },
+
             handleMicSwitchChange: function(e) {
               console.log(e.target.checked);
               var outerThis = this;
@@ -97,12 +97,23 @@
                   mediaStream = localMediaStream;
                   mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
                   masterMicStatus = true;
+                  outerThis.refs['track1'].setMicToRecorder();
+                  outerThis.refs['track2'].setMicToRecorder();
+                  outerThis.refs['track3'].setMicToRecorder();
                 }, function(err){
                   console.log('Browser not supported');
                 });
               }else{
-                mediaStream.getTracks()[0].stop();
-                masterMicStatus = false;
+                if( this.refs['track1'].isRecordingInSession() ||
+                    this.refs['track1'].isRecordingInSession() ||
+                    this.refs['track1'].isRecordingInSession()
+                  ){
+
+
+                }else{
+                  mediaStream.getTracks()[0].stop();
+                  masterMicStatus = false;
+                }
               }
             },
 
@@ -151,16 +162,31 @@
 
           var Tracks = React.createClass({
             getInitialState: function() {
-              return {trackStatusMsg: 'TRACK UNARMED', armTrackButtom: "Arm Track"};
+              return {trackStatusMsg: 'MIC OFF'};
+            },
+            setMicToRecorder: function(){
+              this.rec = new Recorder(mediaStreamSource, {
+               workerPath: '../public/Recorderjs/recorderWorker.js', bufferLen: 8192
+              });
+              this.trackReady = true;
+              this.setState({trackStatusMsg: 'READY'});
+            },
+            isRecordingInSession: function(){
+              if(this.currentlyRecording || this.recordingIsPaused){
+                return {trackStatus: true};
+              }else{
+                return {trackStatus: false};
+              }
             },
 
             componentDidMount: function(){
               var outerThis = this;
+              this.trackReady = false;
               this.enablePlayBackButtons = false;
               this.currentColorMicIcon = "#5A5A5A";
               this.currentlyRecording = false;
               this.recordingIsPaused = false;
-              this.trackIsArmed = false;
+
               this.waveSurferOn = false;
               this.wavesurfer = Object.create(WaveSurfer);
               this.wavesurfer.init({
@@ -176,15 +202,22 @@
               });
 
             },
+            handleDeleteAudio: function(){
+
+            },
             mouseOver: function (e) {
-              e.target.style.color = "#0099FF";
+              if(this.trackReady == true){
+                e.target.style.color = "#0099FF";
+              }
             },
             mouseOut: function (e) {
-              e.target.style.color =  this.currentColorMicIcon;
+              if(this.trackReady == true){
+                e.target.style.color =  this.currentColorMicIcon;
+              }
             },
             handleRecord: function(){
               var outerThis = this;
-              if(this.trackIsArmed == true){
+
                 if(this.currentlyRecording == false){
                   this.enablePlayBackButtons = false;
                   this.setState({trackStatusMsg:'RECORDING'});
@@ -218,7 +251,7 @@
                   this.rec.stop();
 
                 }
-              }
+
             },
             handleShowWaveLive: function(e){
               var outerThis = this;
@@ -324,50 +357,36 @@
 
             },
             handlePlay: function(){
-              if( this.trackIsArmed && !this.currentlyRecording &&
+              if( !this.currentlyRecording &&
                   !this.recordingIsPaused && this.enablePlayBackButtons){
                       this.wavesurferPostRecording.play();
               }
             },
             handleStop: function(){
-              if( this.trackIsArmed && !this.currentlyRecording &&
+              if( !this.currentlyRecording &&
                   !this.recordingIsPaused && this.enablePlayBackButtons){
                       this.wavesurferPostRecording.stop();
               }
             },
             handlePause: function(){
-              if( this.trackIsArmed && !this.currentlyRecording &&
+              if( !this.currentlyRecording &&
                   !this.recordingIsPaused && this.enablePlayBackButtons){
                       this.wavesurferPostRecording.pause();
               }
 
             },
-            handleTrackArm: function(e){
-              if(masterMicStatus == true){
-                if(this.trackIsArmed == false){
-                  this.rec = new Recorder(mediaStreamSource, {
-                   workerPath: '../public/Recorderjs/recorderWorker.js', bufferLen: 8192
-                  });
-                  this.trackIsArmed = true;
-                  this.setState({trackStatusMsg:'TRACK ARMED', armTrackButtom: 'Unarm Track'});
-                }else{
-                  this.trackIsArmed = false;
-                  this.setState({trackStatusMsg:'TRACK UNARMED', armTrackButtom: 'Arm Track' });
-                }
-              }
-            },
 
             render: function(){
               return (
-                <div>
+                <div disable="true">
                 <div className="trackMasterPanel">
 
                  <div className="trackInfoPanel">
                     <div className="trackName"> {this.props.trackTitle} </div>
-                    <div className="buttonsInsideTrack" onClick={this.handleTrackArm}> {this.state.armTrackButtom} </div>
                     <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
                     <div className="buttonsInsideTrack"> Mute </div>
                     <div className="buttonsInsideTrack"> Solo </div>
+                    <div className="buttonsInsideTrack"> Delete Audio </div>
                  </div>
                   <div className="containerTrackDiv">
 
