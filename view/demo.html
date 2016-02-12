@@ -22,6 +22,7 @@
         background-image: url("../public/css/c41.jpg");
         background-position: center;
         background-size: cover;
+        background-attachment: fixed;
       }
     </style>
   </head>
@@ -46,6 +47,7 @@
         var mediaStream;
         var Context = window.AudioContext || window.webkitAudioContext;
         var contextForRec = new Context();
+        var contextForRec2 = new COntext();
         var audioContext = new Context;
         var masterMicStatus = false;
         var mediaStreamSource;
@@ -57,28 +59,35 @@
             getInitialState: function() {
               return {micSwitchState: false,
                       tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
-                                     {trackName:"track2", tracksTitle:"TRACK 2"}]
+                                     {trackName:"track2", tracksTitle:"TRACK 2"},
+                                     {trackName:"track3", tracksTitle:"TRACK 3"}
+                                    ]
               };
             },
             handleMasterPlay: function(){
               this.refs['track1'].handlePlay();
               this.refs['track2'].handlePlay();
+              this.refs['track3'].handlePlay();
             },
             handleMasterStopRecord: function(){
               this.refs['track1'].handleRecStop();
               this.refs['track2'].handleRecStop();
+              this.refs['track3'].handleRecStop();
             },
             handleMasterRecord: function(){
               this.refs['track1'].handleRecord();
               this.refs['track2'].handleRecord();
+              this.refs['track3'].handleRecord();
             },
             handleMasterPause: function(){
               this.refs['track1'].handlePause();
               this.refs['track2'].handlePause();
+              this.refs['track3'].handlePause();
             },
             handleMasterStop: function(){
               this.refs['track1'].handleStop();
               this.refs['track2'].handleStop();
+              this.refs['track3'].handleStop();
             },
             handleMicSwitchChange: function(e) {
               console.log(e.target.checked);
@@ -337,7 +346,7 @@
               if(masterMicStatus == true){
                 if(this.trackIsArmed == false){
                   this.rec = new Recorder(mediaStreamSource, {
-                   workerPath: '../public/Recorderjs/recorderWorker.js'
+                   workerPath: '../public/Recorderjs/recorderWorker.js', bufferLen: 8192
                   });
                   this.trackIsArmed = true;
                   this.setState({trackStatusMsg:'TRACK ARMED', armTrackButtom: 'Unarm Track'});
