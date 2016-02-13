@@ -28,13 +28,6 @@
   </head>
   <body id="demoPage">
 
-    <div id="naviBar">
-        <a href="/"><h6>Home </h6></a>
-        <a href="/"><h6>About </h6></a>
-        <a href="/signup"><h6>Register </h6></a>
-        <a href="/passwordReset"><h6>Forgot Password</h6></a>
-    </div>
-
     <div class="logo"><h5>TGA</h6></div>
     <div id="masterContainer"></div>
 
@@ -63,6 +56,21 @@
                                     ]
               };
             },
+            componentDidMount: function(){
+              var outerThis = this;
+              navigator.getUserMedia({audio: true}, function(localMediaStream){
+                mediaStream = localMediaStream;
+                mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
+                masterMicStatus = true;
+                outerThis.refs['track1'].setMicToRecorder();
+                outerThis.refs['track2'].setMicToRecorder();
+                outerThis.refs['track3'].setMicToRecorder();
+              }, function(err){
+                console.log('Browser not supported');
+              });
+            //  mediaStream.getTracks()[0].stop();
+            //  masterMicStatus = false;
+            },
             handleMasterPlay: function(){
               this.refs['track1'].handlePlay();
               this.refs['track2'].handlePlay();
@@ -89,34 +97,6 @@
               this.refs['track3'].handleStop();
             },
 
-            handleMicSwitchChange: function(e) {
-              console.log(e.target.checked);
-              var outerThis = this;
-              if(e.target.checked == true){
-                navigator.getUserMedia({audio: true}, function(localMediaStream){
-                  mediaStream = localMediaStream;
-                  mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
-                  masterMicStatus = true;
-                  outerThis.refs['track1'].setMicToRecorder();
-                  outerThis.refs['track2'].setMicToRecorder();
-                  outerThis.refs['track3'].setMicToRecorder();
-                }, function(err){
-                  console.log('Browser not supported');
-                });
-              }else{
-                if( this.refs['track1'].isRecordingInSession() ||
-                    this.refs['track1'].isRecordingInSession() ||
-                    this.refs['track1'].isRecordingInSession()
-                  ){
-
-
-                }else{
-                  mediaStream.getTracks()[0].stop();
-                  masterMicStatus = false;
-                }
-              }
-            },
-
             render: function() {
               var trackListItems = this.state.tracksArray.map(function(trackData) {
                         return (
@@ -132,22 +112,13 @@
               return (
                 <div>
                   <div className="masterControllPanel" >
-                    <p>MASTER CONTROLLER</p>
-                    <div className="onoffswitch">
-                        <input
-                              type="checkbox" name="onoffswitch" className="onoffswitch-checkbox"
-                              id="myonoffswitch" onChange={this.handleMicSwitchChange} checked={this.micSwitchState}
-                        />
-                        <label className="onoffswitch-label" htmlFor="myonoffswitch">
-                            <span className="onoffswitch-inner"></span>
-                            <span className="onoffswitch-switch"></span>
-                        </label>
+                    <div className="masterControllPanelControls">
+                      <div id="playMaster"    onClick={this.handleMasterPlay}></div>
+                      <div id="pauseMaster"   onClick={this.handleMasterPause}></div>
+                      <div id="stopMaster"    onClick={this.handleMasterStop}></div>
+                      <div id="rec"           onClick={this.handleMasterRecord}></div>
+                      <div id="recStopMaster" onClick={this.handleMasterStopRecord}></div>
                     </div>
-                    <div id="playMaster"    onClick={this.handleMasterPlay}></div>
-                    <div id="pauseMaster"   onClick={this.handleMasterPause}></div>
-                    <div id="stopMaster"    onClick={this.handleMasterStop}></div>
-                    <div id="rec"           onClick={this.handleMasterRecord}></div>
-                    <div id="recStopMaster" onClick={this.handleMasterStopRecord}></div>
                   </div>
                     <div id="tracksDiv">
                       <div>
