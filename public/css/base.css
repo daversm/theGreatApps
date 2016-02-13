@@ -8,6 +8,10 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+.demoPage{
+  color : white;
+
+}
 .title{
   font-family: 'Roboto', sans-serif;
   color: #C5C4C4;
