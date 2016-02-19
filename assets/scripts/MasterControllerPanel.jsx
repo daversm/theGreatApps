@@ -5,8 +5,7 @@ var MasterController = React.createClass({
     return {micSwitchState: false,
             tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
                            {trackName:"track2", tracksTitle:"TRACK 2"},
-                           {trackName:"track3", tracksTitle:"TRACK 3"},
-                           {trackName:"track4", tracksTitle:"TRACK 4"}
+                           {trackName:"track3", tracksTitle:"TRACK 3"}
                           ]
     };
   },

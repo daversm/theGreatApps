@@ -9,7 +9,7 @@ var Track = React.createClass({
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, {
-      workerPath: '../public/Recorderjs/recorderWorker.js', bufferLen: 8192
+      workerPath: '../public/libs/Recorderjs/recorderWorker.js', bufferLen: 8192
     });
     this.trackReady = true;
     this.setState({ trackStatusMsg: 'READY' });
@@ -301,7 +301,7 @@ var MasterController = React.createClass({
 
   getInitialState: function getInitialState() {
     return { micSwitchState: false,
-      tracksArray: [{ trackName: "track1", tracksTitle: "TRACK 1" }, { trackName: "track2", tracksTitle: "TRACK 2" }, { trackName: "track3", tracksTitle: "TRACK 3" }, { trackName: "track4", tracksTitle: "TRACK 4" }]
+      tracksArray: [{ trackName: "track1", tracksTitle: "TRACK 1" }, { trackName: "track2", tracksTitle: "TRACK 2" }, { trackName: "track3", tracksTitle: "TRACK 3" }]
     };
   },
   componentDidMount: function componentDidMount() {

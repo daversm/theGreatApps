@@ -4,7 +4,7 @@ var Track = React.createClass({
   },
   setMicToRecorder: function(){
     this.rec = new Recorder(mediaStreamSource, {
-     workerPath: '../public/Recorderjs/recorderWorker.js', bufferLen: 8192
+     workerPath: '../public/libs/Recorderjs/recorderWorker.js', bufferLen: 8192
     });
     this.trackReady = true;
     this.setState({trackStatusMsg: 'READY'});
