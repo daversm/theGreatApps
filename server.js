@@ -17,7 +17,7 @@ var session      = require('express-session');
 
 
 //app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/public", express.static('./public'));
+app.use("/public", express.static('app/public'));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser());
@@ -33,8 +33,8 @@ mongoose.connect("mongodb://localhost:27017/test", function(err, db) {
   }
 });
 
-require('./config/passport')(passport);
-require('./app/routes.js')(app, passport);
+require('./app/middlewares/passport')(passport);
+require('./app/controllers/routes.js')(app, passport);
 
 
 

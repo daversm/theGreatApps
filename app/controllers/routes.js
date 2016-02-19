@@ -1,22 +1,23 @@
 // app/routes.js
 module.exports = function(app, passport) {
 
-  var PasswordReset = require('../app/passwordReset.js');
+  var PasswordReset = require('../helpers/passwordReset.js');
+  var path = require('path');
 
 	app.get('/', function(req, res) {
-		res.sendfile('view/index.html');
+		res.sendfile('app/views/index.html');
 	});
 
 	app.get('/signup', function(req, res) {
-		res.sendfile('view/signup.html');
+		res.sendfile('app/views/signup.html');
 	});
 
   app.get('/demo', function(req, res) {
-		res.sendfile('view/demo.html');
+		res.sendfile('app/views/demo.html');
 	});
 
 	app.get('/passwordReset', function(req, res) {
-		res.sendfile('view/passwordReset.html');
+		res.sendfile('app/views/passwordReset.html');
 	});
 
 	app.get('/loginError', function(req,res){
@@ -74,7 +75,7 @@ app.post('/getUserName', function(req, res) {
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {
-		res.sendfile('view/profile.html');
+		res.sendfile('app/views/profile.html');
 });
 
 app.get('/logout', function(req, res) {
