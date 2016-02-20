@@ -1,9 +1,11 @@
-"use strict";
+'use strict';
 
+var React = require('react');
+var ReactDOM = require('react-dom');
 var Track = require('./Track.js');
 
 var MasterController = React.createClass({
-  displayName: "MasterController",
+  displayName: 'MasterController',
 
   getInitialState: function getInitialState() {
     return { micSwitchState: false,
@@ -60,26 +62,26 @@ var MasterController = React.createClass({
     });
 
     return React.createElement(
-      "div",
+      'div',
       null,
       React.createElement(
-        "div",
-        { className: "masterControllPanel" },
+        'div',
+        { className: 'masterControllPanel' },
         React.createElement(
-          "div",
-          { className: "masterControllPanelControls" },
-          React.createElement("div", { id: "playMaster", onClick: this.handleMasterPlay }),
-          React.createElement("div", { id: "pauseMaster", onClick: this.handleMasterPause }),
-          React.createElement("div", { id: "stopMaster", onClick: this.handleMasterStop }),
-          React.createElement("div", { id: "rec", onClick: this.handleMasterRecord }),
-          React.createElement("div", { id: "recStopMaster", onClick: this.handleMasterStopRecord })
+          'div',
+          { className: 'masterControllPanelControls' },
+          React.createElement('div', { id: 'playMaster', onClick: this.handleMasterPlay }),
+          React.createElement('div', { id: 'pauseMaster', onClick: this.handleMasterPause }),
+          React.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop }),
+          React.createElement('div', { id: 'rec', onClick: this.handleMasterRecord }),
+          React.createElement('div', { id: 'recStopMaster', onClick: this.handleMasterStopRecord })
         )
       ),
       React.createElement(
-        "div",
-        { id: "tracksDiv" },
+        'div',
+        { id: 'tracksDiv' },
         React.createElement(
-          "div",
+          'div',
           null,
           trackListItems
         )

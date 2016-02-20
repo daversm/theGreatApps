@@ -1,6 +1,7 @@
-var Track = require('./Track.js');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Track = require('./Track.js');
+
 
 
 var MasterController = React.createClass({
