@@ -1,12 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 
-var Track = React.createClass({
+module.exports = {
+  Track: Track
+};
+
+var Track = exports.Track = React.createClass({
   displayName: 'Track',
 
   getInitialState: function getInitialState() {
@@ -295,17 +302,25 @@ var Track = React.createClass({
   }
 });
 
-module.exports = Track;
+module.exports.Track = Track;
 },{"jquery":30,"react":160,"react-dom":31,"recorderjs":161}],2:[function(require,module,exports){
 'use strict';
 
-var jQuery = require('jquery');
+var _jquery = require('jquery');
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Track = require('./Track.js');
+var _jquery2 = _interopRequireDefault(_jquery);
 
-var MasterController = React.createClass({
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _Track = require('./Track.js');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MasterController = _react2.default.createClass({
   displayName: 'MasterController',
 
   getInitialState: function getInitialState() {
@@ -354,7 +369,7 @@ var MasterController = React.createClass({
 
   render: function render() {
     var trackListItems = this.state.tracksArray.map(function (trackData) {
-      return React.createElement(Track, {
+      return _react2.default.createElement(_Track.Track, {
         ref: trackData.trackName,
         key: trackData.trackName,
         trackName: trackData.trackName,
@@ -362,26 +377,26 @@ var MasterController = React.createClass({
       });
     });
 
-    return React.createElement(
+    return _react2.default.createElement(
       'div',
       null,
-      React.createElement(
+      _react2.default.createElement(
         'div',
         { className: 'masterControllPanel' },
-        React.createElement(
+        _react2.default.createElement(
           'div',
           { className: 'masterControllPanelControls' },
-          React.createElement('div', { id: 'playMaster', onClick: this.handleMasterPlay }),
-          React.createElement('div', { id: 'pauseMaster', onClick: this.handleMasterPause }),
-          React.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop }),
-          React.createElement('div', { id: 'rec', onClick: this.handleMasterRecord }),
-          React.createElement('div', { id: 'recStopMaster', onClick: this.handleMasterStopRecord })
+          _react2.default.createElement('div', { id: 'playMaster', onClick: this.handleMasterPlay }),
+          _react2.default.createElement('div', { id: 'pauseMaster', onClick: this.handleMasterPause }),
+          _react2.default.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop }),
+          _react2.default.createElement('div', { id: 'rec', onClick: this.handleMasterRecord }),
+          _react2.default.createElement('div', { id: 'recStopMaster', onClick: this.handleMasterStopRecord })
         )
       ),
-      React.createElement(
+      _react2.default.createElement(
         'div',
         { id: 'tracksDiv' },
-        React.createElement(
+        _react2.default.createElement(
           'div',
           null,
           trackListItems
@@ -391,7 +406,7 @@ var MasterController = React.createClass({
   }
 });
 
-ReactDOM.render(React.createElement(MasterController, null), document.getElementById('masterContainer'));
+(0, _reactDom.render)(_react2.default.createElement(MasterController, null), document.getElementById('masterContainer'));
 },{"./Track.js":1,"jquery":30,"react":160,"react-dom":31}],3:[function(require,module,exports){
 (function (process){
 /**

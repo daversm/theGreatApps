@@ -1,11 +1,18 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 
-var Track = React.createClass({
+module.exports = {
+  Track: Track
+};
+
+var Track = exports.Track = React.createClass({
   displayName: 'Track',
 
   getInitialState: function getInitialState() {
@@ -294,4 +301,4 @@ var Track = React.createClass({
   }
 });
 
-module.exports = Track;
+module.exports.Track = Track;

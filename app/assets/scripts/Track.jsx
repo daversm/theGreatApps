@@ -3,8 +3,11 @@ var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 
+module.exports = {
+  Track: Track
+};
 
-var Track = React.createClass({
+export var Track = React.createClass({
   getInitialState: function() {
     return {trackStatusMsg: 'MIC OFF'};
   },
@@ -268,4 +271,4 @@ var Track = React.createClass({
   }
 });
 
-module.exports = Track;
+module.exports.Track = Track;

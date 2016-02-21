@@ -1,14 +1,9 @@
+import jQuery from 'jquery';
+import React from 'react';
+import { render } from 'react-dom';
+import { Track } from './Track.js';
 
-var jQuery = require('jquery');
-
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Track = require('./Track.js');
-
-
-
-
-var MasterController = React.createClass({
+const MasterController = React.createClass({
   getInitialState: function() {
     return {micSwitchState: false,
             tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
@@ -58,16 +53,16 @@ var MasterController = React.createClass({
   },
 
   render: function() {
-    var trackListItems = this.state.tracksArray.map(function(trackData) {
-              return (
-                <Track
-                    ref={trackData.trackName}
-                    key={trackData.trackName}
-                    trackName={trackData.trackName}
-                    trackTitle={trackData.tracksTitle}
-                />
-              );
-            });
+    const trackListItems = this.state.tracksArray.map((trackData) => {
+      return (
+        <Track
+            ref={trackData.trackName}
+            key={trackData.trackName}
+            trackName={trackData.trackName}
+            trackTitle={trackData.tracksTitle}
+        />
+      );
+    });
 
     return (
       <div>
@@ -93,7 +88,7 @@ var MasterController = React.createClass({
   }
 });
 
-ReactDOM.render(
+render(
 <MasterController />,
 document.getElementById('masterContainer')
 );
