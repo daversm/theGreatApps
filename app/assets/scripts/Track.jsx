@@ -1,6 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-//var WaveSurfer = require('wavesurfer.js')
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 

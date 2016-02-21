@@ -3,8 +3,8 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-//var WaveSurfer = require('wavesurfer.js')
 var Recorder = require('recorderjs');
+var jQuery = require('jquery');
 
 var Track = React.createClass({
   displayName: 'Track',
@@ -296,7 +296,7 @@ var Track = React.createClass({
 });
 
 module.exports = Track;
-},{"react":160,"react-dom":31,"recorderjs":161}],2:[function(require,module,exports){
+},{"jquery":30,"react":160,"react-dom":31,"recorderjs":161}],2:[function(require,module,exports){
 'use strict';
 
 var jQuery = require('jquery');
