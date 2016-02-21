@@ -1,6 +1,10 @@
+
+var jQuery = require('jquery');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Track = require('./Track.js');
+
 
 
 

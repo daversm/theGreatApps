@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+//var WaveSurfer = require('wavesurfer.js')
 var Recorder = require('recorderjs');
 
 var Track = React.createClass({
@@ -12,7 +13,7 @@ var Track = React.createClass({
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, {
-      workerPath: '../app/public/libs/Recorderjs/recorderWorker.js', bufferLen: 8192
+      workerPath: '../public/libs/Recorderjs/recorderWorker.js', bufferLen: 8192
     });
     this.trackReady = true;
     this.setState({ trackStatusMsg: 'READY' });
