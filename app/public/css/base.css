@@ -8,10 +8,11 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+
 .demoPage{
   color : white;
-
 }
+
 .title{
   font-family: 'Roboto', sans-serif;
   color: #C5C4C4;
@@ -27,8 +28,10 @@ body, html {
 }
 .trackInfoPanel{
   display: flex;
-  height: 23px;
+  height: 25px;
   flex-direction: row;
+  background-color: #5a5a5a;
+  align-items: center;
 }
 
 .trackStatusPanel{
@@ -84,7 +87,7 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
-  border-top: solid 5px #5a5a5a;
+
   border-bottom: solid 5px #5a5a5a;
   height: 170px;
 
@@ -272,16 +275,16 @@ input[type="submit"]:focus{
 
 .buttonsInsideTrack{
   font-family: 'Roboto', sans-serif;
-  border: solid 2px #5a5a5a;
-  border-bottom: none;
+
   margin-left: 3px;
+  height: 10px;
   border-radius: 3px;
-  font-size: 11px;
-  padding: 6px;
+  background-color: #6F6F6F;
+  font-size: 9px;
+  padding: 4px;
   width: 66px;
-  height: 12px;
   font-weight: 500;
-  color: #5a5a5a;
+  color: white;
   text-align: center;
   vertical-align: middle;
   line-height: 11px;
@@ -303,8 +306,8 @@ input[type="submit"]:focus{
   padding: 6px;
   width: 79px;
   height: 12px;
-  font-weight: 800;
-  color: #5a5a5a;
+  font-weight: 700;
+  color: white;
   text-align: center;
   vertical-align: middle;
   line-height: 12px;

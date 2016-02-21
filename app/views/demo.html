@@ -6,11 +6,7 @@
 
     <link rel="stylesheet" href="../public/css/icono.min.css"  />
     <link rel="stylesheet" href="../public/css/base.css"  />
-    <script src="../public/libs/wavesurfer.min.js"></script>
-    <script src="../public/libs/wavesurfer.timeline.js"></script>
-    <script src="../public/libs/wavesurfer.microphone.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+
     <style>
       body{
         background-image: url("../public/css/c41.jpg");
@@ -25,22 +21,27 @@
     <div class="logo" id="demoPage"><h5>TGA</h6></div>
     <div id="masterContainer"></div>
 
-      <script>
-        var navigator = window.navigator;
-        navigator.getUserMedia = ( navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia ||
-                         navigator.mozGetUserMedia ||
-                         navigator.msGetUserMedia);
-        var mediaStream;
-        var Context = window.AudioContext || window.webkitAudioContext;
-        var contextForRec = new Context();
-        var audioContext = new Context;
-        var masterMicStatus = false;
-        var mediaStreamSource;
-        
-      </script>
-
-      <script src="../public/javaScripts/demoPageBundle.js"></script>
-
   </body>
+
+  <script src="../public/libs/wavesurfer.min.js"></script>
+  <script src="../public/libs/wavesurfer.timeline.js"></script>
+  <script src="../public/libs/wavesurfer.microphone.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  <script>
+    var navigator = window.navigator;
+    navigator.getUserMedia = ( navigator.getUserMedia ||
+                     navigator.webkitGetUserMedia ||
+                     navigator.mozGetUserMedia ||
+                     navigator.msGetUserMedia);
+    var mediaStream;
+    var Context = window.AudioContext || window.webkitAudioContext;
+    var contextForRec = new Context();
+    var audioContext = new Context;
+    var masterMicStatus = false;
+    var mediaStreamSource;
+
+  </script>
+
+  <script src="../public/javaScripts/demoPageBundle.js"></script>
 </html>
