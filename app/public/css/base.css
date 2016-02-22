@@ -28,7 +28,7 @@ body, html {
 }
 .trackInfoPanel{
   display: flex;
-  height: 25px;
+  height: 24px;
   flex-direction: row;
   background-color: #5a5a5a;
   align-items: center;
@@ -302,11 +302,11 @@ input[type="submit"]:focus{
   font-family: 'Roboto', sans-serif;
   margin-left: 1px;
   border-radius: 2px;
-  font-size: 19px;
+  font-size: 17px;
   padding: 6px;
   width: 79px;
   height: 12px;
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   text-align: center;
   vertical-align: middle;

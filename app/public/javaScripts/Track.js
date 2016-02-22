@@ -54,8 +54,30 @@ var Track = exports.Track = React.createClass({
     this.microphone.init({
       wavesurfer: this.wavesurfer
     });
+
+
+
   },
-  handleDeleteAudio: function handleDeleteAudio() {},
+  handleDeleteAudio: function handleDeleteAudio() {
+    this.compressor = this.wavesurferPostRecording.backend.ac.createDynamicsCompressor();
+
+
+
+
+
+
+
+    this.compressor.threshold.value = -50;
+    this.compressor.knee.value = 40;
+    this.compressor.ratio.value = 12;
+    this.compressor.reduction.value = -20;
+    this.compressor.attack.value = 0;
+    this.compressor.release.value = 0.25;
+
+
+    this.wavesurferPostRecording.backend.setFilter(this.compressor);
+    this.wavesurferPostRecording.backend.setFilter(reverb);
+  },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
       e.target.style.color = "#0099FF";
@@ -75,6 +97,10 @@ var Track = exports.Track = React.createClass({
       this.microphone.destroy();
       this.wavesurfer.empty();
       this.wavesurfer.destroy();
+      if (typeof this.wavesurferPostRecording != "undefined") {
+          this.wavesurferPostRecording.empty();
+          this.wavesurferPostRecording.destroy();
+      }
       this.wavesurfer = Object.create(WaveSurfer);
       this.wavesurfer.init({
         container: "#" + outerThis.props.trackName,
@@ -162,6 +188,7 @@ var Track = exports.Track = React.createClass({
       var outerThis2 = this;
 
       this.wavesurferPostRecording.init({
+        audioContext: audioContext,
         container: "#" + outerThis2.props.trackName,
         waveColor: '#0099FF',
         progressColor: '#5A5A5A',
@@ -253,7 +280,7 @@ var Track = exports.Track = React.createClass({
           ),
           React.createElement(
             'div',
-            { className: 'buttonsInsideTrack' },
+            { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio},
             ' Delete Audio '
           )
         ),

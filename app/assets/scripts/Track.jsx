@@ -71,6 +71,10 @@ export var Track = React.createClass({
         this.microphone.destroy();
         this.wavesurfer.empty();
         this.wavesurfer.destroy();
+        if (typeof this.wavesurferPostRecording != "undefined") {
+            this.wavesurferPostRecording.empty();
+            this.wavesurferPostRecording.destroy();
+        }
         this.wavesurfer = Object.create(WaveSurfer);
         this.wavesurfer.init({
           container     : "#" + outerThis.props.trackName,
