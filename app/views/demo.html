@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="../public/css/icono.min.css"  />
     <link rel="stylesheet" href="../public/css/base.css"  />
+    <link rel="stylesheet" href="../public/css/index.css"  />
 
     <style>
       body{
@@ -26,6 +27,8 @@
   <script src="../public/libs/wavesurfer.min.js"></script>
   <script src="../public/libs/wavesurfer.timeline.js"></script>
   <script src="../public/libs/wavesurfer.microphone.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900,100italic,300italic,400italic,500italic' rel='stylesheet' type='text/css'>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
   <script>
@@ -41,6 +44,8 @@
     var masterMicStatus = false;
     var mediaStreamSource;
     var outerThis3 = this;
+
+
 
     function FeedbackDelayNode(context, delay, feedback){
     this.delayTime.value = delay;
@@ -60,7 +65,7 @@
         return FeedbackDelayFactory(this, delay, feedback);
     };
 
-    var reverb = audioContext.createFeedbackDelay(.3,.2);
+    var reverb = audioContext.createFeedbackDelay(.3,0);
 
   </script>
 

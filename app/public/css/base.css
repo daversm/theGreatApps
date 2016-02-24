@@ -8,6 +8,58 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+.slider{
+  width: 110px;
+}
+.effectsInfo{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  color: #5a5a5a;
+}
+
+.trackAudioEffectsPanel{
+  display: flex;
+  align-items: flex-start;
+  height: 150px;
+  border-bottom: 5px solid #5a5a5a;
+  flex-direction: row;
+}
+.delayAndReverbContainer{
+  display: flex;
+  width: 190px;
+  height: 150px;
+  flex-direction: column;
+  padding-left: 5px;
+  border-right: 2px solid #D6D6D6;
+}
+.delayDiv{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+  border-bottom: 2px solid #D6D6D6;
+
+}
+.reverbDiv{
+
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+}
+
+.sliderHorizontal{
+  display:flex;
+  flex-direction: row;
+  width: 180px;
+  height: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 
 .demoPage{
   color : white;
@@ -24,7 +76,7 @@ body, html {
   display:flex;
   flex-direction: column;
   width: 100%;
-
+  margin-bottom: 2px;
 }
 .trackInfoPanel{
   display: flex;
@@ -39,20 +91,21 @@ body, html {
   background: rgba(255, 255, 255, 0.4);
   height: 23px;
   flex-direction: row;
+  border-bottom: 2px solid #6B6A6A;
 }
 
 .trackStatusMsg{
   cursor: default;
   text-align: center;
   vertical-align: middle;
-  font-size: 13px;
-  line-height: 19px;
+  font-size: 12px;
+  line-height: 22px;
   font-weight: 500;
-  border-bottom: solid 2px #5a5a5a;
-  border-right: solid 2px #5a5a5a;
+  border-bottom: solid 2px #6B6A6A;
+  border-right: solid 2px #6B6A6A;
   color: white;
   width: 148px;
-  background: #5a5a5a;
+  background: #6B6A6A;
 }
 
 
@@ -88,7 +141,7 @@ body, html {
   display: flex;
   flex-direction: row;
 
-  border-bottom: solid 5px #5a5a5a;
+  border-bottom: solid 2px #6B6A6A;
   height: 170px;
 
 
@@ -282,7 +335,7 @@ input[type="submit"]:focus{
   background-color: #6F6F6F;
   font-size: 9px;
   padding: 4px;
-  width: 66px;
+  min-width: 66px;
   font-weight: 500;
   color: white;
   text-align: center;
@@ -304,7 +357,7 @@ input[type="submit"]:focus{
   border-radius: 2px;
   font-size: 17px;
   padding: 6px;
-  width: 79px;
+
   height: 12px;
   font-weight: 600;
   color: white;

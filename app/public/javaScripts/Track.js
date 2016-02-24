@@ -7,16 +7,13 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
-
-module.exports = {
-  Track: Track
-};
+var Effects = require('./Effects');
 
 var Track = exports.Track = React.createClass({
   displayName: 'Track',
 
   getInitialState: function getInitialState() {
-    return { trackStatusMsg: 'MIC OFF' };
+    return { value: 50 };
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, {
@@ -34,6 +31,7 @@ var Track = exports.Track = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
+
     var outerThis = this;
     this.trackReady = false;
     this.enablePlayBackButtons = false;
@@ -54,28 +52,9 @@ var Track = exports.Track = React.createClass({
     this.microphone.init({
       wavesurfer: this.wavesurfer
     });
-
-
-
   },
   handleDeleteAudio: function handleDeleteAudio() {
-    this.compressor = this.wavesurferPostRecording.backend.ac.createDynamicsCompressor();
 
-
-
-
-
-
-
-    this.compressor.threshold.value = -50;
-    this.compressor.knee.value = 40;
-    this.compressor.ratio.value = 12;
-    this.compressor.reduction.value = -20;
-    this.compressor.attack.value = 0;
-    this.compressor.release.value = 0.25;
-
-
-    this.wavesurferPostRecording.backend.setFilter(this.compressor);
     this.wavesurferPostRecording.backend.setFilter(reverb);
   },
   mouseOver: function mouseOver(e) {
@@ -98,8 +77,8 @@ var Track = exports.Track = React.createClass({
       this.wavesurfer.empty();
       this.wavesurfer.destroy();
       if (typeof this.wavesurferPostRecording != "undefined") {
-          this.wavesurferPostRecording.empty();
-          this.wavesurferPostRecording.destroy();
+        this.wavesurferPostRecording.empty();
+        this.wavesurferPostRecording.destroy();
       }
       this.wavesurfer = Object.create(WaveSurfer);
       this.wavesurfer.init({
@@ -280,7 +259,7 @@ var Track = exports.Track = React.createClass({
           ),
           React.createElement(
             'div',
-            { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio},
+            { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio },
             ' Delete Audio '
           )
         ),
@@ -321,9 +300,9 @@ var Track = exports.Track = React.createClass({
             this.state.trackStatusMsg,
             ' '
           )
-        )
-      ),
-      React.createElement('br', null)
+        ),
+        React.createElement(Effects, null)
+      )
     );
   }
 });

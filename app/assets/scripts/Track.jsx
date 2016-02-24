@@ -2,14 +2,12 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
+var Effects = require('./Effects');
 
-module.exports = {
-  Track: Track
-};
 
 export var Track = React.createClass({
   getInitialState: function() {
-    return {trackStatusMsg: 'MIC OFF'};
+    return {value:50};
   },
   setMicToRecorder: function(){
     this.rec = new Recorder(mediaStreamSource, {
@@ -27,6 +25,8 @@ export var Track = React.createClass({
   },
 
   componentDidMount: function(){
+
+
     var outerThis = this;
     this.trackReady = false;
     this.enablePlayBackButtons = false;
@@ -51,6 +51,7 @@ export var Track = React.createClass({
   },
   handleDeleteAudio: function(){
 
+      this.wavesurferPostRecording.backend.setFilter(reverb);
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -169,6 +170,7 @@ export var Track = React.createClass({
           var outerThis2 = this;
 
           this.wavesurferPostRecording.init({
+              audioContext : audioContext,
               container: "#" + outerThis2.props.trackName,
               waveColor: '#0099FF',
               progressColor: '#5A5A5A',
@@ -233,6 +235,7 @@ export var Track = React.createClass({
 
   },
 
+
   render: function(){
     return (
       <div>
@@ -243,7 +246,7 @@ export var Track = React.createClass({
           <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
           <div className="buttonsInsideTrack"> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
-          <div className="buttonsInsideTrack"> Delete Audio </div>
+          <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
        </div>
         <div className="containerTrackDiv">
 
@@ -258,6 +261,7 @@ export var Track = React.createClass({
               <div id="recTrack" onClick={this.handleRecord}></div>
               <div id="recStop" onClick={this.handleRecStop}></div>
               <div className="icono-headphone" onClick={this.handleDownloadTrack}></div>
+
             </div>
 
           </div>
@@ -265,11 +269,12 @@ export var Track = React.createClass({
           <div id={this.props.trackName} className="waveformContainerDiv"> </div>
 
         </div>
-        <div className="trackStatusPanel">
-          <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
+          <div className="trackStatusPanel">
+            <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
+          </div>
+          <Effects />
         </div>
-        </div>
-        <br />
+
         </div>
     );
   }
