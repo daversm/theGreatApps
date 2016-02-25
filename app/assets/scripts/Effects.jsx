@@ -37,7 +37,7 @@ var Effects = React.createClass({
       <div className="trackAudioEffectsPanel">
         <div className="delayAndReverbContainer">
           <div className="delayDiv">
-              <div className="buttonsInsideTrack"> DELAY  Status:ON </div>
+              <div className="buttonsInsideTrack"> DELAY </div>
               <div className="sliderHorizontal">
                 <div className="effectsInfo">feedback: {this.state.valueDelayFeedBack}x</div>
                 <div className="slider">
@@ -52,7 +52,7 @@ var Effects = React.createClass({
               </div>
           </div>
           <div className="reverbDiv">
-              <div className="buttonsInsideTrack"> REVERB  Status:ON </div>
+              <div className="buttonsInsideTrack"> REVERB </div>
               <div className="sliderHorizontal">
                 <div className="effectsInfo">reverb: {this.state.valueReveb}%</div>
                 <div className="slider">

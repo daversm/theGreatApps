@@ -49,7 +49,7 @@ var Effects = React.createClass({
           React.createElement(
             'div',
             { className: 'buttonsInsideTrack' },
-            ' DELAY  Status:ON '
+            ' DELAY '
           ),
           React.createElement(
             'div',
@@ -90,7 +90,7 @@ var Effects = React.createClass({
           React.createElement(
             'div',
             { className: 'buttonsInsideTrack' },
-            ' REVERB  Status:ON '
+            ' REVERB '
           ),
           React.createElement(
             'div',

@@ -2,7 +2,8 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var RcsliderVertical = require('vertical-rc-slider');
+var Rcslider = require('rc-slider');
+var vSlider = require('vertical-rc-slider');
 
 var EQ = React.createClass({
   displayName: 'EQ',
@@ -15,6 +16,18 @@ var EQ = React.createClass({
   handleBandOne: function handleBandOne(value) {
     this.setState({ valueBandOne: value });
   },
+  handleBandTwo: function handleBandTwo(value) {
+    this.setState({ valueBandTwo: value });
+  },
+  handleBandThree: function handleBandThree(value) {
+    this.setState({ valueBandThree: value });
+  },
+  handleBandFour: function handleBandFour(value) {
+    this.setState({ valueBandFour: value });
+  },
+  handleBandFive: function handleBandFive(value) {
+    this.setState({ valueBandFive: value });
+  },
   render: function render() {
     return React.createElement(
       'div',
@@ -25,7 +38,7 @@ var EQ = React.createClass({
         React.createElement(
           'div',
           { className: 'buttonsInsideTrack' },
-          ' EQ 7-BAND '
+          ' EQ 5-BAND '
         )
       ),
       React.createElement(
@@ -33,142 +46,102 @@ var EQ = React.createClass({
         { className: 'eqHolder' },
         React.createElement(
           'div',
-          { className: 'sliderVertical' },
+          { className: 'sliderHorizontalEQ' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'khz'
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderEQ' },
+            React.createElement(Rcslider, { value: this.state.valueBandOne, onChange: this.handleBandOne })
+          ),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             this.state.valueBandOne,
             'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { tipFormatter: null, value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            'khz'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandOne,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
+          { className: 'sliderHorizontalEQ' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderEQ' },
+            React.createElement(Rcslider, { value: this.state.valueBandTwo, onChange: this.handleBandTwo })
+          ),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandTwo,
+            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandOne,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
+          { className: 'sliderHorizontalEQ' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderEQ' },
+            React.createElement(Rcslider, { value: this.state.valueBandThree, onChange: this.handleBandThree })
+          ),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandThree,
+            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandOne,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
+          { className: 'sliderHorizontalEQ' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderEQ' },
+            React.createElement(Rcslider, { value: this.state.valueBandFour, onChange: this.handleBandFour })
+          ),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandFour,
+            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandOne,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
+          { className: 'sliderHorizontalEQ' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'sliderVertical' },
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderEQ' },
+            React.createElement(Rcslider, { value: this.state.valueBandFive, onChange: this.handleBandFive })
+          ),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            this.state.valueBandOne,
+            this.state.valueBandFive,
             'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            'khz'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandOne,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVerticalSize' },
-            React.createElement(RcsliderVertical, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            'khz'
           )
         )
       )
