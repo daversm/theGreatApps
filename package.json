@@ -24,7 +24,8 @@
     "react-rangeslider": "^1.0.0",
     "recorderjs": "^1.0.1",
     "wavesurfer.js": "^1.0.52",
-    "workerify": "^0.3.0"
+    "workerify": "^0.3.0",
+    "vertical-rc-slider": "git@github.com:kyoyadmoon/slider.git#3.3.4-vertical"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1"

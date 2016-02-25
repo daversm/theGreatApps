@@ -3,12 +3,13 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
+var RcsliderVertical = require('vertical-rc-slider');
 
 var Effects = React.createClass({
   displayName: 'Effects',
 
   getInitialState: function getInitialState() {
-    return { valueDelayFeedBack: 50, valueDelayTime: 10, valueReveb: 80 };
+    return { valueDelayFeedBack: 50, valueDelayTime: 10, valueReveb: 80, valueEQ: 50 };
   },
   handleDelayFeedBack: function handleDelayFeedBack(value) {
     reverb.gainNode.gain.value = value / 100;
@@ -26,6 +27,12 @@ var Effects = React.createClass({
     //reverb.gainNode.gain.value = value/100;
     this.setState({
       valueReveb: value
+    });
+  },
+  handleEQ: function handleEQ(e) {
+    console.log(e.target.frq);
+    this.setState({
+      valueEQ: e.target.value
     });
   },
   render: function render() {
@@ -57,7 +64,7 @@ var Effects = React.createClass({
             React.createElement(
               'div',
               { className: 'slider' },
-              React.createElement(Rcslider, { className: 'slider', value: this.state.valueDelayFeedBack, onChange: this.handleDelayFeedBack })
+              React.createElement(Rcslider, { value: this.state.valueDelayFeedBack, onChange: this.handleDelayFeedBack })
             )
           ),
           React.createElement(
@@ -73,7 +80,7 @@ var Effects = React.createClass({
             React.createElement(
               'div',
               { className: 'slider' },
-              React.createElement(Rcslider, { className: 'slider', value: this.state.valueDelayTime, onChange: this.handleDelayTime })
+              React.createElement(Rcslider, { value: this.state.valueDelayTime, onChange: this.handleDelayTime })
             )
           )
         ),
@@ -98,8 +105,32 @@ var Effects = React.createClass({
             React.createElement(
               'div',
               { className: 'slider' },
-              React.createElement(Rcslider, { className: 'slider', value: this.state.valueReveb, onChange: this.handleReverb })
+              React.createElement(Rcslider, { value: this.state.valueReveb, onChange: this.handleReverb })
             )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'EQdiv' },
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueReveb,
+            'db'
+          ),
+          React.createElement(
+            'div',
+            { className: 'sliderVertical' },
+            React.createElement(RcsliderVertical, { frq: '40', value: this.state.valueEQ, onChange: this.handleEQ })
+          ),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'khz'
           )
         )
       )

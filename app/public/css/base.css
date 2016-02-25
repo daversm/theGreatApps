@@ -11,6 +11,9 @@ body, html {
 .slider{
   width: 110px;
 }
+.sliderVertical{
+  height: 110px;
+}
 .effectsInfo{
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -58,6 +61,21 @@ body, html {
   height: 20px;
   align-items: center;
   justify-content: space-between;
+}
+
+.sliderVertical{
+  display:flex;
+  flex-direction: column;
+  width: 40px;
+  height: 130px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.EQdiv{
+  display: flex;
+  flex-grow: 1;
+  height: 150px;
 }
 
 

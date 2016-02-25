@@ -1,10 +1,11 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
+var RcsliderVertical = require('vertical-rc-slider');
 
 var Effects = React.createClass({
   getInitialState: function() {
-    return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80  };
+    return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80, valueEQ:50  };
   },
   handleDelayFeedBack: function(value){
     reverb.gainNode.gain.value = value/100;
@@ -24,6 +25,12 @@ var Effects = React.createClass({
       valueReveb: value,
     });
   },
+  handleEQ: function(e){
+    console.log(e.target.frq);
+    this.setState({
+      valueEQ: e.target.value
+    });
+  },
   render: function (){
 
     return(
@@ -34,27 +41,37 @@ var Effects = React.createClass({
               <div className="sliderHorizontal">
                 <div className="effectsInfo">feedback: {this.state.valueDelayFeedBack}x</div>
                 <div className="slider">
-                  <Rcslider className="slider" value={this.state.valueDelayFeedBack} onChange={this.handleDelayFeedBack}/>
+                  <Rcslider  value={this.state.valueDelayFeedBack} onChange={this.handleDelayFeedBack}/>
                 </div>
               </div>
               <div className="sliderHorizontal">
                 <div className="effectsInfo">delay: {this.state.valueDelayTime}ms</div>
-                  <div className="slider">
-                    <Rcslider className="slider" value={this.state.valueDelayTime} onChange={this.handleDelayTime}/>
-                  </div>
+                <div className="slider">
+                  <Rcslider  value={this.state.valueDelayTime} onChange={this.handleDelayTime}/>
+                </div>
               </div>
           </div>
           <div className="reverbDiv">
               <div className="buttonsInsideTrack"> REVERB  Status:ON </div>
               <div className="sliderHorizontal">
                 <div className="effectsInfo">reverb: {this.state.valueReveb}%</div>
-                  <div className="slider">
-                    <Rcslider className="slider" value={this.state.valueReveb} onChange={this.handleReverb}/>
-                  </div>
+                <div className="slider">
+                  <Rcslider  value={this.state.valueReveb} onChange={this.handleReverb}/>
+                </div>
               </div>
           </div>
         </div>
+        <div className="EQdiv">
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.valueReveb}db</div>
+            <div className="sliderVertical">
+              <RcsliderVertical frq="40" value={this.state.valueEQ} onChange={this.handleEQ}/>
+            </div>
+            <div className="effectsInfo">khz</div>
+          </div>
+        </div>
       </div>
+
 
     )
   }
