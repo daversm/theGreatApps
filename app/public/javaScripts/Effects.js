@@ -3,7 +3,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
-var RcsliderVertical = require('vertical-rc-slider');
+var EQ = require('./EQ');
 
 var Effects = React.createClass({
   displayName: 'Effects',
@@ -110,30 +110,7 @@ var Effects = React.createClass({
           )
         )
       ),
-      React.createElement(
-        'div',
-        { className: 'EQdiv' },
-        React.createElement(
-          'div',
-          { className: 'sliderVertical' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueReveb,
-            'db'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderVertical' },
-            React.createElement(RcsliderVertical, { frq: '40', value: this.state.valueEQ, onChange: this.handleEQ })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            'khz'
-          )
-        )
-      )
+      React.createElement(EQ, null)
     );
   }
 

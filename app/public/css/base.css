@@ -11,9 +11,20 @@ body, html {
 .slider{
   width: 110px;
 }
-.sliderVertical{
-  height: 110px;
+
+.EQtitle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 400px;
+  display: flex;
 }
+
+.sliderVerticalSize{
+  height: 80px;
+}
+
 .effectsInfo{
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -46,7 +57,6 @@ body, html {
 
 }
 .reverbDiv{
-
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -66,16 +76,27 @@ body, html {
 .sliderVertical{
   display:flex;
   flex-direction: column;
-  width: 40px;
-  height: 130px;
+  width: 25px;
+  height: 125px;
   align-items: center;
   justify-content: space-between;
 }
 
 .EQdiv{
   display: flex;
-  flex-grow: 1;
+  width: 400px;
   height: 150px;
+  flex-direction: column;
+}
+
+.eqHolder{
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+  justify-content:space-between;
+  align-content: center;
+  height: 125px;
+  padding-bottom: 5px;
 }
 
 
@@ -346,7 +367,6 @@ input[type="submit"]:focus{
 
 .buttonsInsideTrack{
   font-family: 'Roboto', sans-serif;
-
   margin-left: 3px;
   height: 10px;
   border-radius: 3px;
@@ -354,6 +374,7 @@ input[type="submit"]:focus{
   font-size: 9px;
   padding: 4px;
   min-width: 66px;
+  max-width: 120px;
   font-weight: 500;
   color: white;
   text-align: center;

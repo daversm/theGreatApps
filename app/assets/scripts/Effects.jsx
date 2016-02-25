@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
-var RcsliderVertical = require('vertical-rc-slider');
+var EQ = require('./EQ');
 
 var Effects = React.createClass({
   getInitialState: function() {
@@ -61,15 +61,7 @@ var Effects = React.createClass({
               </div>
           </div>
         </div>
-        <div className="EQdiv">
-          <div className="sliderVertical">
-            <div className="effectsInfo">{this.state.valueReveb}db</div>
-            <div className="sliderVertical">
-              <RcsliderVertical frq="40" value={this.state.valueEQ} onChange={this.handleEQ}/>
-            </div>
-            <div className="effectsInfo">khz</div>
-          </div>
-        </div>
+        <EQ />
       </div>
 
 
