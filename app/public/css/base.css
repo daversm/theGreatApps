@@ -191,8 +191,7 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
-
-  border-bottom: solid 2px #D6D6D6;
+  border-bottom: solid 2px #A5A2A2;
   height: 170px;
 
 
