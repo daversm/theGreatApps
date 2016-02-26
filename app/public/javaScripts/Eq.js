@@ -72,7 +72,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '32hz'
           )
         ),
         React.createElement(
@@ -88,7 +88,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '64hz'
           )
         ),
         React.createElement(
@@ -104,7 +104,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '125hz'
           )
         ),
         React.createElement(
@@ -120,7 +120,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '250hz'
           )
         ),
         React.createElement(
@@ -136,7 +136,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '500hz'
           )
         ),
         React.createElement(
@@ -152,7 +152,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '1khz'
           )
         ),
         React.createElement(
@@ -168,7 +168,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '2khz'
           )
         ),
         React.createElement(
@@ -184,7 +184,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '4khz'
           )
         ),
         React.createElement(
@@ -200,7 +200,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '8khz'
           )
         ),
         React.createElement(
@@ -216,7 +216,7 @@ var EQ = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'khz'
+            '16khz'
           )
         )
       )
