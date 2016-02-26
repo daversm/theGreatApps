@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
 var EQ = require('./EQ');
 
+
 var Effects = React.createClass({
   getInitialState: function() {
     return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80, valueEQ:50  };
@@ -62,6 +63,7 @@ var Effects = React.createClass({
           </div>
         </div>
         <EQ />
+        <input type="range" min='5' max='10' value='6' step='.1'/>
       </div>
 
 
