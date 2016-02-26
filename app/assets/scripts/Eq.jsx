@@ -28,6 +28,12 @@ var EQ = React.createClass({
   handleSlider: function(e){
     this.setState({valueSlider:e.target.value});
   },
+  handleSlider: function(e){
+    this.setState({valueSlider:e.target.value});
+  },
+  handleSlider: function(e){
+    this.setState({valueSlider:e.target.value});
+  },
   render: function(){
     return(
       <div className="EQdiv">
@@ -50,6 +56,21 @@ var EQ = React.createClass({
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandOne}db</div>
             <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueSlider} onChange={this.handleBandThree} />
+            <div className="effectsInfo">khz</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.valueBandOne}db</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueSlider} onChange={this.handleSlider} />
+            <div className="effectsInfo">khz</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.valueBandOne}db</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueSlider} onChange={this.handleSlider} />
+            <div className="effectsInfo">khz</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.valueBandOne}db</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueSlider} onChange={this.handleSlider} />
             <div className="effectsInfo">khz</div>
           </div>
           <div className="sliderVertical">
