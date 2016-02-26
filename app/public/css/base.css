@@ -17,7 +17,7 @@ body, html {
   align-items: center;
   justify-content: center;
   height: 20px;
-  width: 310px;
+  width: 437px;
   display: flex;
   padding-top: 5px;
 }
@@ -75,7 +75,7 @@ body, html {
 .EQdiv{
 
   display: flex;
-  width: 300px;
+  width: 430px;
   height: 150px;
   flex-direction: column;
 }
@@ -89,7 +89,7 @@ body, html {
   flex-direction: row;
   margin-left: 5px;
   align-items: center;
-  width: 300px;
+  width: 430px;
   height: 180px;
 
 }
