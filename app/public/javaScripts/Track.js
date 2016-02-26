@@ -188,6 +188,8 @@ var Track = exports.Track = React.createClass({
         });
       });
 
+      this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
+
       var outerThis2 = this;
       this.rec.getBuffer(function (buffers) {
         var newSource = audioContext.createBufferSource();
@@ -301,7 +303,7 @@ var Track = exports.Track = React.createClass({
             ' '
           )
         ),
-        React.createElement(Effects, null)
+        React.createElement(Effects, { ref: 'Effects' })
       )
     );
   }

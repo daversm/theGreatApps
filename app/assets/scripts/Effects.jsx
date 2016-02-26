@@ -8,6 +8,9 @@ var Effects = React.createClass({
   getInitialState: function() {
     return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80, valueEQ:50  };
   },
+  setPropsToEffects: function(params){
+    this.refs['EQ'].setWaveform(params);
+  },
   handleDelayFeedBack: function(value){
     reverb.gainNode.gain.value = value/100;
     this.setState({
@@ -62,7 +65,7 @@ var Effects = React.createClass({
               </div>
           </div>
         </div>
-        <EQ />
+        <EQ ref="EQ"/>
       </div>
 
 

@@ -9,20 +9,71 @@ var EQ = React.createClass({
   displayName: 'EQ',
 
   getInitialState: function getInitialState() {
-    return { valueBandOne: 0, valueBandTwo: 50, valueBandThree: 50, valueBandFour: 50,
-      valueBandFive: 50, valueBandSix: 50, valueBandSeven: 50, valueBandEight: 50, valueSlider: 50
+    return { valueBandOne: 0, valueBandTwo: 0, valueBandThree: 0, valueBandFour: 0,
+      valueBandFive: 0, valueBandSix: 0, valueBandSeven: 0, valueBandEight: 0, valueSlider: 0
     };
   },
+  componentDidMount: function componentDidMount() {
+    this.EQ = [{
+      f: 32,
+      type: 'lowshelf'
+    }, {
+      f: 64,
+      type: 'peaking'
+    }, {
+      f: 125,
+      type: 'peaking'
+    }, {
+      f: 250,
+      type: 'peaking'
+    }, {
+      f: 500,
+      type: 'peaking'
+    }, {
+      f: 1000,
+      type: 'peaking'
+    }, {
+      f: 2000,
+      type: 'peaking'
+    }, {
+      f: 4000,
+      type: 'peaking'
+    }, {
+      f: 8000,
+      type: 'peaking'
+    }, {
+      f: 16000,
+      type: 'highshelf'
+    }];
+  },
+  setWaveform: function setWaveform(params) {
+    this.wavesurfer = params;
+    var thisOutside = this;
+    this.filters = this.EQ.map(function (band) {
+      var filter = thisOutside.wavesurfer.backend.ac.createBiquadFilter();
+      filter.type = band.type;
+      filter.gain.value = 0;
+      filter.Q.value = 1;
+      filter.frequency.value = band.f;
+      return filter;
+    });
+
+    this.wavesurfer.backend.setFilters(this.filters);
+  },
   handleBand32: function handleBand32(e) {
+    this.filters[0].gain.value = e.target.value;
     this.setState({ valueBandOne: e.target.value });
   },
   handleBand64: function handleBand64(e) {
+    this.filters[1].gain.value = e.target.value;
     this.setState({ valueBandTwo: e.target.value });
   },
   handleBand125: function handleBand125(e) {
+    this.filters[2].gain.value = e.target.value;
     this.setState({ valueBandThree: e.target.value });
   },
   handleBand250: function handleBand250(e) {
+    this.filters[3].gain.value = e.target.value;
     this.setState({ valueBandFour: e.target.value });
   },
   handleBand500: function handleBand500(e) {

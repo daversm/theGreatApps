@@ -191,6 +191,8 @@ export var Track = React.createClass({
             });
           });
 
+          this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
+
             var outerThis2 = this;
               this.rec.getBuffer(function(buffers){
                 var newSource = audioContext.createBufferSource();
@@ -272,7 +274,7 @@ export var Track = React.createClass({
           <div className="trackStatusPanel">
             <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
           </div>
-          <Effects />
+          <Effects ref="Effects"/>
         </div>
 
         </div>
