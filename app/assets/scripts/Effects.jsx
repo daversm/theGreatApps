@@ -63,7 +63,6 @@ var Effects = React.createClass({
           </div>
         </div>
         <EQ />
-        <input type="range" min='5' max='10' value='6' step='.1'/>
       </div>
 
 

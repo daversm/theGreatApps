@@ -110,8 +110,7 @@ var Effects = React.createClass({
           )
         )
       ),
-      React.createElement(EQ, null),
-      React.createElement('input', { type: 'range', min: '5', max: '10', value: '6', step: '.1' })
+      React.createElement(EQ, null)
     );
   }
 

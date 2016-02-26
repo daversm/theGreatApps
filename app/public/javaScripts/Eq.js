@@ -9,12 +9,12 @@ var EQ = React.createClass({
   displayName: 'EQ',
 
   getInitialState: function getInitialState() {
-    return { valueBandOne: 50, valueBandTwo: 50, valueBandThree: 50, valueBandFour: 50,
-      valueBandFive: 50, valueBandSix: 50, valueBandSeven: 50, valueBandEight: 50
+    return { valueBandOne: 0, valueBandTwo: 50, valueBandThree: 50, valueBandFour: 50,
+      valueBandFive: 50, valueBandSix: 50, valueBandSeven: 50, valueBandEight: 50, valueSlider: 50
     };
   },
-  handleBandOne: function handleBandOne(value) {
-    this.setState({ valueBandOne: value });
+  handleBandOne: function handleBandOne(e) {
+    this.setState({ valueBandOne: e.target.value });
   },
   handleBandTwo: function handleBandTwo(value) {
     this.setState({ valueBandTwo: value });
@@ -27,6 +27,9 @@ var EQ = React.createClass({
   },
   handleBandFive: function handleBandFive(value) {
     this.setState({ valueBandFive: value });
+  },
+  handleSlider: function handleSlider(e) {
+    this.setState({ valueSlider: e.target.value });
   },
   render: function render() {
     return React.createElement(
@@ -46,102 +49,114 @@ var EQ = React.createClass({
         { className: 'eqHolder' },
         React.createElement(
           'div',
-          { className: 'sliderHorizontalEQ' },
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            'khz'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderEQ' },
-            React.createElement(Rcslider, { value: this.state.valueBandOne, onChange: this.handleBandOne })
-          ),
+          { className: 'sliderVertical' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             this.state.valueBandOne,
             'db'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'sliderHorizontalEQ' },
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-12', max: '12', value: this.state.valueBandOne, onChange: this.handleBandOne }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderEQ' },
-            React.createElement(Rcslider, { value: this.state.valueBandTwo, onChange: this.handleBandTwo })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandTwo,
-            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderHorizontalEQ' },
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandOne,
+            'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleBandTwo }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderEQ' },
-            React.createElement(Rcslider, { value: this.state.valueBandThree, onChange: this.handleBandThree })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandThree,
-            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderHorizontalEQ' },
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandOne,
+            'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleBandThree }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderEQ' },
-            React.createElement(Rcslider, { value: this.state.valueBandFour, onChange: this.handleBandFour })
-          ),
-          React.createElement(
-            'div',
-            { className: 'effectsInfo' },
-            this.state.valueBandFour,
-            'db'
           )
         ),
         React.createElement(
           'div',
-          { className: 'sliderHorizontalEQ' },
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandOne,
+            'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleSlider }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
             'khz'
-          ),
-          React.createElement(
-            'div',
-            { className: 'sliderEQ' },
-            React.createElement(Rcslider, { value: this.state.valueBandFive, onChange: this.handleBandFive })
-          ),
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            this.state.valueBandFive,
+            this.state.valueBandOne,
             'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleSlider }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'khz'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandOne,
+            'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleSlider }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'khz'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.valueBandOne,
+            'db'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueSlider, onChange: this.handleSlider }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'khz'
           )
         )
       )
