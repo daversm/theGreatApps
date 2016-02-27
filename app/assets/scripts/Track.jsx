@@ -3,6 +3,8 @@ var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 var Effects = require('./Effects');
+var SimpleReverb = require('./simple-reverb.js');
+var Reverb = require('soundbank-reverb');
 
 
 export var Track = React.createClass({
@@ -50,8 +52,16 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
+    this.reverb = Reverb(audioContext);
 
-      this.wavesurferPostRecording.backend.addFilter(reverb);
+
+    this.wavesurferPostRecording.backend.setFilter(this.reverb);
+    this.reverb.time = 1 //seconds
+this.reverb.wet.value = 0.8
+this.reverb.dry.value = 1
+
+this.reverb.filterType = 'lowpass'
+this.reverb.cutoff.value = 4000 //Hz
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -139,6 +149,7 @@ export var Track = React.createClass({
 
   },
   handleLiveFeed: function(){
+
 
   },
   handleDownloadTrack: function(){
