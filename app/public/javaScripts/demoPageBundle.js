@@ -11,10 +11,12 @@ var EQ = React.createClass({
 
   getInitialState: function getInitialState() {
     return { valueBandOne: 0, valueBandTwo: 0, valueBandThree: 0, valueBandFour: 0,
-      valueBandFive: 0, valueBandSix: 0, valueBandSeven: 0, valueBandEight: 0, valueSlider: 0
+      valueBandFive: 0, valueBandSix: 0, valueBandSeven: 0, valueBandEight: 0,
+      valueBandNine: 0, valueBandTen: 0
     };
   },
   componentDidMount: function componentDidMount() {
+    this.power = false;
     this.EQ = [{
       f: 32,
       type: 'lowshelf'
@@ -58,8 +60,6 @@ var EQ = React.createClass({
       filter.frequency.value = band.f;
       return filter;
     });
-
-    this.wavesurfer.backend.setFilters(this.filters);
   },
   handleBand32: function handleBand32(e) {
     this.filters[0].gain.value = e.target.value;
@@ -78,22 +78,40 @@ var EQ = React.createClass({
     this.setState({ valueBandFour: e.target.value });
   },
   handleBand500: function handleBand500(e) {
+    this.filters[4].gain.value = e.target.value;
     this.setState({ valueBandFive: e.target.value });
   },
   handleBand1000: function handleBand1000(e) {
+    this.filters[5].gain.value = e.target.value;
     this.setState({ valueBandSix: e.target.value });
   },
   handleBand2000: function handleBand2000(e) {
+    this.filters[6].gain.value = e.target.value;
     this.setState({ valueBandSeven: e.target.value });
   },
   handleBand4000: function handleBand4000(e) {
+    this.filters[7].gain.value = e.target.value;
     this.setState({ valueBandEight: e.target.value });
   },
   handleBand8000: function handleBand8000(e) {
+    this.filters[8].gain.value = e.target.value;
     this.setState({ valueBandNine: e.target.value });
   },
   handleBand16000: function handleBand16000(e) {
+    this.filters[9].gain.value = e.target.value;
     this.setState({ valueBandTen: e.target.value });
+  },
+  OnOffEq: function OnOffEq() {
+
+    if (this.power) {
+      console.log('now off');
+      this.wavesurfer.backend.disconnectFilters();
+      this.power = false;
+    } else {
+      console.log('now on');
+      this.wavesurfer.backend.setFilters(this.filters);
+      this.power = true;
+    }
   },
   render: function render() {
     return React.createElement(
@@ -104,7 +122,7 @@ var EQ = React.createClass({
         { className: 'EQtitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack' },
+          { className: 'buttonsInsideTrack', onClick: this.OnOffEq },
           ' EQ 5-BAND '
         )
       ),
@@ -120,7 +138,7 @@ var EQ = React.createClass({
             this.state.valueBandOne,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-12', max: '12', value: this.state.valueBandOne, onChange: this.handleBand32 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandOne, onChange: this.handleBand32 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -136,7 +154,7 @@ var EQ = React.createClass({
             this.state.valueBandTwo,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandTwo, onChange: this.handleBand64 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandTwo, onChange: this.handleBand64 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -152,7 +170,7 @@ var EQ = React.createClass({
             this.state.valueBandThree,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandThree, onChange: this.handleBand125 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandThree, onChange: this.handleBand125 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -168,7 +186,7 @@ var EQ = React.createClass({
             this.state.valueBandFour,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandFour, onChange: this.handleBand250 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandFour, onChange: this.handleBand250 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -184,7 +202,7 @@ var EQ = React.createClass({
             this.state.valueBandFive,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandFive, onChange: this.handleBand500 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandFive, onChange: this.handleBand500 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -200,7 +218,7 @@ var EQ = React.createClass({
             this.state.valueBandSix,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandSix, onChange: this.handleBand1000 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandSix, onChange: this.handleBand1000 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -216,7 +234,7 @@ var EQ = React.createClass({
             this.state.valueBandSeven,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandSeven, onChange: this.handleBand2000 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandSeven, onChange: this.handleBand2000 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -232,7 +250,7 @@ var EQ = React.createClass({
             this.state.valueBandEight,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandEight, onChange: this.handleBand4000 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandEight, onChange: this.handleBand4000 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -248,7 +266,7 @@ var EQ = React.createClass({
             this.state.valueBandNine,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandNine, onChange: this.handleBand8000 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandNine, onChange: this.handleBand8000 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -264,7 +282,7 @@ var EQ = React.createClass({
             this.state.valueBandTen,
             'db'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.valueBandTen, onChange: this.handleBand16000 }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '-30', max: '30', value: this.state.valueBandTen, onChange: this.handleBand16000 }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
@@ -458,7 +476,7 @@ var Track = exports.Track = React.createClass({
   },
   handleDeleteAudio: function handleDeleteAudio() {
 
-    this.wavesurferPostRecording.backend.setFilter(reverb);
+    this.wavesurferPostRecording.backend.addFilter(reverb);
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {

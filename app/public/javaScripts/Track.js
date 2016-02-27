@@ -55,7 +55,7 @@ var Track = exports.Track = React.createClass({
   },
   handleDeleteAudio: function handleDeleteAudio() {
 
-    this.wavesurferPostRecording.backend.setFilter(reverb);
+    this.wavesurferPostRecording.backend.addFilter(reverb);
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {

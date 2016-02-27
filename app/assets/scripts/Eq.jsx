@@ -7,10 +7,12 @@ var vSlider = require('vertical-rc-slider');
 var EQ = React.createClass({
   getInitialState:function(){
     return({valueBandOne:0, valueBandTwo:0, valueBandThree:0, valueBandFour:0,
-           valueBandFive:0, valueBandSix:0, valueBandSeven:0, valueBandEight:0, valueSlider: 0
+           valueBandFive:0, valueBandSix:0, valueBandSeven:0, valueBandEight:0,
+           valueBandNine: 0, valueBandTen:0
     });
   },
   componentDidMount: function(){
+    this.power = false;
     this.EQ = [
       {
         f: 32,
@@ -57,8 +59,6 @@ var EQ = React.createClass({
        filter.frequency.value = band.f;
        return filter;
     });
-
-    this.wavesurfer.backend.setFilters(this.filters);
   },
   handleBand32: function(e){
     this.filters[0].gain.value = e.target.value;
@@ -77,80 +77,98 @@ var EQ = React.createClass({
     this.setState({valueBandFour:e.target.value});
   },
   handleBand500: function(e){
+    this.filters[4].gain.value = e.target.value;
     this.setState({valueBandFive:e.target.value});
   },
   handleBand1000: function(e){
+    this.filters[5].gain.value = e.target.value;
     this.setState({valueBandSix:e.target.value});
   },
   handleBand2000: function(e){
+    this.filters[6].gain.value = e.target.value;
     this.setState({valueBandSeven:e.target.value});
   },
   handleBand4000: function(e){
+    this.filters[7].gain.value = e.target.value;
     this.setState({valueBandEight:e.target.value});
   },
   handleBand8000: function(e){
+    this.filters[8].gain.value = e.target.value;
     this.setState({valueBandNine:e.target.value});
   },
   handleBand16000: function(e){
+    this.filters[9].gain.value = e.target.value;
     this.setState({valueBandTen:e.target.value});
+  },
+  OnOffEq: function(){
+
+    if(this.power){
+      console.log('now off');
+      this.wavesurfer.backend.disconnectFilters();
+      this.power = false;
+    }else{
+      console.log('now on');
+      this.wavesurfer.backend.setFilters(this.filters);
+      this.power = true;
+    }
   },
   render: function(){
     return(
       <div className="EQdiv">
 
         <div className="EQtitle">
-          <div className="buttonsInsideTrack"> EQ 5-BAND </div>
+          <div className="buttonsInsideTrack" onClick={this.OnOffEq}> EQ 5-BAND </div>
         </div>
 
         <div className="eqHolder">
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandOne}db</div>
-            <input className="sliderSizeVertical" type="range" min='-12' max='12' value={this.state.valueBandOne} onChange={this.handleBand32} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandOne} onChange={this.handleBand32} />
             <div className="effectsInfo">32hz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandTwo}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandTwo} onChange={this.handleBand64} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandTwo} onChange={this.handleBand64} />
             <div className="effectsInfo">64hz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandThree}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandThree} onChange={this.handleBand125} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandThree} onChange={this.handleBand125} />
             <div className="effectsInfo">125hz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandFour}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandFour} onChange={this.handleBand250} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandFour} onChange={this.handleBand250} />
             <div className="effectsInfo">250hz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandFive}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandFive} onChange={this.handleBand500} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandFive} onChange={this.handleBand500} />
             <div className="effectsInfo">500hz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandSix}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandSix} onChange={this.handleBand1000} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandSix} onChange={this.handleBand1000} />
             <div className="effectsInfo">1khz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandSeven}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandSeven} onChange={this.handleBand2000} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandSeven} onChange={this.handleBand2000} />
             <div className="effectsInfo">2khz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandEight}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandEight} onChange={this.handleBand4000} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandEight} onChange={this.handleBand4000} />
             <div className="effectsInfo">4khz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandNine}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandNine} onChange={this.handleBand8000} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandNine} onChange={this.handleBand8000} />
             <div className="effectsInfo">8khz</div>
           </div>
           <div className="sliderVertical">
             <div className="effectsInfo">{this.state.valueBandTen}db</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.valueBandTen} onChange={this.handleBand16000} />
+            <input className="sliderSizeVertical" type="range" min='-30' max='30' value={this.state.valueBandTen} onChange={this.handleBand16000} />
             <div className="effectsInfo">16khz</div>
           </div>
         </div>
