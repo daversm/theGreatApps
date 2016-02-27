@@ -35,7 +35,7 @@ body, html {
   display: flex;
   align-items: flex-start;
   height: 150px;
-
+  background-color: rgba(255, 255, 255, 0.61);
   flex-direction: row;
 }
 .delayAndReverbContainer{
@@ -44,7 +44,7 @@ body, html {
   height: 150px;
   flex-direction: column;
 
-  border-right: 2px solid #D6D6D6;
+  border-right: 2px solid #A9A9A9;
 }
 .delayDiv{
   flex-grow: 1;
@@ -52,7 +52,7 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content:space-around;
-  border-bottom: 2px solid #D6D6D6;
+  border-bottom: 2px solid #A9A9A9;
 
 }
 .reverbDiv{
@@ -110,7 +110,8 @@ body, html {
   display:flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 2px;
+  margin-bottom: 12px;
+  box-shadow: 1px 0px 5px 1px #5F5D5D;
 }
 .trackInfoPanel{
   display: flex;
@@ -122,10 +123,10 @@ body, html {
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.60);
   height: 23px;
   flex-direction: row;
-  border-bottom: 2px solid #D6D6D6;
+  border-bottom: 2px solid #A9A9A9;
 }
 
 .trackStatusMsg{
@@ -173,7 +174,7 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
-  border-bottom: solid 2px #A5A2A2;
+  border-bottom: solid 2px #A9A9A9;
   height: 170px;
 
 
@@ -213,7 +214,7 @@ body, html {
   flex-grow: 1;
   height: 170px;
   padding-left: 1px;
-  background-color: rgba(255, 255, 255, 0.61);
+  background-color: rgba(255, 255, 255, 0.60);
 
 }
 
@@ -786,7 +787,7 @@ input[type=range]{
 input[type=range]::-webkit-slider-runnable-track {
     width: 90px;
     height: 4px;
-    
+
     background: #A0A0A0;
     border: none;
     border-radius: 4px;
@@ -794,11 +795,10 @@ input[type=range]::-webkit-slider-runnable-track {
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    border: solid 2px #33ADFF;
+    border: solid 5px #33ADFF;
     height: 17px;
-    width: 10px;
-
-
+    width: 9px;
+    background-color: #33ADFF;
     background: white;
     margin-top: -6px;
 }
