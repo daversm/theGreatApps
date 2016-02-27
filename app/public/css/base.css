@@ -779,7 +779,7 @@ h3{
 input[type=range]{
     -webkit-appearance: none;
     -webkit-transform:rotate(-90deg);
-    cursor: crosshair;
+    cursor: ns-resize;
     z-index: 2;
 }
 
@@ -794,6 +794,15 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: solid 2px #33ADFF;
+    height: 17px;
+    width: 10px;
+
+    background: white;
+    margin-top: -6px;
+}
+input[type=range]::-webkit-slider-thumb:focus {
+    -webkit-appearance: none;
+    border: solid 3px #33ADFF;
     height: 17px;
     width: 10px;
 
