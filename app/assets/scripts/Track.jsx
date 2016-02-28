@@ -5,6 +5,8 @@ var jQuery = require('jquery');
 var Effects = require('./Effects');
 var SimpleReverb = require('./simple-reverb.js');
 var Reverb = require('soundbank-reverb');
+var Reorder = require('react-reorder');
+var Tuna = require('tunajs');
 
 
 export var Track = React.createClass({
@@ -52,16 +54,40 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
+    /*
     this.reverb = Reverb(audioContext);
 
 
     this.wavesurferPostRecording.backend.setFilter(this.reverb);
     this.reverb.time = 1 //seconds
-this.reverb.wet.value = 0.8
-this.reverb.dry.value = 1
+    this.reverb.wet.value = 0.8
+    this.reverb.dry.value = 1
 
-this.reverb.filterType = 'lowpass'
-this.reverb.cutoff.value = 4000 //Hz
+    this.reverb.filterType = 'lowpass'
+    this.reverb.cutoff.value = 4000 //Hz
+    */
+    var tuna = new Tuna(audioContext);
+
+    this.phaser = new tuna.Phaser({
+      rate: .8,                     //0.01 to 8 is a decent range, but higher values are possible
+      depth: 0.5,                    //0 to 1
+      feedback: 0.3,                 //0 to 1+
+      stereoPhase: 30,               //0 to 180
+      baseModulationFrequency: 1000,  //500 to 1500
+      bypass: 0
+    });
+
+    this.delay = new tuna.Delay({
+    feedback: 0.45,    //0 to 1+
+    delayTime: 150,    //how many milliseconds should the wet signal be delayed?
+    wetLevel: 0.25,    //0 to 1+
+    dryLevel: 1,       //0 to 1+
+    cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
+    bypass: 0
+});
+
+    this.wavesurferPostRecording.backend.setFilters([this.delay, this.phaser]);
+
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -260,6 +286,7 @@ this.reverb.cutoff.value = 4000 //Hz
           <div className="buttonsInsideTrack"> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
+
        </div>
         <div className="containerTrackDiv">
 

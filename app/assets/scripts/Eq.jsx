@@ -101,7 +101,7 @@ var EQ = React.createClass({
     this.setState({valueBandTen:e.target.value});
   },
   OnOffEq: function(){
-
+    console.log(this.filters);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();

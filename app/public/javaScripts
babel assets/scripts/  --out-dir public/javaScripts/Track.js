@@ -67,27 +67,17 @@ var Track = exports.Track = React.createClass({
      this.reverb.filterType = 'lowpass'
     this.reverb.cutoff.value = 4000 //Hz
     */
-    var tuna = new Tuna(audioContext);
 
-    this.phaser = new tuna.Phaser({
-      rate: .8, //0.01 to 8 is a decent range, but higher values are possible
-      depth: 0.5, //0 to 1
-      feedback: 0.3, //0 to 1+
+    this.phaser = new Tuna.Phaser({
+      rate: 1.2, //0.01 to 8 is a decent range, but higher values are possible
+      depth: 0.3, //0 to 1
+      feedback: 0.2, //0 to 1+
       stereoPhase: 30, //0 to 180
-      baseModulationFrequency: 1000, //500 to 1500
+      baseModulationFrequency: 700, //500 to 1500
       bypass: 0
     });
 
-    this.delay = new tuna.Delay({
-      feedback: 0.45, //0 to 1+
-      delayTime: 150, //how many milliseconds should the wet signal be delayed?
-      wetLevel: 0.25, //0 to 1+
-      dryLevel: 1, //0 to 1+
-      cutoff: 2000, //cutoff frequency of the built in lowpass-filter. 20 to 22050
-      bypass: 0
-    });
-
-    this.wavesurferPostRecording.backend.setFilters([this.delay, this.phaser]);
+    this.wavesurferPostRecording.backend.setFilter(this.phaser);
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {

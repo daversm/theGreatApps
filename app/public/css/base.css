@@ -180,6 +180,11 @@ body, html {
 
 }
 
+.chain{
+  height: 20px;
+  
+}
+
 .playbackRecordingDiv{
   display: flex;
   width: 150px;
