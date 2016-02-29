@@ -117,7 +117,7 @@ var EQ = React.createClass({
       <div className="EQdiv">
 
         <div className="EQtitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffEq}> EQ 5-BAND </div>
+          <div className="buttonsInsideTrack" onClick={this.OnOffEq}> EQ 10-BAND </div>
         </div>
 
         <div className="eqHolder">

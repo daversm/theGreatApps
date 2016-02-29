@@ -80,14 +80,14 @@ var Track = exports.Track = React.createClass({
 
     this.delay = new tuna.Delay({
       feedback: 0.45, //0 to 1+
-      delayTime: 150, //how many milliseconds should the wet signal be delayed?
+      delayTime: 350, //how many milliseconds should the wet signal be delayed?
       wetLevel: 0.25, //0 to 1+
       dryLevel: 1, //0 to 1+
       cutoff: 2000, //cutoff frequency of the built in lowpass-filter. 20 to 22050
       bypass: 0
     });
 
-    this.wavesurferPostRecording.backend.setFilters([this.delay, this.phaser]);
+    this.wavesurferPostRecording.backend.setFilters([this.phaser, this.delay]);
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
@@ -295,7 +295,17 @@ var Track = exports.Track = React.createClass({
             'div',
             { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio },
             ' Delete Audio '
-          )
+          ),
+          React.createElement(Reorder, {
+            itemKey: 'name',
+
+            lock: 'horizontal',
+
+            holdTime: '500',
+
+            list: [{ name: 'Item 1' }, { name: 'Item 2' }, { name: 'Item 3' }]
+
+          })
         ),
         React.createElement(
           'div',

@@ -30,7 +30,8 @@
     "workerify": "^0.3.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.5.1"
+    "babel-cli": "^6.5.1",
+    "gulp": "^3.9.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

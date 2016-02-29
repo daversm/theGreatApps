@@ -1,7 +1,7 @@
 import jQuery from 'jquery';
 import React from 'react';
 import { render } from 'react-dom';
-import { Track } from './Track.js';
+import { Track } from './Track.jsx';
 
 const MasterController = React.createClass({
   getInitialState: function() {

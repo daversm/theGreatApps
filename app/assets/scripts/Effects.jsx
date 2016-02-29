@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
-var EQ = require('./EQ');
+var EQ = require('./EQ.jsx');
 
 
 var Effects = React.createClass({
