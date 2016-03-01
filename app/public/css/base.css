@@ -887,3 +887,8 @@ input[type="text"].tangleInput {
   margin-top: 3px;
   cursor:col-resize;
 }
+
+.DropDownDiv{
+  width: 80px;
+  height: 20px;
+}

@@ -1,7 +1,13 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Select = require('react-select');
 
-var Reverb = React.CreateClass({
+var Reverb = React.createClass({
+  getInitialState: function(){
+
+    this.defaultOption = { value: 'two', label: 'Two' };
+    return({power:false});
+  },
   setWaveform: function(param){
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
@@ -32,37 +38,44 @@ var Reverb = React.CreateClass({
     });
 
   },
+  reverbPick: function(){
+
+  },
   render: function(){
+    const options = [
+     { value: 'one', label: 'One' },
+     { value: 'two', label: 'Two' },
+     {
+      type: 'group', name: 'group1', items: [
+        { value: 'three', label: 'Three' },
+        { value: 'four', label: 'Four' }
+      ]
+     },
+     {
+      type: 'group', name: 'group2', items: [
+        { value: 'five', label: 'Five' },
+        { value: 'six', label: 'Six' }
+      ]
+     }
+   ]
     return(
       <div className='delayHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffReverb}> REVERB </div>
+          <Select
+             options={options}
+             onChange={this.reverbPick}
+             value="one"
+             clearable={false}
+             className="DropDownDiv"
+             name="Select an option"
+          />
         </div>
-        <div className="delayDiv">
-          <div className="sliderVertical">
-            <div className="effectsInfo">{this.state.wetLevel}%</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.wetLevel} onChange={this.handleWet} />
-            <div className="effectsInfo">Wet</div>
-          </div>
-          <div className="sliderVertical">
-            <div className="effectsInfo">{this.state.dryLevel}%</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.dryLevel} onChange={this.handleDry} />
-            <div className="effectsInfo">Dry</div>
-          </div>
-          <div className="sliderVertical">
-            <div className="effectsInfo">{this.state.feedBack}x</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='60' value={this.state.feedBack} onChange={this.handleFeedBack} />
-            <div className="effectsInfo">Repeat</div>
-          </div>
-          <div className="sliderVertical">
-            <div className="effectsInfo">{this.state.delayTime}ms</div>
-            <input className="sliderSizeVertical" type="range" min='0' max='1000' value={this.state.delayTime} onChange={this.handleDelayTime} />
-            <div className="effectsInfo">Delay</div>
-          </div>
-        </div>
+        
       </div>
 
     );
   }
 
 });
+
+module.exports = Reverb;

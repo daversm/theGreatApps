@@ -5,6 +5,7 @@ var EQ = require('./EQ.jsx');
 var Delay = require('./Delay.jsx');
 var Tuna = require('tunajs');
 var Compressor = require('./Compressor.jsx');
+var Reverb  = require('./Reverb.jsx');
 
 
 var Effects = React.createClass({
@@ -15,12 +16,13 @@ var Effects = React.createClass({
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
+    //this.refs['Reverb'].setTuna(tuna);
   },
   setPropsToEffects: function(params){
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
     this.refs['Compressor'].setWaveform(params);
-
+    //this.refs['Reverb'].setWaveform(params);
   },
   handleDelayFeedBack: function(value){
     reverb.gainNode.gain.value = value/100;
@@ -52,6 +54,7 @@ var Effects = React.createClass({
       <div className="trackAudioEffectsPanel">
         <Compressor ref="Compressor" />
         <EQ ref="EQ" />
+        <Reverb ref="Reverb" />
         <Delay ref="Delay" />
       </div>
     );
