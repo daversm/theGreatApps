@@ -21,6 +21,16 @@ body, html {
   display: flex;
   padding-top: 5px;
 }
+.delayTitle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 155px;
+  display: flex;
+  padding-top: 2px;
+
+}
 
 .effectsInfo{
   font-family: 'Roboto', sans-serif;
@@ -51,12 +61,19 @@ body, html {
   flex-direction: row;
   align-items: center;
   justify-content:space-around;
-  width: 150px;
+  width: 155px;
+}
+.delayHolder{
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  width: 155px;
+  height: 145px;
 }
 
-
 .EQdiv{
-
   display: flex;
   width: 430px;
   height: 150px;

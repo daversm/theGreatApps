@@ -8,7 +8,7 @@ var Delay = React.createClass({
   displayName: 'Delay',
 
   getInitialState: function getInitialState() {
-    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delyTime: 150 };
+    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delayTime: 150 };
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -57,10 +57,10 @@ var Delay = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'delayDiv' },
+      { className: 'delayHolder' },
       React.createElement(
         'div',
-        { className: 'EQtitle' },
+        { className: 'delayTitle' },
         React.createElement(
           'div',
           { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
@@ -69,66 +69,70 @@ var Delay = React.createClass({
       ),
       React.createElement(
         'div',
-        { className: 'sliderVertical' },
+        { className: 'delayDiv' },
         React.createElement(
           'div',
-          { className: 'effectsInfo' },
-          this.state.wetLevel,
-          '%'
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.wetLevel,
+            '%'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.wetLevel, onChange: this.handleWet }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Wet'
+          )
         ),
-        React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.wetLevel, onChange: this.handleWet }),
         React.createElement(
           'div',
-          { className: 'effectsInfo' },
-          'Wet'
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'sliderVertical' },
-        React.createElement(
-          'div',
-          { className: 'effectsInfo' },
-          this.state.dryLevel,
-          '%'
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.dryLevel,
+            '%'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.dryLevel, onChange: this.handleDry }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Dry'
+          )
         ),
-        React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.dryLevel, onChange: this.handleDry }),
         React.createElement(
           'div',
-          { className: 'effectsInfo' },
-          'Dry'
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'sliderVertical' },
-        React.createElement(
-          'div',
-          { className: 'effectsInfo' },
-          this.state.feedBack,
-          'x'
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.feedBack,
+            'x'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '60', value: this.state.feedBack, onChange: this.handleFeedBack }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Repeat'
+          )
         ),
-        React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '60', value: this.state.feedBack, onChange: this.handleFeedBack }),
         React.createElement(
           'div',
-          { className: 'effectsInfo' },
-          'Repeat'
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'sliderVertical' },
-        React.createElement(
-          'div',
-          { className: 'effectsInfo' },
-          this.state.delayTime,
-          'ms'
-        ),
-        React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '1000', value: this.state.delayTime, onChange: this.handleDelayTime }),
-        React.createElement(
-          'div',
-          { className: 'effectsInfo' },
-          'Delay'
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.delayTime,
+            'ms'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '1000', value: this.state.delayTime, onChange: this.handleDelayTime }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Delay'
+          )
         )
       )
     );
@@ -669,18 +673,7 @@ var Track = exports.Track = React.createClass({
       wavesurfer: this.wavesurfer
     });
   },
-  handleDeleteAudio: function handleDeleteAudio() {
-    var tuna = new Tuna(audioContext);
-    this.delay = new tuna.Delay({
-      feedback: 0.45, //0 to 1+
-      delayTime: 150, //how many milliseconds should the wet signal be delayed?
-      wetLevel: 0.85, //0 to 1+
-      dryLevel: 1, //0 to 1+
-      cutoff: 2000, //cutoff frequency of the built in lowpass-filter. 20 to 22050
-      bypass: 0
-    });
-    this.wavesurfer.backend.setFilters([this.delay]);
-  },
+  handleDeleteAudio: function handleDeleteAudio() {},
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
       e.target.style.color = "#0099FF";

@@ -61,18 +61,7 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
-    var tuna = new Tuna(audioContext);
-    this.delay = new tuna.Delay({
-      feedback: 0.45,    //0 to 1+
-      delayTime: 150,    //how many milliseconds should the wet signal be delayed?
-      wetLevel: 0.85,    //0 to 1+
-      dryLevel: 1,       //0 to 1+
-      cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
-      bypass: 0
-    });
-    this.wavesurfer.backend.setFilters([this.delay]);
-
-
+  
   },
   mouseOver: function (e) {
     if(this.trackReady == true){

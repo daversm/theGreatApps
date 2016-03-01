@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 
 var Delay = React.createClass({
   getInitialState: function(){
-    return({wetLevel:25, dryLevel:100, feedBack:45, delyTime:150});
+    return({wetLevel:25, dryLevel:100, feedBack:45, delayTime:150});
   },
   setTuna: function(param){
     this.tuna = param;
@@ -52,30 +52,31 @@ var Delay = React.createClass({
   },
   render: function(){
     return(
-      <div className='delayDiv'>
-        <div className="EQtitle">
+      <div className='delayHolder'>
+        <div className="delayTitle">
           <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> Delay </div>
         </div>
-
-        <div className="sliderVertical">
-          <div className="effectsInfo">{this.state.wetLevel}%</div>
-          <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.wetLevel} onChange={this.handleWet} />
-          <div className="effectsInfo">Wet</div>
-        </div>
-        <div className="sliderVertical">
-          <div className="effectsInfo">{this.state.dryLevel}%</div>
-          <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.dryLevel} onChange={this.handleDry} />
-          <div className="effectsInfo">Dry</div>
-        </div>
-        <div className="sliderVertical">
-          <div className="effectsInfo">{this.state.feedBack}x</div>
-          <input className="sliderSizeVertical" type="range" min='0' max='60' value={this.state.feedBack} onChange={this.handleFeedBack} />
-          <div className="effectsInfo">Repeat</div>
-        </div>
-        <div className="sliderVertical">
-          <div className="effectsInfo">{this.state.delayTime}ms</div>
-          <input className="sliderSizeVertical" type="range" min='0' max='1000' value={this.state.delayTime} onChange={this.handleDelayTime} />
-          <div className="effectsInfo">Delay</div>
+        <div className="delayDiv">
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.wetLevel}%</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.wetLevel} onChange={this.handleWet} />
+            <div className="effectsInfo">Wet</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.dryLevel}%</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='100' value={this.state.dryLevel} onChange={this.handleDry} />
+            <div className="effectsInfo">Dry</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.feedBack}x</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='60' value={this.state.feedBack} onChange={this.handleFeedBack} />
+            <div className="effectsInfo">Repeat</div>
+          </div>
+          <div className="sliderVertical">
+            <div className="effectsInfo">{this.state.delayTime}ms</div>
+            <input className="sliderSizeVertical" type="range" min='0' max='1000' value={this.state.delayTime} onChange={this.handleDelayTime} />
+            <div className="effectsInfo">Delay</div>
+          </div>
         </div>
       </div>
     );
