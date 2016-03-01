@@ -2,14 +2,22 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Rcslider = require('rc-slider');
 var EQ = require('./EQ.jsx');
+var Delay = require('./Delay.jsx');
+var Tuna = require('tunajs');
 
 
 var Effects = React.createClass({
   getInitialState: function() {
     return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80, valueEQ:50  };
   },
+  componentDidMount: function(){
+     var tuna = new Tuna(audioContext);
+    this.refs['Delay'].setTuna(tuna);
+  },
   setPropsToEffects: function(params){
     this.refs['EQ'].setWaveform(params);
+    this.refs['Delay'].setWaveform(params);
+
   },
   handleDelayFeedBack: function(value){
     reverb.gainNode.gain.value = value/100;
@@ -39,37 +47,10 @@ var Effects = React.createClass({
 
     return(
       <div className="trackAudioEffectsPanel">
-        <div className="delayAndReverbContainer">
-          <div className="delayDiv">
-              <div className="buttonsInsideTrack"> DELAY </div>
-              <div className="sliderHorizontal">
-                <div className="effectsInfo">feedback: {this.state.valueDelayFeedBack}x</div>
-                <div className="slider">
-                  <Rcslider  value={this.state.valueDelayFeedBack} onChange={this.handleDelayFeedBack}/>
-                </div>
-              </div>
-              <div className="sliderHorizontal">
-                <div className="effectsInfo">delay: {this.state.valueDelayTime}ms</div>
-                <div className="slider">
-                  <Rcslider  value={this.state.valueDelayTime} onChange={this.handleDelayTime}/>
-                </div>
-              </div>
-          </div>
-          <div className="reverbDiv">
-              <div className="buttonsInsideTrack"> REVERB </div>
-              <div className="sliderHorizontal">
-                <div className="effectsInfo">reverb: {this.state.valueReveb}%</div>
-                <div className="slider">
-                  <Rcslider  value={this.state.valueReveb} onChange={this.handleReverb}/>
-                </div>
-              </div>
-          </div>
-        </div>
         <EQ ref="EQ"/>
+        <Delay ref="Delay"/>
       </div>
-
-
-    )
+    );
   }
 
 

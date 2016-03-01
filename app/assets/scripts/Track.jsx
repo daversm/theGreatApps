@@ -3,7 +3,6 @@ var ReactDOM = require('react-dom');
 var Recorder = require('recorderjs');
 var jQuery = require('jquery');
 var Effects = require('./Effects.jsx');
-var Reorder = require('react-reorder');
 var Tuna = require('tunajs');
 
 
@@ -27,16 +26,16 @@ export var Track = React.createClass({
   },
 
   componentDidMount: function(){
-    var ListItem = React.createClass({
-  render: function () {
-    return React.createElement('div', {
-      className: 'inner',
-      style: {
-        color: this.props.item.color
+    this.ListItem = React.createClass({
+      render: function () {
+        return React.createElement('div', {
+          className: 'inner',
+          style: {
+            color: this.props.item.color
+          }
+        }, this.props.sharedProps ? this.props.sharedProps.prefix : undefined, this.props.item.name);
       }
-    }, this.props.sharedProps ? this.props.sharedProps.prefix : undefined, this.props.item.name);
-  }
-});
+    });
 
 
     var outerThis = this;
@@ -62,39 +61,17 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
-    /*
-    this.reverb = Reverb(audioContext);
-
-
-    this.wavesurferPostRecording.backend.setFilter(this.reverb);
-    this.reverb.time = 1 //seconds
-    this.reverb.wet.value = 0.8
-    this.reverb.dry.value = 1
-
-    this.reverb.filterType = 'lowpass'
-    this.reverb.cutoff.value = 4000 //Hz
-    */
     var tuna = new Tuna(audioContext);
-
-    this.phaser = new tuna.Phaser({
-      rate: .8,                     //0.01 to 8 is a decent range, but higher values are possible
-      depth: 0.5,                    //0 to 1
-      feedback: 0.3,                 //0 to 1+
-      stereoPhase: 30,               //0 to 180
-      baseModulationFrequency: 1000,  //500 to 1500
+    this.delay = new tuna.Delay({
+      feedback: 0.45,    //0 to 1+
+      delayTime: 150,    //how many milliseconds should the wet signal be delayed?
+      wetLevel: 0.85,    //0 to 1+
+      dryLevel: 1,       //0 to 1+
+      cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
       bypass: 0
     });
+    this.wavesurfer.backend.setFilters([this.delay]);
 
-    this.delay = new tuna.Delay({
-    feedback: 0.45,    //0 to 1+
-    delayTime: 350,    //how many milliseconds should the wet signal be delayed?
-    wetLevel: 0.25,    //0 to 1+
-    dryLevel: 1,       //0 to 1+
-    cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
-    bypass: 0
-});
-
-    this.wavesurferPostRecording.backend.setFilters([this.phaser, this.delay]);
 
   },
   mouseOver: function (e) {
@@ -294,7 +271,7 @@ export var Track = React.createClass({
           <div className="buttonsInsideTrack"> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
-  
+
        </div>
         <div className="containerTrackDiv">
 

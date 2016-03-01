@@ -1,7 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Rcslider = require('rc-slider');
-var vSlider = require('vertical-rc-slider');
 
 
 var EQ = React.createClass({
