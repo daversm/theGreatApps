@@ -12,12 +12,88 @@ var Compressor = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'compressorDiv' },
-      React.createElement(Tangle, {
-        value: 5,
-        onChange: this.handleChange,
-        className: 'tangleInput'
-      })
+      { className: 'compressorHolder' },
+      React.createElement(
+        'div',
+        { className: 'compressorTitle' },
+        React.createElement(
+          'div',
+          { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
+          ' Compressor '
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'compressorDiv' },
+        React.createElement(
+          'div',
+          { className: 'compressorRow' },
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Knee :',
+            React.createElement(Tangle, {
+              value: 6,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          ),
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Ratio :',
+            React.createElement(Tangle, {
+              value: 5,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          ),
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Threshold:',
+            React.createElement(Tangle, {
+              value: 5,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'compressorRow' },
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Attack :',
+            React.createElement(Tangle, {
+              value: 5,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          ),
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Release :',
+            React.createElement(Tangle, {
+              value: 5,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          ),
+          React.createElement(
+            'div',
+            { className: 'compressorName' },
+            'Makeup :',
+            React.createElement(Tangle, {
+              value: 5,
+              onChange: this.handleChange,
+              className: 'tangleInput'
+            })
+          )
+        )
+      )
     );
   }
 
@@ -518,9 +594,9 @@ var Effects = React.createClass({
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
+      React.createElement(Compressor, null),
       React.createElement(EQ, { ref: 'EQ' }),
-      React.createElement(Delay, { ref: 'Delay' }),
-      React.createElement(Compressor, null)
+      React.createElement(Delay, { ref: 'Delay' })
     );
   }
 
