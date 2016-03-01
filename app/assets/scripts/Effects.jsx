@@ -12,12 +12,14 @@ var Effects = React.createClass({
     return {valueDelayFeedBack:50, valueDelayTime : 10, valueReveb: 80, valueEQ:50  };
   },
   componentDidMount: function(){
-     var tuna = new Tuna(audioContext);
+    var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
+    this.refs['Compressor'].setTuna(tuna);
   },
   setPropsToEffects: function(params){
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
+    this.refs['Compressor'].setWaveform(params);
 
   },
   handleDelayFeedBack: function(value){
@@ -48,9 +50,9 @@ var Effects = React.createClass({
 
     return(
       <div className="trackAudioEffectsPanel">
-        <Compressor />
-        <EQ ref="EQ"/>
-        <Delay ref="Delay"/>
+        <Compressor ref="Compressor" />
+        <EQ ref="EQ" />
+        <Delay ref="Delay" />
       </div>
     );
   }

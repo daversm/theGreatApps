@@ -8,7 +8,63 @@ var Tangle = require('./tangle.js');
 var Compressor = React.createClass({
   displayName: 'Compressor',
 
-  handleChange: function handleChange() {},
+  getInitialState: function getInitialState() {
+    return { knee: 5, makeup: 1, attack: 1, release: 0, ratio: 4, threshold: 0 };
+  },
+  handleKnee: function handleKnee(value) {
+    this.compressor.knee = value;
+    this.setState({ knee: value });
+  },
+  handleMakeup: function handleMakeup(value) {
+    this.compressor.makeupGain = value;
+    this.setState({ makeup: value });
+  },
+  handleAttack: function handleAttack(value) {
+    this.compressor.attack = value;
+    this.setState({ attack: value });
+  },
+  handleRelease: function handleRelease(value) {
+    this.compressor.relase = value;
+    this.setState({ release: value });
+  },
+  handleRatio: function handleRatio(value) {
+    this.compressor.ratio = value;
+    this.setState({ ratio: value });
+  },
+  handleThreshold: function handleThreshold(value) {
+    this.compressor.threshold = value;
+    this.setState({ threshold: value });
+  },
+  setWaveform: function setWaveform(param) {
+    console.log('wavesurfer set delay');
+    this.wavesurfer = param;
+  },
+  OnOffCompression: function OnOffCompression(e) {
+    console.log(this.Compressor);
+    if (this.power) {
+      console.log('now off');
+      this.wavesurfer.backend.disconnectFilters();
+      this.power = false;
+    } else {
+      console.log('now on');
+      this.wavesurfer.backend.setFilters([this.compressor]);
+      this.power = true;
+    }
+  },
+  setTuna: function setTuna(param) {
+    this.tuna = param;
+
+    this.compressor = new this.tuna.Compressor({
+      threshold: -5, //-100 to 0
+      makeupGain: 5, //0 and up
+      attack: 1, //0 to 1000
+      release: 0, //0 to 3000
+      ratio: 4, //1 to 20
+      knee: 5, //0 to 40
+      automakeup: true, //true/false
+      bypass: 0
+    });
+  },
   render: function render() {
     return React.createElement(
       'div',
@@ -18,7 +74,7 @@ var Compressor = React.createClass({
         { className: 'compressorTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
+          { className: 'buttonsInsideTrack', onClick: this.OnOffCompression },
           ' COMPRESSOR '
         )
       ),
@@ -33,8 +89,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Knee :',
             React.createElement(Tangle, {
-              value: 6,
-              onChange: this.handleChange,
+              value: this.state.knee,
+              min: 0,
+              max: 40,
+              onChange: this.handleKnee,
               className: 'tangleInput'
             })
           ),
@@ -43,8 +101,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Ratio :',
             React.createElement(Tangle, {
-              value: 5,
-              onChange: this.handleChange,
+              min: 1,
+              max: 20,
+              value: this.state.ratio,
+              onChange: this.handleRatio,
               className: 'tangleInput'
             })
           ),
@@ -53,8 +113,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Threshold:',
             React.createElement(Tangle, {
-              value: 5,
-              onChange: this.handleChange,
+              min: -60,
+              max: 0,
+              value: this.state.threshold,
+              onChange: this.handleThreshold,
               className: 'tangleInput'
             })
           )
@@ -67,8 +129,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Attack :',
             React.createElement(Tangle, {
-              value: 5,
-              onChange: this.handleChange,
+              min: 0,
+              max: 1000,
+              value: this.state.attack,
+              onChange: this.handleAttack,
               className: 'tangleInput'
             })
           ),
@@ -77,8 +141,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Release :',
             React.createElement(Tangle, {
-              value: 5,
-              onChange: this.handleChange,
+              min: 0,
+              max: 3000,
+              value: this.state.release,
+              onChange: this.handleRelease,
               className: 'tangleInput'
             })
           ),
@@ -87,8 +153,10 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Makeup :',
             React.createElement(Tangle, {
-              value: 5,
-              onChange: this.handleChange,
+              min: 0,
+              max: 20,
+              value: this.state.makeup,
+              onChange: this.handleMakeup,
               className: 'tangleInput'
             })
           )
@@ -560,10 +628,12 @@ var Effects = React.createClass({
   componentDidMount: function componentDidMount() {
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
+    this.refs['Compressor'].setTuna(tuna);
   },
   setPropsToEffects: function setPropsToEffects(params) {
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
+    this.refs['Compressor'].setWaveform(params);
   },
   handleDelayFeedBack: function handleDelayFeedBack(value) {
     reverb.gainNode.gain.value = value / 100;
@@ -594,7 +664,7 @@ var Effects = React.createClass({
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
-      React.createElement(Compressor, null),
+      React.createElement(Compressor, { ref: 'Compressor' }),
       React.createElement(EQ, { ref: 'EQ' }),
       React.createElement(Delay, { ref: 'Delay' })
     );
