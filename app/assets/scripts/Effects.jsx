@@ -4,6 +4,7 @@ var Rcslider = require('rc-slider');
 var EQ = require('./EQ.jsx');
 var Delay = require('./Delay.jsx');
 var Tuna = require('tunajs');
+var Compressor = require('./Compressor.jsx');
 
 
 var Effects = React.createClass({
@@ -49,6 +50,7 @@ var Effects = React.createClass({
       <div className="trackAudioEffectsPanel">
         <EQ ref="EQ"/>
         <Delay ref="Delay"/>
+        <Compressor />
       </div>
     );
   }

@@ -72,6 +72,10 @@ body, html {
   width: 155px;
   height: 145px;
 }
+.compressorDiv{
+  width: 300px;
+  height: 150px;
+}
 
 .EQdiv{
   display: flex;
@@ -820,4 +824,20 @@ input[type=range]:focus {
   justify-content: space-between;
   padding-left: 9px;
   padding-right: 9px;
+}
+
+input[type="text"].tangleInput {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 2px;
+  width: 30px;
+  height: 25px;
+  border: solid 1px #BDBBBB;
+  border-radius: 2px;
+  padding-left: 4px;
+  font-weight: 300;
+  color: #5a5a5a;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  cursor:col-resize;
 }
