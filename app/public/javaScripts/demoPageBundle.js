@@ -19,7 +19,7 @@ var Compressor = React.createClass({
         React.createElement(
           'div',
           { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
-          ' Compressor '
+          ' COMPRESSOR '
         )
       ),
       React.createElement(
@@ -167,7 +167,7 @@ var Delay = React.createClass({
         React.createElement(
           'div',
           { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
-          ' Delay '
+          ' DELAY '
         )
       ),
       React.createElement(

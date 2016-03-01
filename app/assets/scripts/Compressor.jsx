@@ -10,7 +10,7 @@ var Compressor = React.createClass({
     return(
       <div className="compressorHolder">
         <div className="compressorTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> Compressor </div>
+          <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> COMPRESSOR </div>
         </div>
       <div className="compressorDiv">
         <div className="compressorRow">

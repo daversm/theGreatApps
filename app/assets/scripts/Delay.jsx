@@ -54,7 +54,7 @@ var Delay = React.createClass({
     return(
       <div className='delayHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> Delay </div>
+          <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> DELAY </div>
         </div>
         <div className="delayDiv">
           <div className="sliderVertical">
