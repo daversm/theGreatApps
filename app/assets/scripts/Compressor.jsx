@@ -34,17 +34,23 @@ var Compressor = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffCompression: function(e){
-    console.log(this.Compressor);
+  OnOff: function(){
+    this.props.list.push(this.compressor);
+    /*
+    console.log(this.convolver);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
     }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.compressor]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function(){
+    this.props.onClick('Compressor');
   },
   setTuna: function(param){
     this.tuna = param;
@@ -65,7 +71,7 @@ var Compressor = React.createClass({
     return(
       <div className="compressorHolder">
         <div className="compressorTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffCompression}> COMPRESSOR </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClick}> COMPRESSOR </div>
         </div>
       <div className="compressorDiv">
         <div className="compressorRow">

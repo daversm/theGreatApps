@@ -38,23 +38,29 @@ var Delay = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffDelay: function(e){
-    console.log(this.delay);
+  OnOff: function(){
+    this.props.list.push(this.delay);
+    /*
+    console.log(this.convolver);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
     }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.delay]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function(){
+    this.props.onClick('Delay');
   },
   render: function(){
     return(
       <div className='delayHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffDelay}> DELAY </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClick}> DELAY </div>
         </div>
         <div className="delayDiv">
           <div className="sliderVertical">

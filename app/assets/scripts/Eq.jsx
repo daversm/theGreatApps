@@ -98,24 +98,30 @@ var EQ = React.createClass({
     this.filters[9].gain.value = e.target.value;
     this.setState({valueBandTen:e.target.value});
   },
-  OnOffEq: function(){
-    console.log(this.filters);
+  OnOff: function(){
+    this.props.list.push(this.filters);
+    /*
+    console.log(this.convolver);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
     }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters(this.filters);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function(){
+    this.props.onClick('EQ');
   },
   render: function(){
     return(
       <div className="EQdiv">
 
         <div className="EQtitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffEq}> EQ 10-BAND </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClick}> EQ 10-BAND </div>
         </div>
 
         <div className="eqHolder">

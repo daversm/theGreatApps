@@ -39,17 +39,23 @@ var Compressor = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffCompression: function OnOffCompression(e) {
-    console.log(this.Compressor);
-    if (this.power) {
+  OnOff: function OnOff() {
+    this.props.list.push(this.compressor);
+    /*
+    console.log(this.convolver);
+    if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
-    } else {
+    }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.compressor]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function handleClick() {
+    this.props.onClick('Compressor');
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -74,7 +80,7 @@ var Compressor = React.createClass({
         { className: 'compressorTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffCompression },
+          { className: 'buttonsInsideTrack', onClick: this.handleClick },
           ' COMPRESSOR '
         )
       ),
@@ -213,17 +219,23 @@ var Delay = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffDelay: function OnOffDelay(e) {
-    console.log(this.delay);
-    if (this.power) {
+  OnOff: function OnOff() {
+    this.props.list.push(this.delay);
+    /*
+    console.log(this.convolver);
+    if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
-    } else {
+    }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.delay]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function handleClick() {
+    this.props.onClick('Delay');
   },
   render: function render() {
     return React.createElement(
@@ -234,7 +246,7 @@ var Delay = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffDelay },
+          { className: 'buttonsInsideTrack', onClick: this.handleClick },
           ' DELAY '
         )
       ),
@@ -413,17 +425,23 @@ var EQ = React.createClass({
     this.filters[9].gain.value = e.target.value;
     this.setState({ valueBandTen: e.target.value });
   },
-  OnOffEq: function OnOffEq() {
-    console.log(this.filters);
-    if (this.power) {
+  OnOff: function OnOff() {
+    this.props.list.push(this.filters);
+    /*
+    console.log(this.convolver);
+    if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
-    } else {
+    }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters(this.filters);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function handleClick() {
+    this.props.onClick('EQ');
   },
   render: function render() {
     return React.createElement(
@@ -434,7 +452,7 @@ var EQ = React.createClass({
         { className: 'EQtitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffEq },
+          { className: 'buttonsInsideTrack', onClick: this.handleClick },
           ' EQ 10-BAND '
         )
       ),
@@ -673,11 +691,9 @@ var Effects = React.createClass({
       this.wavesurfer.backend.disconnectFilters();
     } else {
       console.log("Adding effects");
-      var list = this.state.listOfEffects.map(function (i) {
+      this.wavesurfer.backend.setFilters(this.state.listOfEffects.map(function (i) {
         return i;
-      });
-
-      this.wavesurfer.backend.setFilters(list);
+      }));
     }
   },
   render: function render() {
@@ -686,10 +702,10 @@ var Effects = React.createClass({
       'div',
       { className: 'trackAudioEffectsPanel' },
       React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
-      React.createElement(Delay, { ref: 'Delay' }),
-      React.createElement(Compressor, { ref: 'Compressor' }),
-      React.createElement(EQ, { ref: 'EQ' }),
-      React.createElement(Phaser, { ref: 'Phaser' })
+      React.createElement(Delay, { ref: 'Delay', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
+      React.createElement(Compressor, { ref: 'Compressor', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
+      React.createElement(EQ, { ref: 'EQ', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
+      React.createElement(Phaser, { ref: 'Phaser', onClick: this.handleEffectsPower, list: this.state.listOfEffects })
     );
   }
 
@@ -851,17 +867,23 @@ var Phaser = React.createClass({
     console.log('wavesurfer set Stereo phase');
     this.wavesurfer = param;
   },
-  OnOffPhaser: function OnOffPhaser(e) {
-    console.log(this.phaser);
-    if (this.power) {
+  OnOff: function OnOff() {
+    this.props.list.push(this.phaser);
+    /*
+    console.log(this.convolver);
+    if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
-    } else {
+    }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.phaser]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function handleClick() {
+    this.props.onClick('Phaser');
   },
   render: function render() {
     return React.createElement(
@@ -872,7 +894,7 @@ var Phaser = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffPhaser },
+          { className: 'buttonsInsideTrack', onClick: this.handleClick },
           ' PHASER '
         )
       ),

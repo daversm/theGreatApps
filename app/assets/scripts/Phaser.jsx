@@ -43,23 +43,29 @@ var Phaser = React.createClass({
     console.log('wavesurfer set Stereo phase');
     this.wavesurfer = param;
   },
-  OnOffPhaser: function(e){
-    console.log(this.phaser);
+  OnOff: function(){
+    this.props.list.push(this.phaser);
+    /*
+    console.log(this.convolver);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
     }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.phaser]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
+  },
+  handleClick: function(){
+    this.props.onClick('Phaser');
   },
   render: function(){
     return(
       <div className='phaserHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffPhaser}> PHASER </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClick}> PHASER </div>
         </div>
         <div className="phaserDiv">
           <div className="sliderVertical">

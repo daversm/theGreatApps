@@ -59,24 +59,22 @@ var Effects = React.createClass({
       this.wavesurfer.backend.disconnectFilters();
     }else{
       console.log("Adding effects");
-
       this.wavesurfer.backend.setFilters(
         this.state.listOfEffects.map(function(i){
           return i;
-        });
+        })
       );
     }
-
   },
   render: function (){
 
     return(
       <div className="trackAudioEffectsPanel">
         <Reverb ref="Reverb" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
-        <Delay ref="Delay" />
-        <Compressor ref="Compressor" />
-        <EQ ref="EQ" />
-        <Phaser ref="Phaser" />
+        <Delay ref="Delay" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
+        <Compressor ref="Compressor" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
+        <EQ ref="EQ" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
+        <Phaser ref="Phaser" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
       </div>
     );
   }
