@@ -667,10 +667,10 @@ var Effects = React.createClass({
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
-      React.createElement(Compressor, { ref: 'Compressor' }),
-      React.createElement(EQ, { ref: 'EQ' }),
       React.createElement(Reverb, { ref: 'Reverb' }),
-      React.createElement(Delay, { ref: 'Delay' })
+      React.createElement(Delay, { ref: 'Delay' }),
+      React.createElement(Compressor, { ref: 'Compressor' }),
+      React.createElement(EQ, { ref: 'EQ' })
     );
   }
 
@@ -793,9 +793,15 @@ var Reverb = React.createClass({
   displayName: 'Reverb',
 
   getInitialState: function getInitialState() {
-
-    this.defaultOption = { value: 'two', label: 'Two' };
-    return { power: false };
+    return { wetLevel: 25, dryLevel: 100 };
+  },
+  handleWet: function handleWet(e) {
+    this.convolver.wetLevel = e.target.value / 100;
+    this.setState({ wetLevel: e.target.value });
+  },
+  handleDry: function handleDry(e) {
+    this.convolver.dryLevel = e.target.value / 100;
+    this.setState({ dryLevel: e.target.value });
   },
   setWaveform: function setWaveform(param) {
     console.log('wavesurfer set delay');
@@ -818,9 +824,9 @@ var Reverb = React.createClass({
 
     this.convolver = new this.tuna.Convolver({
       highCut: 22050, //20 to 22050
-      lowCut: 20, //20 to 22050
+      lowCut: 60, //20 to 22050
       dryLevel: 1, //0 to 1+
-      wetLevel: 1, //0 to 1+
+      wetLevel: .25, //0 to 1+
       level: 1, //0 to 1+, adjusts total output of both wet and dry
       impulse: "../../public/EffectsAddOns/smooth-hall.wav", //the path to your impulse response
       bypass: 0
@@ -831,14 +837,50 @@ var Reverb = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'delayHolder' },
+      { className: 'reverbHolder' },
       React.createElement(
         'div',
         { className: 'delayTitle' },
         React.createElement(
           'div',
           { className: 'buttonsInsideTrack', onClick: this.OnOffReverb },
-          ' DELAY '
+          ' REVERB '
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'reverbDiv' },
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.wetLevel,
+            '%'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.wetLevel, onChange: this.handleWet }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Wet'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'sliderVertical' },
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            this.state.dryLevel,
+            '%'
+          ),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '100', value: this.state.dryLevel, onChange: this.handleDry }),
+          React.createElement(
+            'div',
+            { className: 'effectsInfo' },
+            'Dry'
+          )
         )
       )
     );

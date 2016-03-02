@@ -52,10 +52,10 @@ var Effects = React.createClass({
 
     return(
       <div className="trackAudioEffectsPanel">
-        <Compressor ref="Compressor" />
-        <EQ ref="EQ" />
         <Reverb ref="Reverb" />
         <Delay ref="Delay" />
+        <Compressor ref="Compressor" />
+        <EQ ref="EQ" />
       </div>
     );
   }
