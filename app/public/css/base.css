@@ -113,6 +113,13 @@ body, html {
   justify-content:space-around;
   width: 155px;
 }
+.phaserDiv{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-around;
+  width: 195px;
+}
 .reverbDiv{
   display: flex;
   flex-direction: row;
@@ -129,6 +136,16 @@ body, html {
   align-items: center;
   justify-content:space-between;
   width: 155px;
+  height: 145px;
+}
+.phaserHolder{
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  width: 195px;
   height: 145px;
 }
 .reverbHolder{

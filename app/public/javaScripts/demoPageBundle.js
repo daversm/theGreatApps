@@ -772,7 +772,7 @@ var Phaser = React.createClass({
   displayName: 'Phaser',
 
   getInitialState: function getInitialState() {
-    return { rate: 1.2, depth: .3, feedback: .2, stereoPhase: 30, baseModulationFrequency: 700 };
+    return { rate: 1.2, depth: 3, feedback: 2, stereoPhase: 30, baseModulationFrequency: 1000 };
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -782,7 +782,7 @@ var Phaser = React.createClass({
       depth: 0.3, //0 to 1
       feedback: 0.2, //0 to 1+
       stereoPhase: 30, //0 to 180
-      baseModulationFrequency: 700, //500 to 1500
+      baseModulationFrequency: 1000, //500 to 1500
       bypass: 0
     });
   },
@@ -798,19 +798,20 @@ var Phaser = React.createClass({
     this.phaser.feedback = e.target.value / 100;
     this.setState({ feedback: e.target.value });
   },
+  handleBaseMod: function handleBaseMod(e) {
+    console.log(e.target.value);
+    //this.phaser.baseModulationFrequency = e.target.value;
+    this.setState({ baseModulationFrequency: e.target.value });
+  },
   handleStereoPhase: function handleStereoPhase(e) {
     this.phaser.stereoPhase = e.target.value;
     this.setState({ stereoPhase: e.target.value });
-  },
-  handleBaseMod: function handleBaseMod(e) {
-    this.phaser.baseModulationFrequency = e.target.value;
-    this.setState({ baseModulationFrequency: e.target.value });
   },
   setWaveform: function setWaveform(param) {
     console.log('wavesurfer set Stereo phase');
     this.wavesurfer = param;
   },
-  OnOffDelay: function OnOffDelay(e) {
+  OnOffPhaser: function OnOffPhaser(e) {
     console.log(this.phaser);
     if (this.power) {
       console.log('now off');
@@ -825,7 +826,7 @@ var Phaser = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'delayHolder' },
+      { className: 'phaserHolder' },
       React.createElement(
         'div',
         { className: 'delayTitle' },
@@ -837,7 +838,7 @@ var Phaser = React.createClass({
       ),
       React.createElement(
         'div',
-        { className: 'delayDiv' },
+        { className: 'phaserDiv' },
         React.createElement(
           'div',
           { className: 'sliderVertical' },
@@ -892,14 +893,14 @@ var Phaser = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            this.state.stereoPhase,
-            'ms'
+            this.state.baseModulationFrequency,
+            'hz'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '180', value: this.state.stereoPhase, onChange: this.handleStereoPhase }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '1000', value: this.state.baseModulationFrequency, onChange: this.handleBaseMod }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'Phase'
+            'Frq'
           )
         ),
         React.createElement(
@@ -908,14 +909,14 @@ var Phaser = React.createClass({
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            this.state.baseModulationFrequency,
-            'hz'
+            this.state.stereoPhase,
+            'ms'
           ),
-          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '500', max: '1500', value: this.state.baseModulationFrequency, onChange: this.handleBaseMod }),
+          React.createElement('input', { className: 'sliderSizeVertical', type: 'range', min: '0', max: '180', value: this.state.stereoPhase, onChange: this.handleStereoPhase }),
           React.createElement(
             'div',
             { className: 'effectsInfo' },
-            'Frq'
+            'Phase'
           )
         )
       )
