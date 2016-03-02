@@ -35,11 +35,11 @@ var Reverb = React.createClass({
 
     this.convolver = new this.tuna.Convolver({
       highCut: 22050,                         //20 to 22050
-      lowCut: 60,                             //20 to 22050
+      lowCut: 80,                             //20 to 22050
       dryLevel: 1,                            //0 to 1+
       wetLevel: .25,                            //0 to 1+
       level: 1,                               //0 to 1+, adjusts total output of both wet and dry
-      impulse: "../../public/EffectsAddOns/smooth-hall.wav",    //the path to your impulse response
+      impulse: "../../public/EffectsAddOns/VocalDuo.wav",    //the path to your impulse response
       bypass: 0
     });
 
