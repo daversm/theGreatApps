@@ -21,7 +21,9 @@ var Reverb = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffReverb: function(){
+  OnOff: function(){
+    this.props.list.push(this.convolver);
+    /*
     console.log(this.convolver);
     if(this.power){
       console.log('now off');
@@ -32,9 +34,10 @@ var Reverb = React.createClass({
       this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
   },
   handleClick: function(){
-    this.props.onClick('delay');
+    this.props.onClick('Reverb');
   },
   setTuna: function(param){
     this.tuna = param;

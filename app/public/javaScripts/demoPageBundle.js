@@ -624,9 +624,12 @@ var Phaser = require('./Phaser.jsx');
 var Effects = React.createClass({
   displayName: 'Effects',
 
-
+  getInitialState: function getInitialState() {
+    return { listOfEffects: [] };
+  },
   componentDidMount: function componentDidMount() {
-    this.effectsStatusList = { phaser: false, delay: false, compressor: false, reverb: false, EQ: false };
+
+    this.effectsStatusList = { Phaser: false, Delay: false, Compressor: false, Reverb: false, EQ: false };
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
@@ -634,6 +637,7 @@ var Effects = React.createClass({
     this.refs['Phaser'].setTuna(tuna);
   },
   setPropsToEffects: function setPropsToEffects(params) {
+    this.wavesurfer = params;
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
     this.refs['Compressor'].setWaveform(params);
@@ -641,16 +645,47 @@ var Effects = React.createClass({
     this.refs['Phaser'].setWaveform(params);
   },
   handleEffectsPower: function handleEffectsPower(e) {
+    this.state.listOfEffects.length = 0;
+
     console.log(this.effectsStatusList);
-    this.effectsStatusList[e] = true;
+    if (this.effectsStatusList[e] == true) {
+      this.effectsStatusList[e] = false;
+      //this.updateEffectsChain();
+    } else if (this.effectsStatusList[e] == false) {
+        this.effectsStatusList[e] = true;
+        //this.updateEffectsChain();
+      }
+
     console.log(this.effectsStatusList);
+    console.log(this.state.listOfEffects);
+
+    for (var effects in this.effectsStatusList) {
+      if (this.effectsStatusList[effects]) {
+        console.log("Calling Child : " + effects);
+        this.refs[effects].OnOff();
+        console.log(this.state.listOfEffects);
+      }
+    }
+
+    console.log(this.state.listOfEffects);
+    if (this.state.listOfEffects.length == 0) {
+      console.log("clearing effects");
+      this.wavesurfer.backend.disconnectFilters();
+    } else {
+      console.log("Adding effects");
+      var list = this.state.listOfEffects.map(function (i) {
+        return i;
+      });
+
+      this.wavesurfer.backend.setFilters(list);
+    }
   },
   render: function render() {
 
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
-      React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower }),
+      React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
       React.createElement(Delay, { ref: 'Delay' }),
       React.createElement(Compressor, { ref: 'Compressor' }),
       React.createElement(EQ, { ref: 'EQ' }),
@@ -958,20 +993,23 @@ var Reverb = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffReverb: function OnOffReverb() {
+  OnOff: function OnOff() {
+    this.props.list.push(this.convolver);
+    /*
     console.log(this.convolver);
-    if (this.power) {
+    if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
-    } else {
+    }else{
       console.log('now on');
       this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+    */
   },
   handleClick: function handleClick() {
-    this.props.onClick('delay');
+    this.props.onClick('Reverb');
   },
   setTuna: function setTuna(param) {
     this.tuna = param;

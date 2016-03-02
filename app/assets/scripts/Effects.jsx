@@ -10,9 +10,12 @@ var Phaser = require('./Phaser.jsx');
 
 
 var Effects = React.createClass({
-
+    getInitialState: function(){
+      return({listOfEffects:[]});
+    },
   componentDidMount: function(){
-    this.effectsStatusList = {phaser:false, delay:false, compressor:false, reverb:false, EQ:false};
+
+    this.effectsStatusList = {Phaser:false, Delay:false, Compressor:false, Reverb:false, EQ:false};
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
@@ -20,6 +23,7 @@ var Effects = React.createClass({
     this.refs['Phaser'].setTuna(tuna);
   },
   setPropsToEffects: function(params){
+    this.wavesurfer = params;
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
     this.refs['Compressor'].setWaveform(params);
@@ -27,15 +31,48 @@ var Effects = React.createClass({
     this.refs['Phaser'].setWaveform(params);
   },
   handleEffectsPower: function(e){
+    this.state.listOfEffects.length = 0;
+
     console.log(this.effectsStatusList);
-    this.effectsStatusList[e] = true;
+    if(this.effectsStatusList[e] == true){
+      this.effectsStatusList[e] = false;
+      //this.updateEffectsChain();
+    }else if (this.effectsStatusList[e] == false){
+      this.effectsStatusList[e] = true;
+      //this.updateEffectsChain();
+    }
+
     console.log(this.effectsStatusList);
+    console.log(this.state.listOfEffects);
+
+    for (var effects in this.effectsStatusList){
+      if(this.effectsStatusList[effects]){
+        console.log("Calling Child : " + effects);
+        this.refs[effects].OnOff();
+        console.log(this.state.listOfEffects);
+      }
+    }
+
+    console.log(this.state.listOfEffects);
+    if(this.state.listOfEffects.length == 0){
+      console.log("clearing effects");
+      this.wavesurfer.backend.disconnectFilters();
+    }else{
+      console.log("Adding effects");
+
+      this.wavesurfer.backend.setFilters(
+        this.state.listOfEffects.map(function(i){
+          return i;
+        });
+      );
+    }
+
   },
   render: function (){
 
     return(
       <div className="trackAudioEffectsPanel">
-        <Reverb ref="Reverb" onClick={this.handleEffectsPower}/>
+        <Reverb ref="Reverb" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
         <Delay ref="Delay" />
         <Compressor ref="Compressor" />
         <EQ ref="EQ" />
