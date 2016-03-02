@@ -16,13 +16,13 @@ var Effects = React.createClass({
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
-    //this.refs['Reverb'].setTuna(tuna);
+    this.refs['Reverb'].setTuna(tuna);
   },
   setPropsToEffects: function(params){
     this.refs['EQ'].setWaveform(params);
     this.refs['Delay'].setWaveform(params);
     this.refs['Compressor'].setWaveform(params);
-    //this.refs['Reverb'].setWaveform(params);
+    this.refs['Reverb'].setWaveform(params);
   },
   handleDelayFeedBack: function(value){
     reverb.gainNode.gain.value = value/100;

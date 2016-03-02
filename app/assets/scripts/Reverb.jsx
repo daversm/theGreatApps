@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Select = require('react-select');
+
 
 var Reverb = React.createClass({
   getInitialState: function(){
@@ -13,14 +13,14 @@ var Reverb = React.createClass({
     this.wavesurfer = param;
   },
   OnOffReverb: function(e){
-    console.log(this.Compressor);
+    console.log(this.convolver);
     if(this.power){
       console.log('now off');
       this.wavesurfer.backend.disconnectFilters();
       this.power = false;
     }else{
       console.log('now on');
-      this.wavesurfer.backend.setFilters([this.compressor]);
+      this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
   },
@@ -33,7 +33,7 @@ var Reverb = React.createClass({
       dryLevel: 1,                            //0 to 1+
       wetLevel: 1,                            //0 to 1+
       level: 1,                               //0 to 1+, adjusts total output of both wet and dry
-      impulse: "impulses/impulse_rev.wav",    //the path to your impulse response
+      impulse: "../../public/EffectsAddOns/smooth-hall.wav",    //the path to your impulse response
       bypass: 0
     });
 
@@ -42,35 +42,13 @@ var Reverb = React.createClass({
 
   },
   render: function(){
-    const options = [
-     { value: 'one', label: 'One' },
-     { value: 'two', label: 'Two' },
-     {
-      type: 'group', name: 'group1', items: [
-        { value: 'three', label: 'Three' },
-        { value: 'four', label: 'Four' }
-      ]
-     },
-     {
-      type: 'group', name: 'group2', items: [
-        { value: 'five', label: 'Five' },
-        { value: 'six', label: 'Six' }
-      ]
-     }
-   ]
+
     return(
       <div className='delayHolder'>
         <div className="delayTitle">
-          <Select
-             options={options}
-             onChange={this.reverbPick}
-             value="one"
-             clearable={false}
-             className="DropDownDiv"
-             name="Select an option"
-          />
+            <div className="buttonsInsideTrack" onClick={this.OnOffReverb}> DELAY </div>
         </div>
-        
+
       </div>
 
     );

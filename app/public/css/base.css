@@ -8,6 +8,7 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+@import 'node_modules/react-selectize/themes/index.css'
 .slider{
   width: 95px;
 }
@@ -887,8 +888,18 @@ input[type="text"].tangleInput {
   margin-top: 3px;
   cursor:col-resize;
 }
-
-.DropDownDiv{
+input[type="text"].DropDownDiv {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 2px;
   width: 80px;
-  height: 20px;
+  height: 25px;
+  border: solid 1px #5a5a5a;
+  border-radius: 2px;
+  padding-left: 4px;
+  font-weight: 300;
+  color: #5a5a5a;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  cursor:col-resize;
 }
