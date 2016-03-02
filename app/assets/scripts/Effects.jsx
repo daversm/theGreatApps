@@ -12,6 +12,7 @@ var Phaser = require('./Phaser.jsx');
 var Effects = React.createClass({
 
   componentDidMount: function(){
+    this.effectsStatusList = {phaser:false, delay:false, compressor:false, reverb:false, EQ:false};
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
@@ -25,12 +26,16 @@ var Effects = React.createClass({
     this.refs['Reverb'].setWaveform(params);
     this.refs['Phaser'].setWaveform(params);
   },
-
+  handleEffectsPower: function(e){
+    console.log(this.effectsStatusList);
+    this.effectsStatusList[e] = true;
+    console.log(this.effectsStatusList);
+  },
   render: function (){
 
     return(
       <div className="trackAudioEffectsPanel">
-        <Reverb ref="Reverb" />
+        <Reverb ref="Reverb" onClick={this.handleEffectsPower}/>
         <Delay ref="Delay" />
         <Compressor ref="Compressor" />
         <EQ ref="EQ" />

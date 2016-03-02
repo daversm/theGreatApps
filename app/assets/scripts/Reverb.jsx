@@ -3,8 +3,11 @@ var ReactDOM = require('react-dom');
 
 
 var Reverb = React.createClass({
+  propTypes: {
+    onClick : React.PropTypes.func
+  },
   getInitialState: function(){
-    return({wetLevel:25, dryLevel:100});
+    return({wetLevel:25, dryLevel:100, power:false});
   },
   handleWet:function(e){
     this.convolver.wetLevel = e.target.value/100;
@@ -18,7 +21,7 @@ var Reverb = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffReverb: function(e){
+  OnOffReverb: function(){
     console.log(this.convolver);
     if(this.power){
       console.log('now off');
@@ -29,6 +32,9 @@ var Reverb = React.createClass({
       this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+  },
+  handleClick: function(){
+    this.props.onClick('delay');
   },
   setTuna: function(param){
     this.tuna = param;
@@ -44,15 +50,13 @@ var Reverb = React.createClass({
     });
 
   },
-  reverbPick: function(){
 
-  },
   render: function(){
 
     return(
       <div className='reverbHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.OnOffReverb}> REVERB </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClick}> REVERB </div>
         </div>
         <div className="reverbDiv">
           <div className="sliderVertical">

@@ -626,6 +626,7 @@ var Effects = React.createClass({
 
 
   componentDidMount: function componentDidMount() {
+    this.effectsStatusList = { phaser: false, delay: false, compressor: false, reverb: false, EQ: false };
     var tuna = new Tuna(audioContext);
     this.refs['Delay'].setTuna(tuna);
     this.refs['Compressor'].setTuna(tuna);
@@ -639,13 +640,17 @@ var Effects = React.createClass({
     this.refs['Reverb'].setWaveform(params);
     this.refs['Phaser'].setWaveform(params);
   },
-
+  handleEffectsPower: function handleEffectsPower(e) {
+    console.log(this.effectsStatusList);
+    this.effectsStatusList[e] = true;
+    console.log(this.effectsStatusList);
+  },
   render: function render() {
 
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
-      React.createElement(Reverb, { ref: 'Reverb' }),
+      React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower }),
       React.createElement(Delay, { ref: 'Delay' }),
       React.createElement(Compressor, { ref: 'Compressor' }),
       React.createElement(EQ, { ref: 'EQ' }),
@@ -935,8 +940,11 @@ var ReactDOM = require('react-dom');
 var Reverb = React.createClass({
   displayName: 'Reverb',
 
+  propTypes: {
+    onClick: React.PropTypes.func
+  },
   getInitialState: function getInitialState() {
-    return { wetLevel: 25, dryLevel: 100 };
+    return { wetLevel: 25, dryLevel: 100, power: false };
   },
   handleWet: function handleWet(e) {
     this.convolver.wetLevel = e.target.value / 100;
@@ -950,7 +958,7 @@ var Reverb = React.createClass({
     console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
-  OnOffReverb: function OnOffReverb(e) {
+  OnOffReverb: function OnOffReverb() {
     console.log(this.convolver);
     if (this.power) {
       console.log('now off');
@@ -961,6 +969,9 @@ var Reverb = React.createClass({
       this.wavesurfer.backend.setFilters([this.convolver]);
       this.power = true;
     }
+  },
+  handleClick: function handleClick() {
+    this.props.onClick('delay');
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -975,7 +986,7 @@ var Reverb = React.createClass({
       bypass: 0
     });
   },
-  reverbPick: function reverbPick() {},
+
   render: function render() {
 
     return React.createElement(
@@ -986,7 +997,7 @@ var Reverb = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.OnOffReverb },
+          { className: 'buttonsInsideTrack', onClick: this.handleClick },
           ' REVERB '
         )
       ),
