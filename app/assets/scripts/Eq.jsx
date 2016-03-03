@@ -99,7 +99,10 @@ var EQ = React.createClass({
     this.setState({valueBandTen:e.target.value});
   },
   OnOff: function(){
-    this.props.list.push(this.filters);
+    var levelUp = this;
+    this.filters.map(function(filter){
+      levelUp.props.list.push(filter);
+    });
     /*
     console.log(this.convolver);
     if(this.power){

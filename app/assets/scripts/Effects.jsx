@@ -33,32 +33,30 @@ var Effects = React.createClass({
   handleEffectsPower: function(e){
     this.state.listOfEffects.length = 0;
 
-    console.log(this.effectsStatusList);
+    //console.log(this.effectsStatusList);
     if(this.effectsStatusList[e] == true){
       this.effectsStatusList[e] = false;
-      //this.updateEffectsChain();
     }else if (this.effectsStatusList[e] == false){
       this.effectsStatusList[e] = true;
-      //this.updateEffectsChain();
     }
 
-    console.log(this.effectsStatusList);
-    console.log(this.state.listOfEffects);
+    //console.log(this.effectsStatusList);
+    //console.log(this.state.listOfEffects);
 
     for (var effects in this.effectsStatusList){
       if(this.effectsStatusList[effects]){
-        console.log("Calling Child : " + effects);
+        //console.log("Calling Child : " + effects);
         this.refs[effects].OnOff();
-        console.log(this.state.listOfEffects);
+        //console.log(this.state.listOfEffects);
       }
     }
 
     console.log(this.state.listOfEffects);
     if(this.state.listOfEffects.length == 0){
-      console.log("clearing effects");
+      //console.log("clearing effects");
       this.wavesurfer.backend.disconnectFilters();
     }else{
-      console.log("Adding effects");
+      //console.log("Adding effects");
       this.wavesurfer.backend.setFilters(
         this.state.listOfEffects.map(function(i){
           return i;

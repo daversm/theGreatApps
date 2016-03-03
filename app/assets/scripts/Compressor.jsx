@@ -31,7 +31,7 @@ var Compressor = React.createClass({
     this.setState({threshold: value});
   },
   setWaveform: function(param){
-    console.log('wavesurfer set delay');
+    //console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
   OnOff: function(){
