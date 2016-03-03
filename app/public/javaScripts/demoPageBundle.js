@@ -1122,7 +1122,7 @@ var Track = exports.Track = React.createClass({
   displayName: 'Track',
 
   getInitialState: function getInitialState() {
-    return { value: 50 };
+    return { value: 50, style: { background: '#6F6F6F' } };
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, {
@@ -1187,6 +1187,7 @@ var Track = exports.Track = React.createClass({
   },
   handleRecord: function handleRecord() {
     var outerThis = this;
+    this.setState({ style: { background: '#FF4D1D' } });
 
     if (this.currentlyRecording == false) {
       this.enablePlayBackButtons = false;
@@ -1323,7 +1324,7 @@ var Track = exports.Track = React.createClass({
       this.rec.exportWAV(function (audio) {
         var blob = new Blob([audio]);
         outerThis2.wavesurferPostRecording.loadBlob(blob);
-        outerThis2.setState({ trackStatusMsg: "RECORDING DONE" });
+        outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
       });
 
       this.enablePlayBackButtons = true;
@@ -1415,7 +1416,7 @@ var Track = exports.Track = React.createClass({
           { className: 'trackStatusPanel' },
           React.createElement(
             'div',
-            { className: 'trackStatusMsg' },
+            { style: this.state.style, className: 'trackStatusMsg' },
             ' ',
             this.state.trackStatusMsg,
             ' '

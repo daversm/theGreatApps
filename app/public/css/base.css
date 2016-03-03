@@ -229,6 +229,7 @@ body, html {
   color: white;
   width: 150px;
   background: #6F6F6F;
+  transition: background .8s ease;
 }
 
 

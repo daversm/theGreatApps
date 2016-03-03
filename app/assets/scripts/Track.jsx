@@ -8,7 +8,7 @@ var Tuna = require('tunajs');
 
 export var Track = React.createClass({
   getInitialState: function() {
-    return {value:50};
+    return {value:50, style:{background:'#6F6F6F'}};
   },
   setMicToRecorder: function(){
     this.rec = new Recorder(mediaStreamSource, {
@@ -61,7 +61,7 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
-  
+
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -75,6 +75,7 @@ export var Track = React.createClass({
   },
   handleRecord: function(){
     var outerThis = this;
+    this.setState({style:{background:'#FF4D1D'}});
 
       if(this.currentlyRecording == false){
         this.enablePlayBackButtons = false;
@@ -219,7 +220,7 @@ export var Track = React.createClass({
               this.rec.exportWAV(function(audio){
                 var blob= new Blob([audio]);
                 outerThis2.wavesurferPostRecording.loadBlob(blob);
-                outerThis2.setState({trackStatusMsg: "RECORDING DONE"});
+                outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
               });
 
               this.enablePlayBackButtons = true;
@@ -284,7 +285,7 @@ export var Track = React.createClass({
 
         </div>
           <div className="trackStatusPanel">
-            <div className="trackStatusMsg"> {this.state.trackStatusMsg} </div>
+            <div style={this.state.style} className="trackStatusMsg" > {this.state.trackStatusMsg} </div>
           </div>
           <Effects ref="Effects"/>
         </div>
