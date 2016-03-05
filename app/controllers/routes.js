@@ -2,7 +2,11 @@
 module.exports = function(app, passport) {
 
   var PasswordReset = require('../helpers/passwordReset.js');
+  var fs      = require('fs');
   var path = require('path');
+  var gfs = app.get('gridfs');
+  var multer  = require('multer');
+  var upload = multer({ dest: 'uploads/' });
 
 	app.get('/', function(req, res) {
 		res.sendfile('app/views/index.html');
@@ -75,7 +79,25 @@ app.post('/getUserName', function(req, res) {
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {
-		res.sendfile('app/views/profile.html');
+		res.sendfile('app/views/demo.html');
+});
+
+app.post('/upload', upload.any(), function(req, res) {
+  console.log(req.files);
+  var tempfile    = req.files[0].path;
+   var origname    = req.files[0].filename;
+   var writestream = gfs.createWriteStream({ filename: origname });
+   // open a stream to the temporary file created by Express...
+   fs.createReadStream(tempfile)
+     .on('end', function() {
+       res.send('OK');
+     })
+     .on('error', function() {
+       res.send('ERR');
+     })
+     // and pipe it to gfs
+     .pipe(writestream);
+
 });
 
 app.get('/logout', function(req, res) {

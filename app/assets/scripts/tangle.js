@@ -1,6 +1,10 @@
+'use strict';
+
 var React = require('react');
 
 var Tangle = React.createClass({
+  displayName: 'Tangle',
+
   propTypes: {
     value: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -12,35 +16,37 @@ var Tangle = React.createClass({
     onInput: React.PropTypes.func,
     format: React.PropTypes.func
   },
-  getDefaultProps: function() {
+  getDefaultProps: function getDefaultProps() {
     return {
       min: -Infinity,
       max: Infinity,
       step: 1,
       pixelDistance: null,
       className: 'react-tangle-input',
-      format: function(x) { return x; },
-      onInput: function() { }
+      format: function format(x) {
+        return x;
+      },
+      onInput: function onInput() {}
     };
   },
-  componentWillMount: function() {
+  componentWillMount: function componentWillMount() {
     this.__isMouseDown = false;
   },
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     this.setState({ value: nextProps.value });
   },
-  getInitialState: function() {
+  getInitialState: function getInitialState() {
     return { value: this.props.value };
   },
-  bounds: function(num) {
+  bounds: function bounds(num) {
     num = Math.max(num, this.props.min);
     num = Math.min(num, this.props.max);
     return num;
   },
-  onChange: function(e) {
+  onChange: function onChange(e) {
     this.setState({ value: e.target.value });
   },
-  onBlur: function(e) {
+  onBlur: function onBlur(e) {
     var parsed = parseFloat(this.state.value);
     if (isNaN(parsed)) {
       this.setState({ value: this.props.value });
@@ -49,7 +55,7 @@ var Tangle = React.createClass({
       this.setState({ value: this.bounds(parsed) });
     }
   },
-  onMouseMove: function(e) {
+  onMouseMove: function onMouseMove(e) {
     var change;
     if (this.props.pixelDistance > 0) {
       change = Math.floor((this.startX - e.screenX) / this.props.pixelDistance);
@@ -57,11 +63,11 @@ var Tangle = React.createClass({
       change = this.startX - e.screenX;
     }
     this.dragged = true;
-    var value = this.bounds(this.startValue - (change * this.props.step));
+    var value = this.bounds(this.startValue - change * this.props.step);
     this.setState({ value: value });
     this.props.onInput(value);
   },
-  onMouseDown: function(e) {
+  onMouseDown: function onMouseDown(e) {
     // short circuit if currently editing number
     if (e.target === document.activeElement || e.button !== 0) return;
     this.__isMouseDown = true;
@@ -75,7 +81,7 @@ var Tangle = React.createClass({
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('mouseup', this.onMouseUp);
   },
-  onMouseUp: function(e) {
+  onMouseUp: function onMouseUp(e) {
     if (this.__isMouseDown) {
       e.preventDefault();
       window.removeEventListener('mousemove', this.onMouseMove);
@@ -84,10 +90,10 @@ var Tangle = React.createClass({
       this.__isMouseDown = false;
     }
   },
-  onDoubleClick: function(e) {
+  onDoubleClick: function onDoubleClick(e) {
     e.target.focus();
   },
-  onKeyDown: function(e) {
+  onKeyDown: function onKeyDown(e) {
     var value;
     if (e.which == 38) {
       // UP
@@ -107,22 +113,22 @@ var Tangle = React.createClass({
       e.target.blur();
     }
   },
-  render: function() {
+  render: function render() {
     /* jshint ignore:start */
-    return (
-      <div>
-        <input
-          className="tangleInput"
-          disabled={this.props.disabled}
-          type='text'
-          onChange={this.onChange}
-          onMouseDown={this.onMouseDown}
-          onKeyDown={this.onKeyDown}
-          onMouseUp={this.onMouseUp}
-          onDoubleClick={this.onDoubleClick}
-          onBlur={this.onBlur}
-          value={this.props.format(this.state.value)} />
-      </div>
+    return React.createElement(
+      'div',
+      null,
+      React.createElement('input', {
+        className: 'tangleInput',
+        disabled: this.props.disabled,
+        type: 'text',
+        onChange: this.onChange,
+        onMouseDown: this.onMouseDown,
+        onKeyDown: this.onKeyDown,
+        onMouseUp: this.onMouseUp,
+        onDoubleClick: this.onDoubleClick,
+        onBlur: this.onBlur,
+        value: this.props.format(this.state.value) })
     );
     /* jshint ignore:end */
   }

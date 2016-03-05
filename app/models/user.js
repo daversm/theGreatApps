@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
         email        : String,
         password     : String,
         pin          : String,
-        displayName  : String
+        displayName  : String,
+        trackOne     : {}
     }
 
 });

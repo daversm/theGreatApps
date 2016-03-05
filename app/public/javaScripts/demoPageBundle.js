@@ -430,18 +430,6 @@ var EQ = React.createClass({
     this.filters.map(function (filter) {
       levelUp.props.list.push(filter);
     });
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
   },
   handleClick: function handleClick() {
     this.props.onClick('EQ');
@@ -1227,35 +1215,18 @@ var Track = exports.Track = React.createClass({
   },
   handleShowWaveLive: function handleShowWaveLive(e) {
     var outerThis = this;
-    if (this.currentlyRecording == false) {
-      if (this.waveSurferOn == false) {
-        this.microphone.destroy();
-        this.wavesurfer.empty();
-        this.wavesurfer.destroy();
-        this.wavesurfer = Object.create(WaveSurfer);
-        this.wavesurfer.init({
-          container: "#" + outerThis.props.trackName,
-          waveColor: "#5A5A5A",
-          interact: false,
-          cursorWidth: 0,
-          height: 170
-        });
-        this.microphone = Object.create(WaveSurfer.Microphone);
-        this.microphone.init({
-          wavesurfer: this.wavesurfer
-        });
-        this.microphone.gotStream(mediaStream);
-        this.microphone.play();
-        e.target.style.color = "#FF4D1D";
-        this.currentColorMicIcon = "#FF4D1D";
-        this.waveSurferOn = true;
-      } else {
-        this.microphone.pause();
-        e.target.style.color = "#5A5A5A";
-        this.currentColorMicIcon = "#5A5A5A";
-        this.waveSurferOn = false;
+    $.ajax({
+      type: 'POST',
+      url: '/upload',
+      data: outerThis.fd,
+      processData: false,
+      contentType: false,
+      dataType: "script",
+      success: function success(data) {
+        console.log('Uploaded..I think');
       }
-    }
+
+    });
   },
   handleLiveFeed: function handleLiveFeed() {},
   handleDownloadTrack: function handleDownloadTrack() {
@@ -1322,6 +1293,10 @@ var Track = exports.Track = React.createClass({
       });
 
       this.rec.exportWAV(function (audio) {
+
+        outerThis2.fd = new FormData();
+        outerThis2.fd.append('data', audio);
+
         var blob = new Blob([audio]);
         outerThis2.wavesurferPostRecording.loadBlob(blob);
         outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
@@ -1548,21 +1523,17 @@ var Tangle = React.createClass({
   },
   render: function render() {
     /* jshint ignore:start */
-    return React.createElement(
-      'div',
-      null,
-      React.createElement('input', {
-        className: 'tangleInput',
-        disabled: this.props.disabled,
-        type: 'text',
-        onChange: this.onChange,
-        onMouseDown: this.onMouseDown,
-        onKeyDown: this.onKeyDown,
-        onMouseUp: this.onMouseUp,
-        onDoubleClick: this.onDoubleClick,
-        onBlur: this.onBlur,
-        value: this.props.format(this.state.value) })
-    );
+    return React.createElement('div', null, React.createElement('input', {
+      className: 'tangleInput',
+      disabled: this.props.disabled,
+      type: 'text',
+      onChange: this.onChange,
+      onMouseDown: this.onMouseDown,
+      onKeyDown: this.onKeyDown,
+      onMouseUp: this.onMouseUp,
+      onDoubleClick: this.onDoubleClick,
+      onBlur: this.onBlur,
+      value: this.props.format(this.state.value) }));
     /* jshint ignore:end */
   }
 });

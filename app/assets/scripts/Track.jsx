@@ -118,35 +118,19 @@ export var Track = React.createClass({
   },
   handleShowWaveLive: function(e){
     var outerThis = this;
-    if(this.currentlyRecording == false){
-      if(this.waveSurferOn == false){
-        this.microphone.destroy();
-        this.wavesurfer.empty();
-        this.wavesurfer.destroy();
-        this.wavesurfer = Object.create(WaveSurfer);
-        this.wavesurfer.init({
-          container     : "#" + outerThis.props.trackName,
-          waveColor     : "#5A5A5A",
-          interact      : false,
-          cursorWidth   : 0,
-          height        : 170
-        });
-        this.microphone = Object.create(WaveSurfer.Microphone);
-        this.microphone.init({
-            wavesurfer: this.wavesurfer
-        });
-        this.microphone.gotStream(mediaStream);
-        this.microphone.play();
-        e.target.style.color = "#FF4D1D";
-        this.currentColorMicIcon = "#FF4D1D";
-        this.waveSurferOn = true;
-      }else{
-        this.microphone.pause();
-        e.target.style.color = "#5A5A5A";
-        this.currentColorMicIcon = "#5A5A5A";
-        this.waveSurferOn = false;
+    $.ajax({
+      type: 'POST',
+      url: '/upload',
+      data: outerThis.fd,
+      processData: false,
+      contentType: false,
+      dataType: "script",
+      success: function(data) {
+        console.log('Uploaded..I think');
       }
-    }
+
+    });
+
 
   },
   handleLiveFeed: function(){
@@ -218,6 +202,10 @@ export var Track = React.createClass({
               });
 
               this.rec.exportWAV(function(audio){
+
+                outerThis2.fd = new FormData();
+                outerThis2.fd.append('data', audio);
+
                 var blob= new Blob([audio]);
                 outerThis2.wavesurferPostRecording.loadBlob(blob);
                 outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});

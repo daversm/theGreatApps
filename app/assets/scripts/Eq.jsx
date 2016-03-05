@@ -103,18 +103,7 @@ var EQ = React.createClass({
     this.filters.map(function(filter){
       levelUp.props.list.push(filter);
     });
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
+  
   },
   handleClick: function(){
     this.props.onClick('EQ');
