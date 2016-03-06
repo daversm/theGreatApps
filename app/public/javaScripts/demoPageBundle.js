@@ -1302,23 +1302,12 @@ var Track = exports.Track = React.createClass({
 
       var outerThis2 = this;
       this.rec.getBuffer(function (buffers) {
-        var newSource = audioContext.createBufferSource();
+        console.log(buffers);
+
         var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
         newBuffer.getChannelData(0).set(buffers[0]);
         newBuffer.getChannelData(1).set(buffers[1]);
-        newSource.buffer = newBuffer;
-
-        newSource.connect(audioContext.destination);
-        newSource.start(0);
-      });
-
-      this.rec.exportWAV(function (audio) {
-
-        outerThis2.fd = new FormData();
-        outerThis2.fd.append('data', audio);
-        console.log(audio);
-        var blob = new Blob([audio]);
-        outerThis2.wavesurferPostRecording.loadBlob(blob);
+        outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
         outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
       });
 
