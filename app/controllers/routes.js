@@ -100,6 +100,13 @@ app.post('/upload', upload.any(), function(req, res) {
 
 });
 
+app.get('/download', function(req, res) {
+    var file = gfs.createReadStream({ filename: '045a24da09e3aad0eb9c93e7d29a8afa' });
+    res.set({'Content-Type': 'audio/wav'});
+    file.pipe(res);
+    console.log(file);
+  });
+
 app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');

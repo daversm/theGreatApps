@@ -118,6 +118,7 @@ export var Track = React.createClass({
   },
   handleShowWaveLive: function(e){
     var outerThis = this;
+    /*
     $.ajax({
       type: 'POST',
       url: '/upload',
@@ -130,6 +131,26 @@ export var Track = React.createClass({
       }
 
     });
+    */
+
+    var request = new XMLHttpRequest();
+    request.open("GET", "/download", true);
+    request.responseType = "arraybuffer";
+
+    request.onload = function() {
+      var Data = request.response;
+      process(Data);
+    };
+
+    request.send();
+
+    function process(Data){
+      var blob= new Blob([Data]);
+      outerThis.wavesurferPostRecording.empty();
+      outerThis.wavesurferPostRecording.loadBlob(blob);
+      console.log(Data);
+      console.log(Data.size);
+    };
 
 
   },
@@ -205,7 +226,7 @@ export var Track = React.createClass({
 
                 outerThis2.fd = new FormData();
                 outerThis2.fd.append('data', audio);
-
+                console.log(audio);
                 var blob= new Blob([audio]);
                 outerThis2.wavesurferPostRecording.loadBlob(blob);
                 outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
