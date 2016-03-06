@@ -58,7 +58,6 @@ export var Track = React.createClass({
     this.microphone.init({
         wavesurfer: this.wavesurfer
     });
-    this.microphone.gotStream(mediaStream);
 
   },
   handleDeleteAudio: function(){
@@ -81,8 +80,25 @@ export var Track = React.createClass({
       if(this.currentlyRecording == false){
         this.enablePlayBackButtons = false;
         this.setState({trackStatusMsg:'RECORDING'});
-
+        this.microphone.destroy();
         this.wavesurfer.empty();
+        this.wavesurfer.destroy();
+        if (typeof this.wavesurferPostRecording != "undefined") {
+            this.wavesurferPostRecording.empty();
+            this.wavesurferPostRecording.destroy();
+        }
+        this.wavesurfer = Object.create(WaveSurfer);
+        this.wavesurfer.init({
+          container     : "#" + outerThis.props.trackName,
+          waveColor     : "#5A5A5A",
+          interact      : false,
+          cursorWidth   : 0,
+          height        : 170
+        });
+        this.microphone = Object.create(WaveSurfer.Microphone);
+        this.microphone.init({
+            wavesurfer: this.wavesurfer
+        });
         this.microphone.gotStream(mediaStream);
         this.currentlyRecording = true;
         this.microphone.play();
@@ -130,8 +146,8 @@ export var Track = React.createClass({
 
     function process(Data){
       var blob= new Blob([Data]);
-      outerThis.wavesurfer.empty();
-      outerThis.wavesurfer.loadBlob(blob);
+      outerThis.wavesurferPostRecording.empty();
+      outerThis.wavesurferPostRecording.loadBlob(blob);
       console.log(Data);
       console.log(Data.size);
     };
@@ -153,17 +169,37 @@ export var Track = React.createClass({
   handleRecStop: function(){
     if(this.currentlyRecording || this.recordingIsPaused){
 
+          this.setState({trackStatusMsg:"LOADING AUDIO"}, function() {
+            console.log(this.state.trackStatusMsg);
+          });
+
+          console.log(this.state.trackStatusMsg);
+
           this.currentlyRecording = false;
           this.recordingIsPaused = false;
           this.microphone.pause();
           this.rec.stop();
+          this.microphone.destroy();
           this.wavesurfer.empty();
+          this.wavesurfer.destroy();
+
+          this.wavesurferPostRecording = Object.create(WaveSurfer);
           var outerThis2 = this;
 
-          this.wavesurfer.on('ready', function () {
+          this.wavesurferPostRecording.init({
+              audioContext : audioContext,
+              container: "#" + outerThis2.props.trackName,
+              waveColor: '#0099FF',
+              progressColor: '#5A5A5A',
+              interact      : true,
+              cursorWidth   : 3,
+              cursorColor   : '#FF6D45',
+              height        : 170
+          });
+          this.wavesurferPostRecording.on('ready', function () {
             outerThis2.timeline = Object.create(WaveSurfer.Timeline);
             outerThis2.timeline.init({
-                wavesurfer: outerThis2.wavesurfer,
+                wavesurfer: outerThis2.wavesurferPostRecording,
                 container: "#" + outerThis2.props.trackName,
                 primaryColor: '#5A5A5A',
                 secondaryColor: '#5A5A5A',
@@ -172,17 +208,21 @@ export var Track = React.createClass({
             });
           });
 
-          this.refs['Effects'].setPropsToEffects(this.wavesurfer);
+          this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
 
-          this.rec.getBuffer(function(buffers){
-              var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
-              newBuffer.getChannelData(0).set(buffers[0]);
-              newBuffer.getChannelData(1).set(buffers[1]);
-              outerThis2.wavesurfer.loadDecodedBuffer(newBuffer);
-              outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
-          });
+            var outerThis2 = this;
+              this.rec.getBuffer(function(buffers){
+                console.log(buffers);
 
-          this.enablePlayBackButtons = true;
+                var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+                newBuffer.getChannelData(0).set(buffers[0]);
+                newBuffer.getChannelData(1).set(buffers[1]);
+                outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+                outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
+
+              });
+
+              this.enablePlayBackButtons = true;
 
 
 
@@ -192,19 +232,19 @@ export var Track = React.createClass({
   handlePlay: function(){
     if( !this.currentlyRecording &&
         !this.recordingIsPaused && this.enablePlayBackButtons){
-            this.wavesurfer.play();
+            this.wavesurferPostRecording.play();
     }
   },
   handleStop: function(){
     if( !this.currentlyRecording &&
         !this.recordingIsPaused && this.enablePlayBackButtons){
-            this.wavesurfer.stop();
+            this.wavesurferPostRecording.stop();
     }
   },
   handlePause: function(){
     if( !this.currentlyRecording &&
         !this.recordingIsPaused && this.enablePlayBackButtons){
-            this.wavesurfer.pause();
+            this.wavesurferPostRecording.pause();
     }
 
   },
