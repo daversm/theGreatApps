@@ -57,6 +57,7 @@ const MasterController = React.createClass({
     return (
       <div>
         <div className="masterControllPanel" >
+          
 
           <div className="masterControllPanelControls">
 
@@ -64,6 +65,9 @@ const MasterController = React.createClass({
             <div id="pauseMaster"   onClick={this.handleMasterPause}></div>
             <div id="stopMaster"    onClick={this.handleMasterStop}></div>
 
+          </div>
+          <div className="titleTopCorner">
+            GORILLA DAW
           </div>
         </div>
           <div id="tracksDiv">

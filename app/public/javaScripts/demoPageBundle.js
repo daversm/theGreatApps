@@ -778,6 +778,11 @@ var MasterController = _react2.default.createClass({
           _react2.default.createElement('div', { id: 'playMaster', onClick: this.handleMasterPlay }),
           _react2.default.createElement('div', { id: 'pauseMaster', onClick: this.handleMasterPause }),
           _react2.default.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'titleTopCorner' },
+          'GORILLA DAW'
         )
       ),
       _react2.default.createElement(
