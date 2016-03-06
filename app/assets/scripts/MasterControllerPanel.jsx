@@ -31,16 +31,6 @@ const MasterController = React.createClass({
     this.refs['track2'].handlePlay();
     this.refs['track3'].handlePlay();
   },
-  handleMasterStopRecord: function(){
-    this.refs['track1'].handleRecStop();
-    this.refs['track2'].handleRecStop();
-    this.refs['track3'].handleRecStop();
-  },
-  handleMasterRecord: function(){
-    this.refs['track1'].handleRecord();
-    this.refs['track2'].handleRecord();
-    this.refs['track3'].handleRecord();
-  },
   handleMasterPause: function(){
     this.refs['track1'].handlePause();
     this.refs['track2'].handlePause();
@@ -73,8 +63,6 @@ const MasterController = React.createClass({
             <div id="playMaster"    onClick={this.handleMasterPlay}></div>
             <div id="pauseMaster"   onClick={this.handleMasterPause}></div>
             <div id="stopMaster"    onClick={this.handleMasterStop}></div>
-            <div id="rec"           onClick={this.handleMasterRecord}></div>
-            <div id="recStopMaster" onClick={this.handleMasterStopRecord}></div>
 
           </div>
         </div>

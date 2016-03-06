@@ -745,16 +745,6 @@ var MasterController = _react2.default.createClass({
     this.refs['track2'].handlePlay();
     this.refs['track3'].handlePlay();
   },
-  handleMasterStopRecord: function handleMasterStopRecord() {
-    this.refs['track1'].handleRecStop();
-    this.refs['track2'].handleRecStop();
-    this.refs['track3'].handleRecStop();
-  },
-  handleMasterRecord: function handleMasterRecord() {
-    this.refs['track1'].handleRecord();
-    this.refs['track2'].handleRecord();
-    this.refs['track3'].handleRecord();
-  },
   handleMasterPause: function handleMasterPause() {
     this.refs['track1'].handlePause();
     this.refs['track2'].handlePause();
@@ -787,9 +777,7 @@ var MasterController = _react2.default.createClass({
           { className: 'masterControllPanelControls' },
           _react2.default.createElement('div', { id: 'playMaster', onClick: this.handleMasterPlay }),
           _react2.default.createElement('div', { id: 'pauseMaster', onClick: this.handleMasterPause }),
-          _react2.default.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop }),
-          _react2.default.createElement('div', { id: 'rec', onClick: this.handleMasterRecord }),
-          _react2.default.createElement('div', { id: 'recStopMaster', onClick: this.handleMasterStopRecord })
+          _react2.default.createElement('div', { id: 'stopMaster', onClick: this.handleMasterStop })
         )
       ),
       _react2.default.createElement(
