@@ -61,7 +61,26 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
+    var outerThis2 = this;
+      this.rec.getBuffer(function(buffers){
 
+
+        var RightCh = buffers[0];
+        var LeftCh = buffers[1];
+
+        var deletedBuffR = RightCh.slice(132300, RightCh.length);
+        var deletedBuffL = LeftCh.slice(132300, LeftCh.length);
+
+        buffers[0] = deletedBuffR;
+        buffers[1] = deletedBuffL;
+
+        var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+        newBuffer.getChannelData(0).set(buffers[0]);
+        newBuffer.getChannelData(1).set(buffers[1]);
+        outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+        outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
+
+      });
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -213,6 +232,8 @@ export var Track = React.createClass({
             var outerThis2 = this;
               this.rec.getBuffer(function(buffers){
                 console.log(buffers);
+                console.log(buffers.length);
+
 
                 var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
                 newBuffer.getChannelData(0).set(buffers[0]);
