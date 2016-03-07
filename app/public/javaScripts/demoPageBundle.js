@@ -1103,7 +1103,7 @@ var Track = exports.Track = React.createClass({
   displayName: 'Track',
 
   getInitialState: function getInitialState() {
-    return { value: 50, style: { background: '#6F6F6F' } };
+    return { value: 50, style: { background: '#848383' } };
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, {
@@ -1271,12 +1271,6 @@ var Track = exports.Track = React.createClass({
   handleRecStop: function handleRecStop() {
     if (this.currentlyRecording || this.recordingIsPaused) {
 
-      this.setState({ trackStatusMsg: "LOADING AUDIO" }, function () {
-        console.log(this.state.trackStatusMsg);
-      });
-
-      console.log(this.state.trackStatusMsg);
-
       this.currentlyRecording = false;
       this.recordingIsPaused = false;
       this.microphone.pause();
@@ -1321,7 +1315,7 @@ var Track = exports.Track = React.createClass({
         newBuffer.getChannelData(0).set(buffers[0]);
         newBuffer.getChannelData(1).set(buffers[1]);
         outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-        outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
+        outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#848383' } });
       });
 
       this.enablePlayBackButtons = true;
