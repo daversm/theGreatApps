@@ -57,7 +57,7 @@ const MasterController = React.createClass({
     return (
       <div>
         <div className="masterControllPanel" >
-          
+
 
           <div className="masterControllPanelControls">
 
