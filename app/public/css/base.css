@@ -201,9 +201,9 @@ body, html {
   flex-direction: column;
   width: 99%;
   margin-left: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   border-radius: 2px;
-  box-shadow: 0px 0px 6px rgba(0,0,0,.55);
+  box-shadow: 0px 0px 6px rgba(0,0,0,.40);
 }
 
 .trackInfoPanel{
@@ -487,8 +487,8 @@ input[type="submit"]:focus{
 }
 .buttonsInsideTrack:hover{
   color: white;
-  background-color: #0099FF;
-  border-color: #0099FF;
+  background-color: #31A9F9;
+  border-color: #31A9F9;
 }
 
 .trackName{
@@ -732,7 +732,7 @@ h3{
 }
 #playMaster {
     transition: border-color 150ms ease;
-    border-left: 16px solid #0099FF;
+    border-left: 16px solid #31A9F9;
     border-right: 0px solid transparent;
     border-top: 13px solid transparent;
     border-bottom: 13px solid transparent;
@@ -836,7 +836,7 @@ h3{
 }
 
 #stop:hover {
-    border-left: 32px solid #0099FF;
+    border-left: 32px solid #31A9F9;
     height: 32px;
     content: "";
 }
@@ -844,13 +844,13 @@ h3{
 #stopMaster{
     cursor: pointer;
     transition: border-color 150ms ease;
-    border-left: 25px solid #0099FF;
+    border-left: 25px solid #31A9F9;
     height: 25px;
     content: "";
 }
 
 #stopMaster:hover {
-    border-left: 25px solid #0099FF;
+    border-left: 25px solid #31A9F9;
     height: 25px;
     content: "";
 }
@@ -867,15 +867,15 @@ h3{
 
 #pause:hover{
     transition: border-color 150ms ease;
-    border-left: 10px solid #0099FF;
-    border-right: 10px solid #0099FF;
+    border-left: 10px solid #31A9F9;
+    border-right: 10px solid #31A9F9;
 }
 
 #pauseMaster{
     cursor: pointer;
     transition: border-color 150ms ease;
-    border-left: 7px solid #0099FF;
-    border-right: 7px solid #0099FF;
+    border-left: 7px solid #31A9F9;
+    border-right: 7px solid #31A9F9;
     width: 5px;
     height: 25px;
     content: "";
@@ -883,8 +883,8 @@ h3{
 
 #pauseMaster:hover{
     transition: border-color 150ms ease;
-    border-left: 7px solid #0099FF;
-    border-right: 7px solid #0099FF;
+    border-left: 7px solid #31A9F9;
+    border-right: 7px solid #31A9F9;
 }
 
 input[type=range]{
