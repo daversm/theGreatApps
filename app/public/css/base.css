@@ -203,13 +203,13 @@ body, html {
   margin-left: 6px;
   margin-bottom: 12px;
   border-radius: 2px;
-  box-shadow: 0px 0px 5px rgba(0,0,0,.45);
+  box-shadow: 0px 0px 6px rgba(0,0,0,.55);
 }
 
 .trackInfoPanel{
   display: flex;
   height: 24px;
-  border-bottom: solid 1px #AFADAD;
+  border-bottom: solid 1px #C5C5C5;
   flex-direction: row;
   background-color: rgba(255, 255, 255, .60);
   align-items: center;
@@ -220,7 +220,7 @@ body, html {
   background: rgba(255, 255, 255, 0.62);
   height: 23px;
   flex-direction: row;
-  border-bottom: 1px solid #AFADAD;
+  border-bottom: 1px solid #C5C5C5;
 
 }
 
@@ -234,7 +234,7 @@ body, html {
   color: white;
   width: 150px;
   background: #848383;
-  transition: background .8s ease;
+  transition: background 1.5s ease;
 }
 
 .titleTopCorner{
@@ -280,7 +280,7 @@ body, html {
 .containerTrackDiv{
   display: flex;
   flex-direction: row;
-  border-bottom: solid 1px #AFADAD;
+  border-bottom: solid 1px #C5C5C5;
   height: 170px;
 
 
@@ -940,7 +940,7 @@ input[type="text"].tangleInput {
   padding: 2px;
   width: 30px;
   height: 25px;
-  border: solid 1px #5a5a5a;
+  border: solid 1px #969696;
   border-radius: 2px;
   padding-left: 4px;
   font-weight: 300;
