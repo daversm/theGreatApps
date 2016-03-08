@@ -56,10 +56,11 @@ body, html {
 }
 .userIcon{
   background-image: url("userIcon.png");
-  width: 35px;
-  height: 35px;
+  background-repeat: no-repeat;
+  width: 31px;
+  height: 31px;
   padding-right: 2px;
-  background-size: contain;
+  background-position: center;
 }
 .slider{
   width: 95px;

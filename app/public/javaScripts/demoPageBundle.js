@@ -1331,6 +1331,13 @@ var Track = exports.Track = React.createClass({
           primaryFontColor: '#5A5A5A',
           height: 40
         });
+        var testOut = outerThis2.wavesurferPostRecording.enableDragSelection();
+        console.log(testOut);
+      });
+
+      this.wavesurferPostRecording.on('region-created', function (region) {
+
+        console.log(region);
       });
 
       this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
