@@ -800,7 +800,7 @@ var MasterController = _react2.default.createClass({
           'div',
           { className: 'masterInfo' },
           _react2.default.createElement('div', { className: 'userIcon' }),
-          _react2.default.createElement(ReactSuperSelect, { placeholder: 'USER: DEMO',
+          _react2.default.createElement(ReactSuperSelect, { placeholder: 'user: demo',
             dataSource: [{
               "id": "5507c0528152e61f3c348d56",
               "name": "elit laborum et",
@@ -1336,7 +1336,6 @@ var Track = exports.Track = React.createClass({
       });
 
       this.wavesurferPostRecording.on('region-created', function (region) {
-
         console.log(region);
       });
 

@@ -87,7 +87,7 @@ const MasterController = React.createClass({
           </div>
           <div className="masterInfo">
             <div className="userIcon"></div>
-            <ReactSuperSelect placeholder="USER: DEMO"
+            <ReactSuperSelect placeholder="user: demo"
                   dataSource={[
                   {
                     "id": "5507c0528152e61f3c348d56",
