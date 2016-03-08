@@ -58,22 +58,28 @@ export var Track = React.createClass({
     this.microphone.init({
         wavesurfer: this.wavesurfer
     });
+    this.samplesPerMS = audioContext/1000;
 
   },
   handleDeleteAudio: function(){
+
+
     var outerThis2 = this;
     console.log(this.regionTest);
     console.log(this.regionTest.start);
     console.log(this.regionTest.end);
-    /*
-      this.rec.getBuffer(function(buffers){
 
+    var endBufferPos = ( this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
+
+
+
+      this.rec.getBuffer(function(buffers){
 
         var RightCh = buffers[0];
         var LeftCh = buffers[1];
 
-        var deletedBuffR = RightCh.slice(132300, RightCh.length);
-        var deletedBuffL = LeftCh.slice(132300, LeftCh.length);
+        var deletedBuffR = RightCh.slice(endBufferPos, RightCh.length);
+        var deletedBuffL = LeftCh.slice(endBufferPos, LeftCh.length);
 
         buffers[0] = deletedBuffR;
         buffers[1] = deletedBuffL;
@@ -85,7 +91,7 @@ export var Track = React.createClass({
         outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
 
       });
-    */
+
   },
   mouseOver: function (e) {
     if(this.trackReady == true){

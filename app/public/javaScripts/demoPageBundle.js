@@ -1183,27 +1183,34 @@ var Track = exports.Track = React.createClass({
     this.microphone.init({
       wavesurfer: this.wavesurfer
     });
+    this.samplesPerMS = audioContext / 1000;
   },
   handleDeleteAudio: function handleDeleteAudio() {
+
     var outerThis2 = this;
     console.log(this.regionTest);
     console.log(this.regionTest.start);
     console.log(this.regionTest.end);
-    /*
-      this.rec.getBuffer(function(buffers){
-          var RightCh = buffers[0];
-        var LeftCh = buffers[1];
-         var deletedBuffR = RightCh.slice(132300, RightCh.length);
-        var deletedBuffL = LeftCh.slice(132300, LeftCh.length);
-         buffers[0] = deletedBuffR;
-        buffers[1] = deletedBuffL;
-         var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
-        newBuffer.getChannelData(0).set(buffers[0]);
-        newBuffer.getChannelData(1).set(buffers[1]);
-        outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-        outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
-       });
-    */
+
+    var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
+
+    this.rec.getBuffer(function (buffers) {
+
+      var RightCh = buffers[0];
+      var LeftCh = buffers[1];
+
+      var deletedBuffR = RightCh.slice(endBufferPos, RightCh.length);
+      var deletedBuffL = LeftCh.slice(endBufferPos, LeftCh.length);
+
+      buffers[0] = deletedBuffR;
+      buffers[1] = deletedBuffL;
+
+      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
+      newBuffer.getChannelData(0).set(buffers[0]);
+      newBuffer.getChannelData(1).set(buffers[1]);
+      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+      outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
+    });
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
