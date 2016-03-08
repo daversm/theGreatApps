@@ -2,6 +2,7 @@
   "name": "theGreatAps",
   "main": "server.js",
   "dependencies": {
+    "lodash": "<4",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.14.1",
     "connect-flash": "~0.1.1",
@@ -20,6 +21,7 @@
     "passport-local": "~0.1.6",
     "react": "^0.14.7",
     "react-dom": "0.14.7",
+    "react-super-select": "^0.2.3",
     "recorderjs": "^1.0.1",
     "tunajs": "^0.4.2",
     "wavesurfer.js": "^1.0.52",

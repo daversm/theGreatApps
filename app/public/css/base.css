@@ -8,7 +8,59 @@ body, html {
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
+.masterControllPanel{
+  position: fixed;
+  color: #5a5a5a;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  width: 100%;
+  height: 55px;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, .86);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, .40);
+  justify-content: space-between;
+}
+.masterInfo{
+  width: 33%;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+}
+.masterControllPanelControls{
+  display: flex;
+  flex-direction: row;
+  width: 33%;
+  height: 55px;
+  align-items: center;
+  justify-content: space-around;
+  border-right: solid 1px #E2E2E2;
+}
+
+.titleTopCorner{
+  border-right: solid 1px #E2E2E2;
+  display: flex;
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 800;
+  color:#4C4C4C;
+  font-size: 36px;
+  width: 33%;
+  height: 55px;
+  align-items: center;
+  justify-content: center;
+
+}
+.userIcon{
+  background-image: url("userIcon.png");
+  width: 35px;
+  height: 35px;
+  padding-right: 2px;
+  background-size: contain;
+}
 .slider{
   width: 95px;
 }
@@ -211,7 +263,7 @@ body, html {
   height: 24px;
   border-bottom: solid 1px #C5C5C5;
   flex-direction: row;
-  background-color: rgba(255, 255, 255, .60);
+  background-color: rgba(208, 208, 208, 0.6);
   align-items: center;
 }
 
@@ -237,34 +289,8 @@ body, html {
   transition: background 1.5s ease;
 }
 
-.titleTopCorner{
-  display: flex;
-  border-radius: 5px;
-  font-family: 'Permanent Marker';
-  font-style: normal;
-  font-weight: 600;
-  color:#4C4C4C;
-  padding: 0;
-  font-size: 30px;
-  width: 320px;
-  height: 55px;
-  align-items: center;
-  justify-content: center;
-
-}
-
-.masterControllPanelControls{
-  display: flex;
-  flex-direction: row;
-  width: 200px;
-  height: 55px;
-  align-items: center;
-  justify-content: space-around;
-}
-
 .masterControllPanel{
   position: fixed;
-  top:-1%;
   color: #5a5a5a;
   font-weight: 500;
   display: flex;
@@ -326,7 +352,7 @@ body, html {
 
 #tracksDiv{
 
-  padding-top: 65px;
+  padding-top: 70px;
 }
 
 .homePageRedirect{

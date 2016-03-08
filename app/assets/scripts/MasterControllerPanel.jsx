@@ -2,6 +2,7 @@ import jQuery from 'jquery';
 import React from 'react';
 import { render } from 'react-dom';
 import { Track } from './Track.jsx';
+var ReactSuperSelect = require('react-super-select');
 
 const MasterController = React.createClass({
   getInitialState: function() {
@@ -22,7 +23,7 @@ const MasterController = React.createClass({
       outerThis.refs['track2'].setMicToRecorder();
       outerThis.refs['track3'].setMicToRecorder();
     }, function(err){
-      console.log('Browser not supported');
+      console.log('Browsers not supported');
     });
 
   },
@@ -41,6 +42,9 @@ const MasterController = React.createClass({
     this.refs['track2'].handleStop();
     this.refs['track3'].handleStop();
   },
+  userDropDown : function(option) {
+
+  },
 
   render: function() {
     const trackListItems = this.state.tracksArray.map((trackData) => {
@@ -53,6 +57,18 @@ const MasterController = React.createClass({
         />
       );
     });
+    var testData = [
+    {
+      "id": "5507c0528152e61f3c348d56",
+      "name": "elit laborum et",
+      "size": "Large"
+    },
+    {
+      "id": "5507c0526305bceb0c0e2c7a",
+      "name": "dolor nulla velit",
+      "size": "Medium"
+    },
+    ];
 
     return (
       <div>
@@ -68,6 +84,24 @@ const MasterController = React.createClass({
           </div>
           <div className="titleTopCorner">
             GORILLA DAW
+          </div>
+          <div className="masterInfo">
+            <div className="userIcon"></div>
+            <ReactSuperSelect placeholder="USER: DEMO"
+                  dataSource={[
+                  {
+                    "id": "5507c0528152e61f3c348d56",
+                    "name": "elit laborum et",
+                    "size": "Large"
+                  },
+                  {
+                    "id": "5507c0526305bceb0c0e2c7a",
+                    "name": "dolor nulla velit",
+                    "size": "Medium"
+                  },
+                  ]}
+                  onChange={this.userDropDown}
+            />
           </div>
         </div>
           <div id="tracksDiv">
