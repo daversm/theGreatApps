@@ -62,6 +62,10 @@ export var Track = React.createClass({
   },
   handleDeleteAudio: function(){
     var outerThis2 = this;
+    console.log(this.regionTest);
+    console.log(this.regionTest.start);
+    console.log(this.regionTest.end);
+    /*
       this.rec.getBuffer(function(buffers){
 
 
@@ -81,6 +85,7 @@ export var Track = React.createClass({
         outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
 
       });
+    */
   },
   mouseOver: function (e) {
     if(this.trackReady == true){
@@ -137,21 +142,6 @@ export var Track = React.createClass({
   },
   handleShowWaveLive: function(e){
     var outerThis = this;
-    /*
-    $.ajax({
-      type: 'POST',
-      url: '/upload',
-      data: outerThis.fd,
-      processData: false,
-      contentType: false,
-      dataType: "script",
-      success: function(data) {
-        console.log('Uploaded..I think');
-      }
-
-    });
-    */
-
     var request = new XMLHttpRequest();
     request.open("GET", "/download", true);
     request.responseType = "arraybuffer";
@@ -221,11 +211,12 @@ export var Track = React.createClass({
                 height: 40
             });
             var testOut = outerThis2.wavesurferPostRecording.enableDragSelection();
-            console.log(testOut);
+
           });
 
           this.wavesurferPostRecording.on('region-created', function (region) {
-            console.log(region);
+
+            outerThis2.regionTest = region;
           });
 
 

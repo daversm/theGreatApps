@@ -1186,23 +1186,24 @@ var Track = exports.Track = React.createClass({
   },
   handleDeleteAudio: function handleDeleteAudio() {
     var outerThis2 = this;
-    this.rec.getBuffer(function (buffers) {
-
-      var RightCh = buffers[0];
-      var LeftCh = buffers[1];
-
-      var deletedBuffR = RightCh.slice(132300, RightCh.length);
-      var deletedBuffL = LeftCh.slice(132300, LeftCh.length);
-
-      buffers[0] = deletedBuffR;
-      buffers[1] = deletedBuffL;
-
-      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
-      newBuffer.getChannelData(0).set(buffers[0]);
-      newBuffer.getChannelData(1).set(buffers[1]);
-      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-      outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#6F6F6F' } });
-    });
+    console.log(this.regionTest);
+    console.log(this.regionTest.start);
+    console.log(this.regionTest.end);
+    /*
+      this.rec.getBuffer(function(buffers){
+          var RightCh = buffers[0];
+        var LeftCh = buffers[1];
+         var deletedBuffR = RightCh.slice(132300, RightCh.length);
+        var deletedBuffL = LeftCh.slice(132300, LeftCh.length);
+         buffers[0] = deletedBuffR;
+        buffers[1] = deletedBuffL;
+         var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+        newBuffer.getChannelData(0).set(buffers[0]);
+        newBuffer.getChannelData(1).set(buffers[1]);
+        outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+        outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#6F6F6F'}});
+       });
+    */
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
@@ -1256,20 +1257,6 @@ var Track = exports.Track = React.createClass({
   },
   handleShowWaveLive: function handleShowWaveLive(e) {
     var outerThis = this;
-    /*
-    $.ajax({
-      type: 'POST',
-      url: '/upload',
-      data: outerThis.fd,
-      processData: false,
-      contentType: false,
-      dataType: "script",
-      success: function(data) {
-        console.log('Uploaded..I think');
-      }
-     });
-    */
-
     var request = new XMLHttpRequest();
     request.open("GET", "/download", true);
     request.responseType = "arraybuffer";
@@ -1332,11 +1319,11 @@ var Track = exports.Track = React.createClass({
           height: 40
         });
         var testOut = outerThis2.wavesurferPostRecording.enableDragSelection();
-        console.log(testOut);
       });
 
       this.wavesurferPostRecording.on('region-created', function (region) {
-        console.log(region);
+
+        outerThis2.regionTest = region;
       });
 
       this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);

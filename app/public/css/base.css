@@ -148,7 +148,7 @@ body, html {
   display: flex;
   align-items: flex-start;
   height: 150px;
-  background-color: rgba(255, 255, 255, 0.61);
+  background-color: rgba(255, 255, 255, 0.67);
   flex-direction: row;
 }
 .delayAndReverbContainer{
@@ -264,13 +264,13 @@ body, html {
   height: 24px;
   border-bottom: solid 1px #C5C5C5;
   flex-direction: row;
-  background-color: rgba(208, 208, 208, 0.6);
+  background-color: rgba(255, 255, 255, 0.67);
   align-items: center;
 }
 
 .trackStatusPanel{
   display: flex;
-  background: rgba(255, 255, 255, 0.62);
+  background-color: rgba(255, 255, 255, 0.67);
   height: 23px;
   flex-direction: row;
   border-bottom: 1px solid #C5C5C5;
@@ -301,7 +301,7 @@ body, html {
   height: 55px;
   z-index: 100;
   background-color: rgba(255, 255, 255, .87);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, .40);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, .40);
 }
 
 .containerTrackDiv{
@@ -347,7 +347,7 @@ body, html {
   flex-grow: 1;
   height: 170px;
   padding-left: 1px;
-  background-color: rgba(255, 255, 255, 0.60);
+  background-color: rgba(255, 255, 255, 0.67);
 
 }
 
@@ -527,7 +527,7 @@ input[type="submit"]:focus{
   padding: 6px;
   color:#5a5a5a;
   height: 12px;
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
   vertical-align: middle;
   line-height: 12px;
