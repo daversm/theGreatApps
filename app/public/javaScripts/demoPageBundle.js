@@ -1135,9 +1135,7 @@ var Track = exports.Track = React.createClass({
     return { value: 50, style: { background: '#848383' } };
   },
   setMicToRecorder: function setMicToRecorder() {
-    this.rec = new Recorder(mediaStreamSource, {
-      workerPath: '../public/libs/Recorderjs/recorderWorker.js', bufferLen: 8192
-    });
+    this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
     this.trackReady = true;
     this.setState({ trackStatusMsg: 'READY' });
   },
@@ -1150,18 +1148,6 @@ var Track = exports.Track = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    this.ListItem = React.createClass({
-      displayName: 'ListItem',
-
-      render: function render() {
-        return React.createElement('div', {
-          className: 'inner',
-          style: {
-            color: this.props.item.color
-          }
-        }, this.props.sharedProps ? this.props.sharedProps.prefix : undefined, this.props.item.name);
-      }
-    });
 
     var outerThis = this;
     this.trackReady = false;
@@ -1183,58 +1169,11 @@ var Track = exports.Track = React.createClass({
     this.microphone.init({
       wavesurfer: this.wavesurfer
     });
-    this.samplesPerMS = audioContext / 1000;
+
+    this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
+    console.log(this.trackAudioBuffers);
   },
-  handleDeleteAudio: function handleDeleteAudio() {
-
-    function Float32Concat(first, second) {
-      var firstLength = first.length,
-          result = new Float32Array(firstLength + second.length);
-
-      result.set(first);
-      result.set(second, firstLength);
-
-      return result;
-    }
-
-    var outerThis2 = this;
-    //console.log(this.regionTest);
-    //console.log(this.regionTest.start);
-    //console.log(this.regionTest.end);
-
-    var startBufferPos = (this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
-    var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
-    //console.log("startBufferPos : " + startBufferPos);
-    //console.log("endBufferPos : " + endBufferPos);
-
-    this.rec.getBuffer(function (buffers) {
-      //console.log(buffers);
-
-      var RightCh = buffers[0];
-      var LeftCh = buffers[1];
-
-      var startNewBufferR = RightCh.slice(0, startBufferPos);
-      var startNewBufferL = LeftCh.slice(0, startBufferPos);
-      //console.log(startNewBufferR);
-      //console.log(Array.isArray(startNewBufferR));
-      //console.log(startNewBufferL);
-
-      var endNewBufferR = RightCh.slice(endBufferPos, RightCh.length);
-      var endNewBufferL = LeftCh.slice(endBufferPos, LeftCh.length);
-      //console.log(endNewBufferR);
-      //console.log(endNewBufferL);
-      var addedNewBufferR = Float32Concat(startNewBufferR, endNewBufferR);
-      var addedNewBufferL = Float32Concat(startNewBufferL, endNewBufferL);
-
-      buffers[0] = addedNewBufferR;
-      buffers[1] = addedNewBufferL;
-
-      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
-      newBuffer.getChannelData(0).set(buffers[0]);
-      newBuffer.getChannelData(1).set(buffers[1]);
-      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-    });
-  },
+  handleDeleteAudio: function handleDeleteAudio() {},
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
       e.target.style.color = "#0099FF";
@@ -1361,6 +1300,8 @@ var Track = exports.Track = React.createClass({
       var outerThis2 = this;
       this.rec.getBuffer(function (buffers) {
 
+        outerThis2.mergeTrackAudioBuffer(buffers);
+        buffers = outerThis2.trackAudioBuffers;
         var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
         newBuffer.getChannelData(0).set(buffers[0]);
         newBuffer.getChannelData(1).set(buffers[1]);
@@ -1369,6 +1310,7 @@ var Track = exports.Track = React.createClass({
       });
 
       this.enablePlayBackButtons = true;
+      outerThis2.rec.clear();
     }
   },
   handlePlay: function handlePlay() {
@@ -1409,6 +1351,7 @@ var Track = exports.Track = React.createClass({
       newBuffer.getChannelData(1).set(buffers[1]);
       outerThis2.wavesurferPostRecording.empty();
       outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+      outerThis2.rec.setBuffers(buffers);
     });
   },
   handleDeleteRegionAudio: function handleDeleteRegionAudio() {
@@ -1463,7 +1406,23 @@ var Track = exports.Track = React.createClass({
       newBuffer.getChannelData(1).set(buffers[1]);
       outerThis2.wavesurferPostRecording.empty();
       outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+      outerThis2.rec.setBuffers(buffers);
     });
+  },
+  mergeTrackAudioBuffer: function mergeTrackAudioBuffer(buffers) {
+
+    function Float32Concat(first, second) {
+      var firstLength = first.length,
+          result = new Float32Array(firstLength + second.length);
+
+      result.set(first);
+      result.set(second, firstLength);
+
+      return result;
+    }
+
+    this.trackAudioBuffers[0] = Float32Concat(this.trackAudioBuffers[0], buffers[0]);
+    this.trackAudioBuffers[1] = Float32Concat(this.trackAudioBuffers[1], buffers[1]);
   },
 
   render: function render() {
@@ -50299,7 +50258,7 @@ var Recorder = function(source, cfg){
   this.node = (this.context.createScriptProcessor ||
                this.context.createJavaScriptNode).call(this.context,
                                                        bufferLen, 2, 2);
-  var worker = new Worker(window.URL.createObjectURL(new Blob(['(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module \'"+o+"\'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){\nvar recLength = 0,\n  recBuffersL = [],\n  recBuffersR = [],\n  sampleRate;\n\n\nself.onmessage = function(e) {\n  switch(e.data.command){\n    case \'init\':\n      init(e.data.config);\n      break;\n    case \'record\':\n      record(e.data.buffer);\n      break;\n    case \'exportWAV\':\n      exportWAV(e.data.type);\n      break;\n    case \'getBuffer\':\n      getBuffer();\n      break;\n    case \'clear\':\n      clear();\n      break;\n  }\n};\n\nfunction init(config){\n  sampleRate = config.sampleRate;\n}\n\nfunction record(inputBuffer){\n  recBuffersL.push(inputBuffer[0]);\n  recBuffersR.push(inputBuffer[1]);\n  recLength += inputBuffer[0].length;\n}\n\nfunction exportWAV(type){\n  var bufferL = mergeBuffers(recBuffersL, recLength);\n  var bufferR = mergeBuffers(recBuffersR, recLength);\n  var interleaved = interleave(bufferL, bufferR);\n  var dataview = encodeWAV(interleaved);\n  var audioBlob = new Blob([dataview], { type: type });\n\n  self.postMessage(audioBlob);\n}\n\nfunction getBuffer() {\n  var buffers = [];\n  buffers.push( mergeBuffers(recBuffersL, recLength) );\n  buffers.push( mergeBuffers(recBuffersR, recLength) );\n  self.postMessage(buffers);\n}\n\nfunction clear(){\n  recLength = 0;\n  recBuffersL = [];\n  recBuffersR = [];\n}\n\nfunction mergeBuffers(recBuffers, recLength){\n  var result = new Float32Array(recLength);\n  var offset = 0;\n  for (var i = 0; i < recBuffers.length; i++){\n    result.set(recBuffers[i], offset);\n    offset += recBuffers[i].length;\n  }\n  return result;\n}\n\nfunction interleave(inputL, inputR){\n  var length = inputL.length + inputR.length;\n  var result = new Float32Array(length);\n\n  var index = 0,\n    inputIndex = 0;\n\n  while (index < length){\n    result[index++] = inputL[inputIndex];\n    result[index++] = inputR[inputIndex];\n    inputIndex++;\n  }\n  return result;\n}\n\nfunction floatTo16BitPCM(output, offset, input){\n  for (var i = 0; i < input.length; i++, offset+=2){\n    var s = Math.max(-1, Math.min(1, input[i]));\n    output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);\n  }\n}\n\nfunction writeString(view, offset, string){\n  for (var i = 0; i < string.length; i++){\n    view.setUint8(offset + i, string.charCodeAt(i));\n  }\n}\n\nfunction encodeWAV(samples){\n  var buffer = new ArrayBuffer(44 + samples.length * 2);\n  var view = new DataView(buffer);\n\n  /* RIFF identifier */\n  writeString(view, 0, \'RIFF\');\n  /* RIFF chunk length */\n  view.setUint32(4, 36 + samples.length * 2, true);\n  /* RIFF type */\n  writeString(view, 8, \'WAVE\');\n  /* format chunk identifier */\n  writeString(view, 12, \'fmt \');\n  /* format chunk length */\n  view.setUint32(16, 16, true);\n  /* sample format (raw) */\n  view.setUint16(20, 1, true);\n  /* channel count */\n  view.setUint16(22, 2, true);\n  /* sample rate */\n  view.setUint32(24, sampleRate, true);\n  /* byte rate (sample rate * block align) */\n  view.setUint32(28, sampleRate * 4, true);\n  /* block align (channel count * bytes per sample) */\n  view.setUint16(32, 4, true);\n  /* bits per sample */\n  view.setUint16(34, 16, true);\n  /* data chunk identifier */\n  writeString(view, 36, \'data\');\n  /* data chunk length */\n  view.setUint32(40, samples.length * 2, true);\n\n  floatTo16BitPCM(view, 44, samples);\n\n  return view;\n}\n\n},{}]},{},[1])'],{type:"text/javascript"})));
+  var worker = new Worker(window.URL.createObjectURL(new Blob(['(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module \'"+o+"\'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){\nvar recLength = 0,\n  recBuffersL = [],\n  recBuffersR = [],\n  sampleRate;\n\n\nself.onmessage = function(e) {\n  switch(e.data.command){\n    case \'init\':\n      init(e.data.config);\n      break;\n    case \'record\':\n      record(e.data.buffer);\n      break;\n    case \'exportWAV\':\n      exportWAV(e.data.type);\n      break;\n    case \'getBuffer\':\n      getBuffer();\n      break;\n    case \'clear\':\n      clear();\n      break;\n  }\n};\n\nfunction init(config){\n  sampleRate = config.sampleRate;\n}\n\nfunction record(inputBuffer){\n  recBuffersL.push(inputBuffer[0]);\n  recBuffersR.push(inputBuffer[1]);\n  recLength += inputBuffer[0].length;\n}\n\nfunction exportWAV(type){\n  var bufferL = mergeBuffers(recBuffersL, recLength);\n  var bufferR = mergeBuffers(recBuffersR, recLength);\n  var interleaved = interleave(bufferL, bufferR);\n  var dataview = encodeWAV(interleaved);\n  var audioBlob = new Blob([dataview], { type: type });\n\n  self.postMessage(audioBlob);\n}\n\nfunction getBuffer() {\n  var buffers = [];\n  buffers.push( mergeBuffers(recBuffersL, recLength) );\n  buffers.push( mergeBuffers(recBuffersR, recLength) );\n  self.postMessage(buffers);\n}\n\nfunction setBuffers(buffers) {\n  recBuffersL = buffers[0];\n  recBuffersR = buffers[1];\n}\n\nfunction clear(){\n  recLength = 0;\n  recBuffersL = [];\n  recBuffersR = [];\n}\n\nfunction mergeBuffers(recBuffers, recLength){\n  var result = new Float32Array(recLength);\n  var offset = 0;\n  for (var i = 0; i < recBuffers.length; i++){\n    result.set(recBuffers[i], offset);\n    offset += recBuffers[i].length;\n  }\n  return result;\n}\n\nfunction interleave(inputL, inputR){\n  var length = inputL.length + inputR.length;\n  var result = new Float32Array(length);\n\n  var index = 0,\n    inputIndex = 0;\n\n  while (index < length){\n    result[index++] = inputL[inputIndex];\n    result[index++] = inputR[inputIndex];\n    inputIndex++;\n  }\n  return result;\n}\n\nfunction floatTo16BitPCM(output, offset, input){\n  for (var i = 0; i < input.length; i++, offset+=2){\n    var s = Math.max(-1, Math.min(1, input[i]));\n    output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);\n  }\n}\n\nfunction writeString(view, offset, string){\n  for (var i = 0; i < string.length; i++){\n    view.setUint8(offset + i, string.charCodeAt(i));\n  }\n}\n\nfunction encodeWAV(samples){\n  var buffer = new ArrayBuffer(44 + samples.length * 2);\n  var view = new DataView(buffer);\n\n  /* RIFF identifier */\n  writeString(view, 0, \'RIFF\');\n  /* RIFF chunk length */\n  view.setUint32(4, 36 + samples.length * 2, true);\n  /* RIFF type */\n  writeString(view, 8, \'WAVE\');\n  /* format chunk identifier */\n  writeString(view, 12, \'fmt \');\n  /* format chunk length */\n  view.setUint32(16, 16, true);\n  /* sample format (raw) */\n  view.setUint16(20, 1, true);\n  /* channel count */\n  view.setUint16(22, 2, true);\n  /* sample rate */\n  view.setUint32(24, sampleRate, true);\n  /* byte rate (sample rate * block align) */\n  view.setUint32(28, sampleRate * 4, true);\n  /* block align (channel count * bytes per sample) */\n  view.setUint16(32, 4, true);\n  /* bits per sample */\n  view.setUint16(34, 16, true);\n  /* data chunk identifier */\n  writeString(view, 36, \'data\');\n  /* data chunk length */\n  view.setUint32(40, samples.length * 2, true);\n\n  floatTo16BitPCM(view, 44, samples);\n\n  return view;\n}\n\n},{}]},{},[1])'],{type:"text/javascript"})));
   worker.onmessage = function(e){
     var blob = e.data;
     currCallback(blob);
@@ -50348,6 +50307,12 @@ var Recorder = function(source, cfg){
   this.getBuffer = function(cb) {
     currCallback = cb || config.callback;
     worker.postMessage({ command: 'getBuffer' })
+  }
+
+  this.setBuffers = function(buffers) {
+    recBuffersL = buffers[0];
+    recBuffersR = buffers[0];
+    
   }
 
   this.exportWAV = function(cb, type){
