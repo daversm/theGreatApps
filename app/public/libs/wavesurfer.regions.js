@@ -13,9 +13,7 @@ WaveSurfer.Regions = {
 
     /* Remove a region. */
     add: function (params) {
-      console.log("in add");
-      console.log(this.list);
-      console.log(this.list.length);
+      
           if(this.regionsCount >= 1){
             this.wavesurfer.clearRegions();
           }

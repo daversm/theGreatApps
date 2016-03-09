@@ -297,7 +297,27 @@ export var Track = React.createClass({
   handleLoop: function(){
 
   },
-  handleDeleteRegion: function(){
+  handleAudioDeleteOnly: function(){
+    var outerThis2 = this;
+    var startBufferPos = ( this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
+    var endBufferPos = ( this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
+    if(this.wavesurferPostRecording.isPlaying()){
+      this.wavesurferPostRecording.stop();
+    }
+
+    this.rec.getBuffer(function(buffers){
+      //console.log(buffers);
+      //outerThis2.wavesurferPostRecording.clearRegions();
+      buffers[0].fill(0,startBufferPos, endBufferPos);
+      buffers[1].fill(0,startBufferPos, endBufferPos);
+
+
+      var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+      newBuffer.getChannelData(0).set(buffers[0]);
+      newBuffer.getChannelData(1).set(buffers[1]);
+      outerThis2.wavesurferPostRecording.empty();
+      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+    });
 
   },
   handleDeleteRegionAudio: function(){
@@ -373,7 +393,7 @@ export var Track = React.createClass({
             <div className="RegionName"> REGION CONTROLS </div>
             <div className="buttonsInsideTrack" onClick={this.handleUndoSelection}> Undo Selection </div>
             <div className="buttonsInsideTrack" onClick={this.handleLoop}> Loop </div>
-            <div className="buttonsInsideTrack" onClick={this.handleDeleteRegion}> Delete Audio </div>
+            <div className="buttonsInsideTrack" onClick={this.handleAudioDeleteOnly}> Delete Audio </div>
             <div className="buttonsInsideTrack" onClick={this.handleDeleteRegionAudio}> Delete Region </div>
           </div>
 
