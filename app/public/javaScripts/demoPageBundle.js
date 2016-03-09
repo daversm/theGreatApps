@@ -1336,24 +1336,25 @@ var Track = exports.Track = React.createClass({
     var outerThis2 = this;
     var startBufferPos = (this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
     var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
+
     if (this.wavesurferPostRecording.isPlaying()) {
       this.wavesurferPostRecording.stop();
     }
 
-    this.rec.getBuffer(function (buffers) {
-      //console.log(buffers);
-      //outerThis2.wavesurferPostRecording.clearRegions();
-      buffers[0].fill(0, startBufferPos, endBufferPos);
-      buffers[1].fill(0, startBufferPos, endBufferPos);
+    var buffers = this.trackAudioBuffers;
+    if (endBufferPos > buffers[0].length) {
+      endBufferPos = buffers[0].length - 1;
+    }
+    buffers[0].fill(0, startBufferPos, endBufferPos);
+    buffers[1].fill(0, startBufferPos, endBufferPos);
 
-      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
-      newBuffer.getChannelData(0).set(buffers[0]);
-      newBuffer.getChannelData(1).set(buffers[1]);
-      outerThis2.wavesurferPostRecording.empty();
-      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-      outerThis2.rec.setBuffers(buffers);
-    });
+    var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
+    newBuffer.getChannelData(0).set(buffers[0]);
+    newBuffer.getChannelData(1).set(buffers[1]);
+    outerThis2.wavesurferPostRecording.empty();
+    outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
   },
+
   handleDeleteRegionAudio: function handleDeleteRegionAudio() {
 
     function Float32Concat(first, second) {
@@ -1381,7 +1382,7 @@ var Track = exports.Track = React.createClass({
 
     this.rec.getBuffer(function (buffers) {
       //console.log(buffers);
-      outerThis2.wavesurferPostRecording.clearRegions();
+
       var RightCh = buffers[0];
       var LeftCh = buffers[1];
 
@@ -1406,7 +1407,7 @@ var Track = exports.Track = React.createClass({
       newBuffer.getChannelData(1).set(buffers[1]);
       outerThis2.wavesurferPostRecording.empty();
       outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-      outerThis2.rec.setBuffers(buffers);
+      outerThis2.wavesurferPostRecording.clearRegions();
     });
   },
   mergeTrackAudioBuffer: function mergeTrackAudioBuffer(buffers) {
