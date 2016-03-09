@@ -57,10 +57,10 @@ body, html {
 .userIcon{
   background-image: url("userIcon.png");
   background-repeat: no-repeat;
-  width: 31px;
-  height: 31px;
+  width: 29px;
+  height: 29px;
   padding-right: 2px;
-  background-position: center;
+  background-size: contain;
 }
 .slider{
   width: 95px;
@@ -298,7 +298,7 @@ body, html {
   color: white;
   width: 150px;
   background: #848383;
-  transition: background 1.5s ease;
+  transition: background .5s ease;
 }
 
 .masterControllPanel{
@@ -548,7 +548,7 @@ input[type="submit"]:focus{
   font-family: 'Roboto', sans-serif;
   margin-left: 1px;
   border-radius: 2px;
-  font-size: 13px;
+  font-size: 12px;
   padding: 6px;
   color: #6D6D6D;
   height: 12px;

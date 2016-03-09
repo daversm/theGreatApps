@@ -1137,7 +1137,7 @@ var Track = exports.Track = React.createClass({
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
     this.trackReady = true;
-    this.setState({ trackStatusMsg: 'READY' });
+    this.setState({ trackStatusMsg: 'NO RECORDING' });
   },
   isRecordingInSession: function isRecordingInSession() {
     if (this.currentlyRecording || this.recordingIsPaused) {
@@ -1150,6 +1150,7 @@ var Track = exports.Track = React.createClass({
   componentDidMount: function componentDidMount() {
 
     var outerThis = this;
+    this.fileLoadedOrRecorder = false;
     this.trackReady = false;
     this.enablePlayBackButtons = false;
     this.currentColorMicIcon = "#5A5A5A";
@@ -1307,10 +1308,10 @@ var Track = exports.Track = React.createClass({
         newBuffer.getChannelData(1).set(buffers[1]);
         outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
         outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#848383' } });
+        outerThis2.enablePlayBackButtons = true;
+        outerThis2.rec.clear();
+        outerThis2.fileLoadedOrRecorder = true;
       });
-
-      this.enablePlayBackButtons = true;
-      outerThis2.rec.clear();
     }
   },
   handlePlay: function handlePlay() {
@@ -1331,8 +1332,15 @@ var Track = exports.Track = React.createClass({
   handleUndoSelection: function handleUndoSelection() {
     this.wavesurferPostRecording.clearRegions();
   },
-  handleLoop: function handleLoop() {},
+  handleLoop: function handleLoop() {
+    this.setStatusMsg('#FF4D1D', 'NO REGION!');
+  },
   handleAudioDeleteOnly: function handleAudioDeleteOnly() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!');
+      return;
+    }
+
     var outerThis2 = this;
     var startBufferPos = (this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
     var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
@@ -1380,35 +1388,33 @@ var Track = exports.Track = React.createClass({
       this.wavesurferPostRecording.stop();
     }
 
-    this.rec.getBuffer(function (buffers) {
-      //console.log(buffers);
+    var buffers = this.trackAudioBuffers;
 
-      var RightCh = buffers[0];
-      var LeftCh = buffers[1];
+    var RightCh = buffers[0];
+    var LeftCh = buffers[1];
 
-      var startNewBufferR = RightCh.slice(0, startBufferPos);
-      var startNewBufferL = LeftCh.slice(0, startBufferPos);
-      //console.log(startNewBufferR);
-      //console.log(Array.isArray(startNewBufferR));
-      //console.log(startNewBufferL);
+    var startNewBufferR = RightCh.slice(0, startBufferPos);
+    var startNewBufferL = LeftCh.slice(0, startBufferPos);
+    //console.log(startNewBufferR);
+    //console.log(Array.isArray(startNewBufferR));
+    //console.log(startNewBufferL);
 
-      var endNewBufferR = RightCh.slice(endBufferPos, RightCh.length);
-      var endNewBufferL = LeftCh.slice(endBufferPos, LeftCh.length);
-      //console.log(endNewBufferR);
-      //console.log(endNewBufferL);
-      var addedNewBufferR = Float32Concat(startNewBufferR, endNewBufferR);
-      var addedNewBufferL = Float32Concat(startNewBufferL, endNewBufferL);
+    var endNewBufferR = RightCh.slice(endBufferPos, RightCh.length);
+    var endNewBufferL = LeftCh.slice(endBufferPos, LeftCh.length);
+    //console.log(endNewBufferR);
+    //console.log(endNewBufferL);
+    var addedNewBufferR = Float32Concat(startNewBufferR, endNewBufferR);
+    var addedNewBufferL = Float32Concat(startNewBufferL, endNewBufferL);
 
-      buffers[0] = addedNewBufferR;
-      buffers[1] = addedNewBufferL;
+    buffers[0] = addedNewBufferR;
+    buffers[1] = addedNewBufferL;
 
-      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
-      newBuffer.getChannelData(0).set(buffers[0]);
-      newBuffer.getChannelData(1).set(buffers[1]);
-      outerThis2.wavesurferPostRecording.empty();
-      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-      outerThis2.wavesurferPostRecording.clearRegions();
-    });
+    var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
+    newBuffer.getChannelData(0).set(buffers[0]);
+    newBuffer.getChannelData(1).set(buffers[1]);
+    outerThis2.wavesurferPostRecording.empty();
+    outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+    outerThis2.wavesurferPostRecording.clearRegions();
   },
   mergeTrackAudioBuffer: function mergeTrackAudioBuffer(buffers) {
 
@@ -1424,6 +1430,14 @@ var Track = exports.Track = React.createClass({
 
     this.trackAudioBuffers[0] = Float32Concat(this.trackAudioBuffers[0], buffers[0]);
     this.trackAudioBuffers[1] = Float32Concat(this.trackAudioBuffers[1], buffers[1]);
+  },
+  setStatusMsg: function setStatusMsg(bgColor, msg) {
+    var outerThis = this;
+    this.setState({ trackStatusMsg: msg, style: { background: bgColor } }, function () {
+      setTimeout(function () {
+        outerThis.setState({ trackStatusMsg: "READY", style: { background: '#848383' } });
+      }, 2000);
+    });
   },
 
   render: function render() {
