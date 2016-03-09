@@ -7,21 +7,31 @@ WaveSurfer.Regions = {
         this.wrapper = this.wavesurfer.drawer.wrapper;
 
         /* Id-based hash of regions. */
+        this.regionsCount = 0;
         this.list = {};
     },
 
     /* Remove a region. */
     add: function (params) {
-        var region = Object.create(WaveSurfer.Region);
-        region.init(params, this.wavesurfer);
+      console.log("in add");
+      console.log(this.list);
+      console.log(this.list.length);
+          if(this.regionsCount >= 1){
+            this.wavesurfer.clearRegions();
+          }
+          var region = Object.create(WaveSurfer.Region);
+          region.init(params, this.wavesurfer);
 
-        this.list[region.id] = region;
+          this.list[region.id] = region;
+          this.regionsCount++;
 
-        region.on('remove', (function () {
-            delete this.list[region.id];
-        }).bind(this));
+          region.on('remove', (function () {
+              delete this.list[region.id];
+              this.regionsCount--;
+          }).bind(this));
 
-        return region;
+          return region;
+
     },
 
     /* Remove all regions. */
@@ -29,6 +39,7 @@ WaveSurfer.Regions = {
         Object.keys(this.list).forEach(function (id) {
             this.list[id].remove();
         }, this);
+        this.regionsCount = 0;
     },
 
     enableDragSelection: function (params) {
@@ -42,8 +53,10 @@ WaveSurfer.Regions = {
             if (typeof e.targetTouches !== 'undefined' && e.targetTouches.length === 1) {
                 e.clientX = e.targetTouches[0].clientX;
             }
+
             start = my.wavesurfer.drawer.handleEvent(e);
             region = null;
+
         }
         this.wrapper.addEventListener('mousedown', eventDown);
         this.wrapper.addEventListener('touchstart', eventDown);
