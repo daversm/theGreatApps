@@ -1198,31 +1198,31 @@ var Track = exports.Track = React.createClass({
     }
 
     var outerThis2 = this;
-    console.log(this.regionTest);
-    console.log(this.regionTest.start);
-    console.log(this.regionTest.end);
+    //console.log(this.regionTest);
+    //console.log(this.regionTest.start);
+    //console.log(this.regionTest.end);
 
     var startBufferPos = (this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
     var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
-    console.log("startBufferPos : " + startBufferPos);
-    console.log("endBufferPos : " + endBufferPos);
+    //console.log("startBufferPos : " + startBufferPos);
+    //console.log("endBufferPos : " + endBufferPos);
 
     this.rec.getBuffer(function (buffers) {
-      console.log(buffers);
+      //console.log(buffers);
 
       var RightCh = buffers[0];
       var LeftCh = buffers[1];
 
       var startNewBufferR = RightCh.slice(0, startBufferPos);
       var startNewBufferL = LeftCh.slice(0, startBufferPos);
-      console.log(startNewBufferR);
-      console.log(Array.isArray(startNewBufferR));
-      console.log(startNewBufferL);
+      //console.log(startNewBufferR);
+      //console.log(Array.isArray(startNewBufferR));
+      //console.log(startNewBufferL);
 
       var endNewBufferR = RightCh.slice(endBufferPos, RightCh.length);
       var endNewBufferL = LeftCh.slice(endBufferPos, LeftCh.length);
-      console.log(endNewBufferR);
-      console.log(endNewBufferL);
+      //console.log(endNewBufferR);
+      //console.log(endNewBufferL);
       var addedNewBufferR = Float32Concat(startNewBufferR, endNewBufferR);
       var addedNewBufferL = Float32Concat(startNewBufferL, endNewBufferL);
 
@@ -1386,6 +1386,65 @@ var Track = exports.Track = React.createClass({
       this.wavesurferPostRecording.pause();
     }
   },
+  handleUndoSelection: function handleUndoSelection() {
+    this.wavesurferPostRecording.clearRegions();
+  },
+  handleLoop: function handleLoop() {},
+  handleDeleteRegion: function handleDeleteRegion() {},
+  handleDeleteRegionAudio: function handleDeleteRegionAudio() {
+
+    function Float32Concat(first, second) {
+      var firstLength = first.length,
+          result = new Float32Array(firstLength + second.length);
+
+      result.set(first);
+      result.set(second, firstLength);
+
+      return result;
+    }
+
+    var outerThis2 = this;
+    //console.log(this.regionTest);
+    //console.log(this.regionTest.start);
+    //console.log(this.regionTest.end);
+
+    var startBufferPos = (this.regionTest.start.toFixed(5) * audioContext.sampleRate).toFixed(0);
+    var endBufferPos = (this.regionTest.end.toFixed(5) * audioContext.sampleRate).toFixed(0);
+    //console.log("startBufferPos : " + startBufferPos);
+    //console.log("endBufferPos : " + endBufferPos);
+    if (this.wavesurferPostRecording.isPlaying()) {
+      this.wavesurferPostRecording.stop();
+    }
+
+    this.rec.getBuffer(function (buffers) {
+      //console.log(buffers);
+      outerThis2.wavesurferPostRecording.clearRegions();
+      var RightCh = buffers[0];
+      var LeftCh = buffers[1];
+
+      var startNewBufferR = RightCh.slice(0, startBufferPos);
+      var startNewBufferL = LeftCh.slice(0, startBufferPos);
+      //console.log(startNewBufferR);
+      //console.log(Array.isArray(startNewBufferR));
+      //console.log(startNewBufferL);
+
+      var endNewBufferR = RightCh.slice(endBufferPos, RightCh.length);
+      var endNewBufferL = LeftCh.slice(endBufferPos, LeftCh.length);
+      //console.log(endNewBufferR);
+      //console.log(endNewBufferL);
+      var addedNewBufferR = Float32Concat(startNewBufferR, endNewBufferR);
+      var addedNewBufferL = Float32Concat(startNewBufferL, endNewBufferL);
+
+      buffers[0] = addedNewBufferR;
+      buffers[1] = addedNewBufferL;
+
+      var newBuffer = audioContext.createBuffer(2, buffers[0].length, audioContext.sampleRate);
+      newBuffer.getChannelData(0).set(buffers[0]);
+      newBuffer.getChannelData(1).set(buffers[1]);
+      outerThis2.wavesurferPostRecording.empty();
+      outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+    });
+  },
 
   render: function render() {
     return React.createElement(
@@ -1423,6 +1482,35 @@ var Track = exports.Track = React.createClass({
             'div',
             { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio },
             ' Delete Audio '
+          ),
+          React.createElement(
+            'div',
+            { className: 'regionPanel' },
+            React.createElement(
+              'div',
+              { className: 'RegionName' },
+              ' REGION CONTROLS '
+            ),
+            React.createElement(
+              'div',
+              { className: 'buttonsInsideTrack', onClick: this.handleUndoSelection },
+              ' Undo Selection '
+            ),
+            React.createElement(
+              'div',
+              { className: 'buttonsInsideTrack', onClick: this.handleLoop },
+              ' Loop '
+            ),
+            React.createElement(
+              'div',
+              { className: 'buttonsInsideTrack', onClick: this.handleDeleteRegion },
+              ' Delete Audio '
+            ),
+            React.createElement(
+              'div',
+              { className: 'buttonsInsideTrack', onClick: this.handleDeleteRegionAudio },
+              ' Delete Region '
+            )
           )
         ),
         React.createElement(
