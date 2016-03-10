@@ -1332,7 +1332,19 @@ var Track = exports.Track = React.createClass({
     this.regionCreated = false;
   },
   handleLoop: function handleLoop() {
-    this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (this.regionCreated == false) {
+      this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
+      return;
+    }
+    if (this.regionTest.loop == true) {
+      this.regionTest.loop = false;
+    } else {
+      this.regionTest.loop = true;
+    }
   },
   handleAudioDeleteOnly: function handleAudioDeleteOnly() {
     if (this.fileLoadedOrRecorder == false) {
