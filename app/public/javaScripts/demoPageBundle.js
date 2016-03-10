@@ -41,20 +41,12 @@ var Compressor = React.createClass({
   },
   OnOff: function OnOff() {
     this.props.list.push(this.compressor);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
   },
   handleClick: function handleClick() {
+    if (!this.wavesurfer) {
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Compressor');
   },
   setTuna: function setTuna(param) {
@@ -95,6 +87,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Knee :',
             React.createElement(Tangle, {
+
               value: this.state.knee,
               min: 0,
               max: 40,
@@ -107,6 +100,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Ratio :',
             React.createElement(Tangle, {
+
               min: 1,
               max: 20,
               value: this.state.ratio,
@@ -119,6 +113,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Threshold:',
             React.createElement(Tangle, {
+
               min: -60,
               max: 0,
               value: this.state.threshold,
@@ -135,6 +130,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Attack :',
             React.createElement(Tangle, {
+
               min: 0,
               max: 1000,
               value: this.state.attack,
@@ -147,6 +143,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Release :',
             React.createElement(Tangle, {
+
               min: 0,
               max: 3000,
               value: this.state.release,
@@ -159,6 +156,7 @@ var Compressor = React.createClass({
             { className: 'compressorName' },
             'Makeup :',
             React.createElement(Tangle, {
+
               min: 0,
               max: 20,
               value: this.state.makeup,
@@ -185,7 +183,7 @@ var Delay = React.createClass({
   displayName: 'Delay',
 
   getInitialState: function getInitialState() {
-    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delayTime: 150 };
+    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delayTime: 150, powerSlider: false };
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -216,25 +214,17 @@ var Delay = React.createClass({
     this.setState({ delayTime: e.target.value });
   },
   setWaveform: function setWaveform(param) {
-    console.log('wavesurfer set delay');
+
     this.wavesurfer = param;
   },
   OnOff: function OnOff() {
     this.props.list.push(this.delay);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
   },
   handleClick: function handleClick() {
+    if (!this.wavesurfer) {
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Delay');
   },
   render: function render() {
@@ -375,9 +365,12 @@ var EQ = React.createClass({
   },
   setWaveform: function setWaveform(params) {
     this.wavesurfer = params;
+  },
+  create: function create() {
+
     var thisOutside = this;
     this.filters = this.EQ.map(function (band) {
-      var filter = thisOutside.wavesurfer.backend.ac.createBiquadFilter();
+      var filter = audioContext.createBiquadFilter();
       filter.type = band.type;
       filter.gain.value = 0;
       filter.Q.value = 1;
@@ -432,6 +425,10 @@ var EQ = React.createClass({
     });
   },
   handleClick: function handleClick() {
+    if (!this.wavesurfer) {
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('EQ');
   },
   render: function render() {
@@ -633,6 +630,9 @@ var Phaser = require('./Phaser.jsx');
 var Effects = React.createClass({
   displayName: 'Effects',
 
+  propTypes: {
+    statusError: React.PropTypes.func
+  },
   getInitialState: function getInitialState() {
     return { listOfEffects: [] };
   },
@@ -644,6 +644,7 @@ var Effects = React.createClass({
     this.refs['Compressor'].setTuna(tuna);
     this.refs['Reverb'].setTuna(tuna);
     this.refs['Phaser'].setTuna(tuna);
+    this.refs['EQ'].create();
   },
   setPropsToEffects: function setPropsToEffects(params) {
     this.wavesurfer = params;
@@ -685,16 +686,17 @@ var Effects = React.createClass({
       }));
     }
   },
+
   render: function render() {
 
     return React.createElement(
       'div',
       { className: 'trackAudioEffectsPanel' },
-      React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
-      React.createElement(Delay, { ref: 'Delay', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
-      React.createElement(Compressor, { ref: 'Compressor', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
-      React.createElement(EQ, { ref: 'EQ', onClick: this.handleEffectsPower, list: this.state.listOfEffects }),
-      React.createElement(Phaser, { ref: 'Phaser', onClick: this.handleEffectsPower, list: this.state.listOfEffects })
+      React.createElement(Reverb, { ref: 'Reverb', onClick: this.handleEffectsPower, list: this.state.listOfEffects, statusError: this.props.statusError }),
+      React.createElement(Delay, { ref: 'Delay', onClick: this.handleEffectsPower, list: this.state.listOfEffects, statusError: this.props.statusError }),
+      React.createElement(Compressor, { ref: 'Compressor', onClick: this.handleEffectsPower, list: this.state.listOfEffects, statusError: this.props.statusError }),
+      React.createElement(EQ, { ref: 'EQ', onClick: this.handleEffectsPower, list: this.state.listOfEffects, statusError: this.props.statusError }),
+      React.createElement(Phaser, { ref: 'Phaser', onClick: this.handleEffectsPower, list: this.state.listOfEffects, statusError: this.props.statusError })
     );
   }
 
@@ -866,7 +868,7 @@ var Phaser = React.createClass({
     this.setState({ feedback: e.target.value });
   },
   handleBaseMod: function handleBaseMod(e) {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     //this.phaser.baseModulationFrequency = e.target.value;
     this.setState({ baseModulationFrequency: e.target.value });
   },
@@ -875,25 +877,16 @@ var Phaser = React.createClass({
     this.setState({ stereoPhase: e.target.value });
   },
   setWaveform: function setWaveform(param) {
-    console.log('wavesurfer set Stereo phase');
     this.wavesurfer = param;
   },
   OnOff: function OnOff() {
     this.props.list.push(this.phaser);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
   },
   handleClick: function handleClick() {
+    if (!this.wavesurfer) {
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Phaser');
   },
   render: function render() {
@@ -1023,25 +1016,16 @@ var Reverb = React.createClass({
     this.setState({ dryLevel: e.target.value });
   },
   setWaveform: function setWaveform(param) {
-    console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
   OnOff: function OnOff() {
     this.props.list.push(this.convolver);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
   },
   handleClick: function handleClick() {
+    if (!this.wavesurfer) {
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Reverb');
   },
   setTuna: function setTuna(param) {
@@ -1156,6 +1140,8 @@ var Track = exports.Track = React.createClass({
     this.currentColorMicIcon = "#5A5A5A";
     this.currentlyRecording = false;
     this.recordingIsPaused = false;
+    this.regionCreated = false;
+    this.currentStatusMsg = { trackStatusMsg: 'NO RECORDING', style: { background: '#848383' } };
 
     this.waveSurferOn = false;
     this.wavesurfer = Object.create(WaveSurfer);
@@ -1174,7 +1160,9 @@ var Track = exports.Track = React.createClass({
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     console.log(this.trackAudioBuffers);
   },
-  handleDeleteAudio: function handleDeleteAudio() {},
+  handleDeleteAudio: function handleDeleteAudio() {
+    this.fileLoadedOrRecorder = false;
+  },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
       e.target.style.color = "#0099FF";
@@ -1294,6 +1282,7 @@ var Track = exports.Track = React.createClass({
       this.wavesurferPostRecording.on('region-created', function (region) {
 
         outerThis2.regionTest = region;
+        outerThis2.regionCreated = true;
       });
 
       this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
@@ -1307,7 +1296,8 @@ var Track = exports.Track = React.createClass({
         newBuffer.getChannelData(0).set(buffers[0]);
         newBuffer.getChannelData(1).set(buffers[1]);
         outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-        outerThis2.setState({ trackStatusMsg: "RECORDING DONE", style: { background: '#848383' } });
+        outerThis2.currentStatusMsg = { trackStatusMsg: "READY", style: { background: '#848383' } };
+        outerThis2.setStatusMsg('#31A9F9', "RECORDING DONE", outerThis2.currentStatusMsg);
         outerThis2.enablePlayBackButtons = true;
         outerThis2.rec.clear();
         outerThis2.fileLoadedOrRecorder = true;
@@ -1330,14 +1320,27 @@ var Track = exports.Track = React.createClass({
     }
   },
   handleUndoSelection: function handleUndoSelection() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (this.regionCreated == false) {
+      this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
+      return;
+    }
     this.wavesurferPostRecording.clearRegions();
+    this.regionCreated = false;
   },
   handleLoop: function handleLoop() {
-    this.setStatusMsg('#FF4D1D', 'NO REGION!');
+    this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
   },
   handleAudioDeleteOnly: function handleAudioDeleteOnly() {
     if (this.fileLoadedOrRecorder == false) {
-      this.setStatusMsg('#FF4D1D', 'NO RECORDING!');
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (this.regionCreated == false) {
+      this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
       return;
     }
 
@@ -1364,6 +1367,14 @@ var Track = exports.Track = React.createClass({
   },
 
   handleDeleteRegionAudio: function handleDeleteRegionAudio() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (this.regionCreated == false) {
+      this.setStatusMsg('#FF4D1D', 'NO REGION!', this.currentStatusMsg);
+      return;
+    }
 
     function Float32Concat(first, second) {
       var firstLength = first.length,
@@ -1415,6 +1426,7 @@ var Track = exports.Track = React.createClass({
     outerThis2.wavesurferPostRecording.empty();
     outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
     outerThis2.wavesurferPostRecording.clearRegions();
+    this.regionCreated = false;
   },
   mergeTrackAudioBuffer: function mergeTrackAudioBuffer(buffers) {
 
@@ -1431,13 +1443,19 @@ var Track = exports.Track = React.createClass({
     this.trackAudioBuffers[0] = Float32Concat(this.trackAudioBuffers[0], buffers[0]);
     this.trackAudioBuffers[1] = Float32Concat(this.trackAudioBuffers[1], buffers[1]);
   },
-  setStatusMsg: function setStatusMsg(bgColor, msg) {
+  setStatusMsg: function setStatusMsg(bgColor, msg, currentMsg) {
     var outerThis = this;
     this.setState({ trackStatusMsg: msg, style: { background: bgColor } }, function () {
       setTimeout(function () {
-        outerThis.setState({ trackStatusMsg: "READY", style: { background: '#848383' } });
+        outerThis.setState(currentMsg);
       }, 2000);
     });
+  },
+  handleEffectsButtons: function handleEffectsButtons() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
   },
 
   render: function render() {
@@ -1545,7 +1563,7 @@ var Track = exports.Track = React.createClass({
             ' '
           )
         ),
-        React.createElement(Effects, { ref: 'Effects' })
+        React.createElement(Effects, { ref: 'Effects', statusError: this.handleEffectsButtons })
       )
     );
   }

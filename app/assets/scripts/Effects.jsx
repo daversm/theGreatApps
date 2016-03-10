@@ -10,9 +10,12 @@ var Phaser = require('./Phaser.jsx');
 
 
 var Effects = React.createClass({
-    getInitialState: function(){
-      return({listOfEffects:[]});
-    },
+  propTypes: {
+    statusError : React.PropTypes.func
+  },
+  getInitialState: function(){
+    return({listOfEffects:[]});
+  },
   componentDidMount: function(){
 
     this.effectsStatusList = {Phaser:false, Delay:false, Compressor:false, Reverb:false, EQ:false};
@@ -21,6 +24,7 @@ var Effects = React.createClass({
     this.refs['Compressor'].setTuna(tuna);
     this.refs['Reverb'].setTuna(tuna);
     this.refs['Phaser'].setTuna(tuna);
+    this.refs['EQ'].create();
   },
   setPropsToEffects: function(params){
     this.wavesurfer = params;
@@ -64,15 +68,16 @@ var Effects = React.createClass({
       );
     }
   },
+
   render: function (){
 
     return(
       <div className="trackAudioEffectsPanel">
-        <Reverb ref="Reverb" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
-        <Delay ref="Delay" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
-        <Compressor ref="Compressor" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
-        <EQ ref="EQ" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
-        <Phaser ref="Phaser" onClick={this.handleEffectsPower} list={this.state.listOfEffects}/>
+        <Reverb ref="Reverb" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
+        <Delay ref="Delay" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
+        <Compressor ref="Compressor" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
+        <EQ ref="EQ" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
+        <Phaser ref="Phaser" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
       </div>
     );
   }

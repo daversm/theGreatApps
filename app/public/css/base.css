@@ -298,7 +298,7 @@ body, html {
   color: white;
   width: 150px;
   background: #848383;
-  transition: background .5s ease;
+  transition: background .3s ease;
 }
 
 .masterControllPanel{
@@ -842,7 +842,7 @@ h3{
 
 #recStop:hover {
     transition: border-color 150ms ease;
-    border: 11px solid #0099FF;
+    border: 11px solid #31A9F9;
 }
 
 #recStopMaster {
@@ -850,7 +850,7 @@ h3{
     transition: background-color 150ms ease;
     width: 7px;
     height: 7px;
-    border: 9px solid #0099FF;
+    border: 9px solid #31A9F9;
     cursor: pointer;
     background-color: #FF4D1D;
     content: "";
@@ -858,7 +858,7 @@ h3{
 
 #recStopMaster:hover {
     transition: border-color 150ms ease;
-    border: 9px solid #0099FF;
+    border: 9px solid #31A9F9;
 }
 
 #recTrack {
@@ -875,7 +875,7 @@ h3{
 
 #recTrack:hover {
     transition: border-color 150ms ease;
-    border: 10px solid #0099FF;
+    border: 10px solid #31A9F9;
 }
 
 
@@ -902,7 +902,7 @@ h3{
 }
 
 #stopMaster:hover {
-    border-left: 25px solid #31A9F9;
+    border-left: 25px solid #0099FF;
     height: 25px;
     content: "";
 }
@@ -935,8 +935,8 @@ h3{
 
 #pauseMaster:hover{
     transition: border-color 150ms ease;
-    border-left: 7px solid #31A9F9;
-    border-right: 7px solid #31A9F9;
+    border-left: 7px solid #0099FF;
+    border-right: 7px solid #0099FF;
 }
 
 input[type=range]{

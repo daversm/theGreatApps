@@ -18,25 +18,17 @@ var Reverb = React.createClass({
     this.setState({dryLevel: e.target.value});
   },
   setWaveform: function(param){
-    console.log('wavesurfer set delay');
     this.wavesurfer = param;
   },
   OnOff: function(){
     this.props.list.push(this.convolver);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
+
   },
   handleClick: function(){
+    if(!this.wavesurfer){
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Reverb');
   },
   setTuna: function(param){

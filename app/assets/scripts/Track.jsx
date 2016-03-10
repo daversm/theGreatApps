@@ -32,6 +32,8 @@ export var Track = React.createClass({
     this.currentColorMicIcon = "#5A5A5A";
     this.currentlyRecording = false;
     this.recordingIsPaused = false;
+    this.regionCreated = false;
+    this.currentStatusMsg = {trackStatusMsg: 'NO RECORDING', style:{background:'#848383'}};
 
     this.waveSurferOn = false;
     this.wavesurfer = Object.create(WaveSurfer);
@@ -52,7 +54,7 @@ export var Track = React.createClass({
 
   },
   handleDeleteAudio: function(){
-
+    this.fileLoadedOrRecorder = false;
 
   },
   mouseOver: function (e) {
@@ -185,6 +187,7 @@ export var Track = React.createClass({
           this.wavesurferPostRecording.on('region-created', function (region) {
 
             outerThis2.regionTest = region;
+            outerThis2.regionCreated = true;
           });
 
           this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
@@ -198,10 +201,12 @@ export var Track = React.createClass({
                 newBuffer.getChannelData(0).set(buffers[0]);
                 newBuffer.getChannelData(1).set(buffers[1]);
                 outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-                outerThis2.setState({trackStatusMsg: "RECORDING DONE", style:{background:'#848383'}});
+                outerThis2.currentStatusMsg = {trackStatusMsg: "READY", style:{background:'#848383'}};
+                outerThis2.setStatusMsg('#31A9F9',"RECORDING DONE", outerThis2.currentStatusMsg);
                 outerThis2.enablePlayBackButtons = true;
                 outerThis2.rec.clear();
                 outerThis2.fileLoadedOrRecorder = true;
+
 
               });
 
@@ -231,14 +236,27 @@ export var Track = React.createClass({
 
   },
   handleUndoSelection: function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if(this.regionCreated  == false){
+      this.setStatusMsg('#FF4D1D','NO REGION!', this.currentStatusMsg);
+      return;
+    }
     this.wavesurferPostRecording.clearRegions();
+    this.regionCreated = false;
   },
   handleLoop: function(){
-    this.setStatusMsg('#FF4D1D','NO REGION!');
+    this.setStatusMsg('#FF4D1D','NO REGION!', this.currentStatusMsg);
   },
   handleAudioDeleteOnly: function(){
     if(this.fileLoadedOrRecorder == false){
-      this.setStatusMsg('#FF4D1D','NO RECORDING!');
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if(this.regionCreated  == false){
+      this.setStatusMsg('#FF4D1D','NO REGION!', this.currentStatusMsg);
       return;
     }
 
@@ -270,6 +288,14 @@ export var Track = React.createClass({
   },
 
   handleDeleteRegionAudio: function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if(this.regionCreated  == false){
+      this.setStatusMsg('#FF4D1D','NO REGION!', this.currentStatusMsg);
+      return;
+    }
 
       function Float32Concat(first, second){
         var firstLength = first.length,
@@ -324,7 +350,7 @@ export var Track = React.createClass({
       outerThis2.wavesurferPostRecording.empty();
       outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
       outerThis2.wavesurferPostRecording.clearRegions();
-
+      this.regionCreated = false;
 
 
   },
@@ -344,13 +370,19 @@ export var Track = React.createClass({
     this.trackAudioBuffers[1] = Float32Concat(this.trackAudioBuffers[1], buffers[1]);
 
   },
-  setStatusMsg: function(bgColor, msg){
+  setStatusMsg: function(bgColor, msg, currentMsg){
     var outerThis = this;
     this.setState({trackStatusMsg: msg, style:{background:bgColor}}, function(){
       setTimeout(function(){
-        outerThis.setState({trackStatusMsg: "READY", style:{background:'#848383'}});
+        outerThis.setState(currentMsg);
       }, 2000);
     });
+  },
+  handleEffectsButtons:function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
   },
 
   render: function(){
@@ -397,7 +429,7 @@ export var Track = React.createClass({
           <div className="trackStatusPanel">
             <div style={this.state.style} className="trackStatusMsg" > {this.state.trackStatusMsg} </div>
           </div>
-          <Effects ref="Effects"/>
+          <Effects ref="Effects" statusError={this.handleEffectsButtons}/>
         </div>
 
         </div>

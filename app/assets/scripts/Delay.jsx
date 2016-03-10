@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 
 var Delay = React.createClass({
   getInitialState: function(){
-    return({wetLevel:25, dryLevel:100, feedBack:45, delayTime:150});
+    return({wetLevel:25, dryLevel:100, feedBack:45, delayTime:150, powerSlider:false});
   },
   setTuna: function(param){
     this.tuna = param;
@@ -35,25 +35,18 @@ var Delay = React.createClass({
     this.setState({delayTime: e.target.value});
   },
   setWaveform: function(param){
-    console.log('wavesurfer set delay');
+    
     this.wavesurfer = param;
   },
   OnOff: function(){
     this.props.list.push(this.delay);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
+
   },
   handleClick: function(){
+    if(!this.wavesurfer){
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Delay');
   },
   render: function(){

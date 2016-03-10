@@ -36,20 +36,13 @@ var Compressor = React.createClass({
   },
   OnOff: function(){
     this.props.list.push(this.compressor);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
+    
   },
   handleClick: function(){
+    if(!this.wavesurfer){
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Compressor');
   },
   setTuna: function(param){
@@ -78,6 +71,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Knee :
             <Tangle
+
               value={this.state.knee}
               min={0}
               max={40}
@@ -88,6 +82,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Ratio :
             <Tangle
+
               min={1}
               max={20}
               value={this.state.ratio}
@@ -98,6 +93,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Threshold:
             <Tangle
+
               min={-60}
               max={0}
               value={this.state.threshold}
@@ -110,6 +106,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Attack :
             <Tangle
+
               min={0}
               max={1000}
               value={this.state.attack}
@@ -120,6 +117,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Release :
             <Tangle
+
               min={0}
               max={3000}
               value={this.state.release}
@@ -130,6 +128,7 @@ var Compressor = React.createClass({
           <div className="compressorName">
             Makeup :
             <Tangle
+
               min={0}
               max={20}
               value={this.state.makeup}

@@ -31,7 +31,7 @@ var Phaser = React.createClass({
     this.setState({feedback: e.target.value});
   },
   handleBaseMod: function(e){
-    console.log(e.target.value);
+    //console.log(e.target.value);
     //this.phaser.baseModulationFrequency = e.target.value;
     this.setState({baseModulationFrequency: e.target.value});
   },
@@ -40,25 +40,17 @@ var Phaser = React.createClass({
     this.setState({stereoPhase: e.target.value});
   },
   setWaveform: function(param){
-    console.log('wavesurfer set Stereo phase');
     this.wavesurfer = param;
   },
   OnOff: function(){
     this.props.list.push(this.phaser);
-    /*
-    console.log(this.convolver);
-    if(this.power){
-      console.log('now off');
-      this.wavesurfer.backend.disconnectFilters();
-      this.power = false;
-    }else{
-      console.log('now on');
-      this.wavesurfer.backend.setFilters([this.convolver]);
-      this.power = true;
-    }
-    */
+
   },
   handleClick: function(){
+    if(!this.wavesurfer){
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('Phaser');
   },
   render: function(){

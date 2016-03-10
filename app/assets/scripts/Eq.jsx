@@ -48,9 +48,13 @@ var EQ = React.createClass({
   },
   setWaveform: function(params){
     this.wavesurfer = params;
+
+  },
+  create: function(){
+
     var thisOutside = this;
     this.filters = this.EQ.map(function (band) {
-       var filter = thisOutside.wavesurfer.backend.ac.createBiquadFilter();
+       var filter = audioContext.createBiquadFilter();
        filter.type = band.type;
        filter.gain.value = 0;
        filter.Q.value = 1;
@@ -103,9 +107,13 @@ var EQ = React.createClass({
     this.filters.map(function(filter){
       levelUp.props.list.push(filter);
     });
-  
+
   },
   handleClick: function(){
+    if(!this.wavesurfer){
+      this.props.statusError();
+      return;
+    }
     this.props.onClick('EQ');
   },
   render: function(){
