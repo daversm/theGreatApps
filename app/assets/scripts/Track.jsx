@@ -397,6 +397,13 @@ export var Track = React.createClass({
       return;
     }
   },
+  handleMute: function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    this.wavesurferPostRecording.toggleMute();
+  },
 
   render: function(){
     return (
@@ -406,7 +413,7 @@ export var Track = React.createClass({
        <div className="trackInfoPanel">
           <div className="trackName"> {this.props.trackTitle} </div>
           <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
-          <div className="buttonsInsideTrack"> Mute </div>
+          <div className="buttonsInsideTrack" onClick={this.handleMute}> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
           <div className="regionPanel">

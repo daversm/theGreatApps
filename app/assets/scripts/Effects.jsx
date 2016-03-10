@@ -7,6 +7,7 @@ var Tuna = require('tunajs');
 var Compressor = require('./Compressor.jsx');
 var Reverb  = require('./Reverb.jsx');
 var Phaser = require('./Phaser.jsx');
+var Volume = require('./Volume.jsx');
 
 
 var Effects = React.createClass({
@@ -33,6 +34,7 @@ var Effects = React.createClass({
     this.refs['Compressor'].setWaveform(params);
     this.refs['Reverb'].setWaveform(params);
     this.refs['Phaser'].setWaveform(params);
+    this.refs['Volume'].setWaveform(params);
   },
   handleEffectsPower: function(e){
     this.state.listOfEffects.length = 0;
@@ -78,6 +80,7 @@ var Effects = React.createClass({
         <Compressor ref="Compressor" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
         <EQ ref="EQ" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
         <Phaser ref="Phaser" onClick={this.handleEffectsPower} list={this.state.listOfEffects} statusError={this.props.statusError}/>
+        <Volume ref="Volume" statusError={this.props.statusError}></Volume>
       </div>
     );
   }
