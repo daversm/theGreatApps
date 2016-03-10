@@ -4,9 +4,10 @@ var ReactDOM = require('react-dom');
 
 var EQ = React.createClass({
   getInitialState:function(){
+    this.power = false;
     return({valueBandOne:0, valueBandTwo:0, valueBandThree:0, valueBandFour:0,
            valueBandFive:0, valueBandSix:0, valueBandSeven:0, valueBandEight:0,
-           valueBandNine: 0, valueBandTen:0
+           valueBandNine: 0, valueBandTen:0, buttonClass:"buttonsInsideTrack"
     });
   },
   componentDidMount: function(){
@@ -114,6 +115,13 @@ var EQ = React.createClass({
       this.props.statusError();
       return;
     }
+    if(this.power){
+      this.setState({buttonClass:'buttonsInsideTrack'});
+      this.power = false;
+    }else{
+      this.setState({buttonClass:'buttonsInsideTrackClicked'});
+      this.power = true;
+    }
     this.props.onClick('EQ');
   },
   render: function(){
@@ -121,7 +129,7 @@ var EQ = React.createClass({
       <div className="EQdiv">
 
         <div className="EQtitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> EQ 10-BAND </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> EQ 10-BAND </div>
         </div>
 
         <div className="eqHolder">

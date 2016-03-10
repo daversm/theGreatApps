@@ -7,7 +7,8 @@ var Reverb = React.createClass({
     onClick : React.PropTypes.func
   },
   getInitialState: function(){
-    return({wetLevel:25, dryLevel:100, power:false});
+    this.power = false;
+    return({wetLevel:25, dryLevel:100, buttonClass:"buttonsInsideTrack"});
   },
   handleWet:function(e){
     this.convolver.wetLevel = e.target.value/100;
@@ -28,6 +29,13 @@ var Reverb = React.createClass({
     if(!this.wavesurfer){
       this.props.statusError();
       return;
+    }
+    if(this.power){
+      this.setState({buttonClass:'buttonsInsideTrack'});
+      this.power = false;
+    }else{
+      this.setState({buttonClass:'buttonsInsideTrackClicked'});
+      this.power = true;
     }
     this.props.onClick('Reverb');
   },
@@ -51,7 +59,7 @@ var Reverb = React.createClass({
     return(
       <div className='reverbHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> REVERB </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> REVERB </div>
         </div>
         <div className="reverbDiv">
           <div className="sliderVertical">

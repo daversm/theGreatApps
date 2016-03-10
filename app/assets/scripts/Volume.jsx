@@ -7,7 +7,8 @@ var Volume = React.createClass({
     onClick : React.PropTypes.func
   },
   getInitialState: function(){
-    return({volume:50});
+    this.power = false;
+    return({volume:50, buttonClass:"buttonsInsideTrack"});
   },
   handleVolume: function(e){
     if(this.wavesurfer){
@@ -23,6 +24,7 @@ var Volume = React.createClass({
       this.props.statusError();
       return;
     }
+    
     this.wavesurfer.toggleMute();
   },
 
@@ -31,7 +33,7 @@ var Volume = React.createClass({
     return(
       <div className='volumeHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> VOLUME </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> VOLUME </div>
         </div>
         <div className="reverbDiv">
           <div className="sliderVertical">

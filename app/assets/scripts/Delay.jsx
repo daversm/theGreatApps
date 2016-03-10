@@ -3,7 +3,8 @@ var ReactDOM = require('react-dom');
 
 var Delay = React.createClass({
   getInitialState: function(){
-    return({wetLevel:25, dryLevel:100, feedBack:45, delayTime:150, powerSlider:false});
+    this.power = false;
+    return({wetLevel:25, dryLevel:100, feedBack:45, delayTime:150, powerSlider:false, buttonClass:"buttonsInsideTrack"});
   },
   setTuna: function(param){
     this.tuna = param;
@@ -35,7 +36,7 @@ var Delay = React.createClass({
     this.setState({delayTime: e.target.value});
   },
   setWaveform: function(param){
-    
+
     this.wavesurfer = param;
   },
   OnOff: function(){
@@ -47,13 +48,20 @@ var Delay = React.createClass({
       this.props.statusError();
       return;
     }
+    if(this.power){
+      this.setState({buttonClass:'buttonsInsideTrack'});
+      this.power = false;
+    }else{
+      this.setState({buttonClass:'buttonsInsideTrackClicked'});
+      this.power = true;
+    }
     this.props.onClick('Delay');
   },
   render: function(){
     return(
       <div className='delayHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> DELAY </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> DELAY </div>
         </div>
         <div className="delayDiv">
           <div className="sliderVertical">

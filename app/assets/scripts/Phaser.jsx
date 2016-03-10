@@ -3,7 +3,8 @@ var ReactDOM = require('react-dom');
 
 var Phaser = React.createClass({
   getInitialState: function(){
-    return({rate:1.2, depth:3, feedback:2, stereoPhase:30, baseModulationFrequency:1000});
+    this.power = false;
+    return({rate:1.2, depth:3, feedback:2, stereoPhase:30, baseModulationFrequency:1000, buttonClass:"buttonsInsideTrack"});
   },
   setTuna: function(param){
     this.tuna = param;
@@ -51,13 +52,20 @@ var Phaser = React.createClass({
       this.props.statusError();
       return;
     }
+    if(this.power){
+      this.setState({buttonClass:'buttonsInsideTrack'});
+      this.power = false;
+    }else{
+      this.setState({buttonClass:'buttonsInsideTrackClicked'});
+      this.power = true;
+    }
     this.props.onClick('Phaser');
   },
   render: function(){
     return(
       <div className='phaserHolder'>
         <div className="delayTitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> PHASER </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> PHASER </div>
         </div>
         <div className="phaserDiv">
           <div className="sliderVertical">

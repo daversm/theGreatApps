@@ -388,7 +388,7 @@ export var Track = React.createClass({
     this.setState({trackStatusMsg: msg, style:{background:bgColor}}, function(){
       setTimeout(function(){
         outerThis.setState(currentMsg);
-      }, 2000);
+      }, 800);
     });
   },
   handleEffectsButtons:function(){

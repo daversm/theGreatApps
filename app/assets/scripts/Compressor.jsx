@@ -4,7 +4,8 @@ var Tangle = require('./tangle.js');
 
 var Compressor = React.createClass({
   getInitialState: function(){
-    return({knee:5, makeup:1, attack:1, release:0, ratio:4, threshold:0});
+    this.power = false;
+    return({knee:5, makeup:1, attack:1, release:0, ratio:4, threshold:0, buttonClass: "buttonsInsideTrack"});
   },
   handleKnee:function(value){
     this.compressor.knee = value;
@@ -36,14 +37,23 @@ var Compressor = React.createClass({
   },
   OnOff: function(){
     this.props.list.push(this.compressor);
-    
+
   },
   handleClick: function(){
     if(!this.wavesurfer){
       this.props.statusError();
       return;
     }
+
     this.props.onClick('Compressor');
+    
+    if(this.power){
+      this.setState({buttonClass:'buttonsInsideTrack'});
+      this.power = false;
+    }else{
+      this.setState({buttonClass:'buttonsInsideTrackClicked'});
+      this.power = true;
+    }
   },
   setTuna: function(param){
     this.tuna = param;
@@ -64,7 +74,7 @@ var Compressor = React.createClass({
     return(
       <div className="compressorHolder">
         <div className="compressorTitle">
-          <div className="buttonsInsideTrack" onClick={this.handleClick}> COMPRESSOR </div>
+          <div className={this.state.buttonClass} onClick={this.handleClick}> COMPRESSOR </div>
         </div>
       <div className="compressorDiv">
         <div className="compressorRow">

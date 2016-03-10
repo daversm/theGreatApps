@@ -9,7 +9,8 @@ var Compressor = React.createClass({
   displayName: 'Compressor',
 
   getInitialState: function getInitialState() {
-    return { knee: 5, makeup: 1, attack: 1, release: 0, ratio: 4, threshold: 0 };
+    this.power = false;
+    return { knee: 5, makeup: 1, attack: 1, release: 0, ratio: 4, threshold: 0, buttonClass: "buttonsInsideTrack" };
   },
   handleKnee: function handleKnee(value) {
     this.compressor.knee = value;
@@ -47,7 +48,16 @@ var Compressor = React.createClass({
       this.props.statusError();
       return;
     }
+
     this.props.onClick('Compressor');
+
+    if (this.power) {
+      this.setState({ buttonClass: 'buttonsInsideTrack' });
+      this.power = false;
+    } else {
+      this.setState({ buttonClass: 'buttonsInsideTrackClicked' });
+      this.power = true;
+    }
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -72,7 +82,7 @@ var Compressor = React.createClass({
         { className: 'compressorTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' COMPRESSOR '
         )
       ),
@@ -183,7 +193,8 @@ var Delay = React.createClass({
   displayName: 'Delay',
 
   getInitialState: function getInitialState() {
-    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delayTime: 150, powerSlider: false };
+    this.power = false;
+    return { wetLevel: 25, dryLevel: 100, feedBack: 45, delayTime: 150, powerSlider: false, buttonClass: "buttonsInsideTrack" };
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -225,6 +236,13 @@ var Delay = React.createClass({
       this.props.statusError();
       return;
     }
+    if (this.power) {
+      this.setState({ buttonClass: 'buttonsInsideTrack' });
+      this.power = false;
+    } else {
+      this.setState({ buttonClass: 'buttonsInsideTrackClicked' });
+      this.power = true;
+    }
     this.props.onClick('Delay');
   },
   render: function render() {
@@ -236,7 +254,7 @@ var Delay = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' DELAY '
         )
       ),
@@ -324,9 +342,10 @@ var EQ = React.createClass({
   displayName: 'EQ',
 
   getInitialState: function getInitialState() {
+    this.power = false;
     return { valueBandOne: 0, valueBandTwo: 0, valueBandThree: 0, valueBandFour: 0,
       valueBandFive: 0, valueBandSix: 0, valueBandSeven: 0, valueBandEight: 0,
-      valueBandNine: 0, valueBandTen: 0
+      valueBandNine: 0, valueBandTen: 0, buttonClass: "buttonsInsideTrack"
     };
   },
   componentDidMount: function componentDidMount() {
@@ -429,6 +448,13 @@ var EQ = React.createClass({
       this.props.statusError();
       return;
     }
+    if (this.power) {
+      this.setState({ buttonClass: 'buttonsInsideTrack' });
+      this.power = false;
+    } else {
+      this.setState({ buttonClass: 'buttonsInsideTrackClicked' });
+      this.power = true;
+    }
     this.props.onClick('EQ');
   },
   render: function render() {
@@ -440,7 +466,7 @@ var EQ = React.createClass({
         { className: 'EQtitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' EQ 10-BAND '
         )
       ),
@@ -844,7 +870,8 @@ var Phaser = React.createClass({
   displayName: 'Phaser',
 
   getInitialState: function getInitialState() {
-    return { rate: 1.2, depth: 3, feedback: 2, stereoPhase: 30, baseModulationFrequency: 1000 };
+    this.power = false;
+    return { rate: 1.2, depth: 3, feedback: 2, stereoPhase: 30, baseModulationFrequency: 1000, buttonClass: "buttonsInsideTrack" };
   },
   setTuna: function setTuna(param) {
     this.tuna = param;
@@ -890,6 +917,13 @@ var Phaser = React.createClass({
       this.props.statusError();
       return;
     }
+    if (this.power) {
+      this.setState({ buttonClass: 'buttonsInsideTrack' });
+      this.power = false;
+    } else {
+      this.setState({ buttonClass: 'buttonsInsideTrackClicked' });
+      this.power = true;
+    }
     this.props.onClick('Phaser');
   },
   render: function render() {
@@ -901,7 +935,7 @@ var Phaser = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' PHASER '
         )
       ),
@@ -1008,7 +1042,8 @@ var Reverb = React.createClass({
     onClick: React.PropTypes.func
   },
   getInitialState: function getInitialState() {
-    return { wetLevel: 25, dryLevel: 100, power: false };
+    this.power = false;
+    return { wetLevel: 25, dryLevel: 100, buttonClass: "buttonsInsideTrack" };
   },
   handleWet: function handleWet(e) {
     this.convolver.wetLevel = e.target.value / 100;
@@ -1028,6 +1063,13 @@ var Reverb = React.createClass({
     if (!this.wavesurfer) {
       this.props.statusError();
       return;
+    }
+    if (this.power) {
+      this.setState({ buttonClass: 'buttonsInsideTrack' });
+      this.power = false;
+    } else {
+      this.setState({ buttonClass: 'buttonsInsideTrackClicked' });
+      this.power = true;
     }
     this.props.onClick('Reverb');
   },
@@ -1055,7 +1097,7 @@ var Reverb = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' REVERB '
         )
       ),
@@ -1463,7 +1505,7 @@ var Track = exports.Track = React.createClass({
     this.setState({ trackStatusMsg: msg, style: { background: bgColor } }, function () {
       setTimeout(function () {
         outerThis.setState(currentMsg);
-      }, 2000);
+      }, 800);
     });
   },
   handleEffectsButtons: function handleEffectsButtons() {
@@ -1606,7 +1648,8 @@ var Volume = React.createClass({
     onClick: React.PropTypes.func
   },
   getInitialState: function getInitialState() {
-    return { volume: 50 };
+    this.power = false;
+    return { volume: 50, buttonClass: "buttonsInsideTrack" };
   },
   handleVolume: function handleVolume(e) {
     if (this.wavesurfer) {
@@ -1622,6 +1665,7 @@ var Volume = React.createClass({
       this.props.statusError();
       return;
     }
+
     this.wavesurfer.toggleMute();
   },
 
@@ -1635,7 +1679,7 @@ var Volume = React.createClass({
         { className: 'delayTitle' },
         React.createElement(
           'div',
-          { className: 'buttonsInsideTrack', onClick: this.handleClick },
+          { className: this.state.buttonClass, onClick: this.handleClick },
           ' VOLUME '
         )
       ),
