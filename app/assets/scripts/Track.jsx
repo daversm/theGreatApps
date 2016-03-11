@@ -8,7 +8,8 @@ var Tuna = require('tunajs');
 
 export var Track = React.createClass({
   getInitialState: function() {
-    return {value:50, style:{background:'#848383'}};
+    return {value:50, style:{background:'#848383'},
+            loopButton:"buttonsInsideTrack", muteButton:"buttonsInsideTrack", muteStatus:false};
   },
   setMicToRecorder: function(){
     this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
@@ -206,7 +207,10 @@ export var Track = React.createClass({
                 outerThis2.enablePlayBackButtons = true;
                 outerThis2.rec.clear();
                 outerThis2.fileLoadedOrRecorder = true;
-
+                if(outerThis2.state.muteStatus == true){
+                  outerThis2.wavesurferPostRecording.toggleMute();
+                }
+                outerThis2.setState({loopButton:"buttonsInsideTrack"});
 
               });
 
@@ -246,6 +250,7 @@ export var Track = React.createClass({
     }
     this.wavesurferPostRecording.clearRegions();
     this.regionCreated = false;
+    this.setState({loopButton:"buttonsInsideTrack"});
   },
   handleLoop: function(){
     if(this.fileLoadedOrRecorder == false){
@@ -257,9 +262,11 @@ export var Track = React.createClass({
       return;
     }
     if(this.regionTest.loop == true){
+      this.setState({loopButton:"buttonsInsideTrack"});
       this.regionTest.loop = false;
     }else{
       this.regionTest.loop = true;
+      this.setState({loopButton:"buttonsInsideTrackClicked"});
     }
 
   },
@@ -295,7 +302,6 @@ export var Track = React.createClass({
     newBuffer.getChannelData(1).set(buffers[1]);
     outerThis2.wavesurferPostRecording.empty();
     outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-
 
 
   },
@@ -364,6 +370,7 @@ export var Track = React.createClass({
       outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
       outerThis2.wavesurferPostRecording.clearRegions();
       this.regionCreated = false;
+      this.setState({loopButton:"buttonsInsideTrack"});
 
 
   },
@@ -402,7 +409,13 @@ export var Track = React.createClass({
       this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
       return;
     }
-    this.wavesurferPostRecording.toggleMute();
+    if(this.state.muteStatus == false){
+      this.wavesurferPostRecording.toggleMute();
+      this.setState({muteButton:"buttonsInsideTrackClicked", muteStatus:true});
+    }else{
+      this.wavesurferPostRecording.toggleMute();
+      this.setState({muteButton:"buttonsInsideTrack", muteStatus:false});
+    }
   },
 
   render: function(){
@@ -413,13 +426,13 @@ export var Track = React.createClass({
        <div className="trackInfoPanel">
           <div className="trackName"> {this.props.trackTitle} </div>
           <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
-          <div className="buttonsInsideTrack" onClick={this.handleMute}> Mute </div>
+          <div className={this.state.muteButton} onClick={this.handleMute}> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
           <div className="regionPanel">
             <div className="RegionName"> REGION CONTROLS </div>
             <div className="buttonsInsideTrack" onClick={this.handleUndoSelection}> Undo Selection </div>
-            <div className="buttonsInsideTrack" onClick={this.handleLoop}> Loop </div>
+            <div className={this.state.loopButton} onClick={this.handleLoop}> Loop </div>
             <div className="buttonsInsideTrack" onClick={this.handleAudioDeleteOnly}> Delete Audio </div>
             <div className="buttonsInsideTrack" onClick={this.handleDeleteRegionAudio}> Delete Region </div>
           </div>

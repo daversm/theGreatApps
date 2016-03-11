@@ -24,8 +24,9 @@ var Volume = React.createClass({
       this.props.statusError();
       return;
     }
-    
-    this.wavesurfer.toggleMute();
+    this.wavesurfer.setVolume(50/100);
+    this.setState({volume: 50});
+
   },
 
   render: function(){
