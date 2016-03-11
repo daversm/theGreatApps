@@ -1163,7 +1163,7 @@ var Track = exports.Track = React.createClass({
   getInitialState: function getInitialState() {
     return { value: 50, style: { background: '#848383' },
       loopButton: "buttonsInsideTrack", muteButton: "buttonsInsideTrack",
-      muteStatus: false, undoButton: "buttonsInsideTrackUndoUnactive" };
+      muteStatus: false, undoButton: "buttonsInsideTrackUndoUnactive", undoCount: 0 };
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
@@ -1189,6 +1189,7 @@ var Track = exports.Track = React.createClass({
     this.recordingIsPaused = false;
     this.regionCreated = false;
     this.currentStatusMsg = { trackStatusMsg: 'NO RECORDING', style: { background: '#848383' } };
+    this.undoCount = 0;
 
     this.waveSurferOn = false;
     this.wavesurfer = Object.create(WaveSurfer);
@@ -1218,6 +1219,8 @@ var Track = exports.Track = React.createClass({
 
       if (this.undoArray.length < 3) {
         this.undoArray.push(setClone(this.trackAudioBuffers));
+        this.undoCount++;
+        this.setState({ undoCount: this.undoCount });
       } else if (this.undoArray.length >= 3) {
         this.undoArray.splice(0, 1);
         this.undoArray.push(setClone(this.trackAudioBuffers));
@@ -1244,6 +1247,8 @@ var Track = exports.Track = React.createClass({
       newBuffer.getChannelData(1).set(buffers[1]);
       this.wavesurferPostRecording.empty();
       this.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+      this.undoCount--;
+      this.setState({ undoCount: this.undoCount });
     }
   },
   handleCheckUndoArrayStatus: function handleCheckUndoArrayStatus() {
@@ -1626,7 +1631,9 @@ var Track = exports.Track = React.createClass({
           React.createElement(
             'div',
             { className: 'buttonsInsideTrack', onClick: this.handleLoadFromUndoArray },
-            ' Undo '
+            ' Undo : Count ',
+            this.state.undoCount,
+            ' '
           ),
           React.createElement(
             'div',
