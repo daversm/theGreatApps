@@ -1357,7 +1357,7 @@ var Track = exports.Track = React.createClass({
       this.wavesurferPostRecording.init({
         audioContext: audioContext,
         container: "#" + outerThis2.props.trackName,
-        waveColor: '#0099FF',
+        waveColor: '#31A9F9',
         progressColor: '#5A5A5A',
         interact: true,
         cursorWidth: 3,
