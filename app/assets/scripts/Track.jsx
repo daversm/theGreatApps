@@ -52,28 +52,49 @@ export var Track = React.createClass({
     });
 
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
-    console.log(this.trackAudioBuffers);
     this.undoArray = [];
 
+
   },
-  handleAddToUndo:function(bufferToAdd){
-    if (this.undoArray.length < 3){
-      this.undoArray.push(buffersToAdd);
-    }else if (this.undoArray.length >= 3){
-      this.undoArray.splice(0,1);
-      this.undoArray.push(buffersToAdd);
+  handleAddToUndo:function(){
+    if(this.trackAudioBuffers[0].length>0){
+      function setClone( ab ) {
+        var copyArray = [new Float32Array(ab[0].length),new Float32Array(ab[1].length)];
+        copyArray[0].set(ab[0]);
+        copyArray[1].set(ab[1]);
+        return copyArray;
+      }
+
+      if (this.undoArray.length < 3){
+        this.undoArray.push(setClone(this.trackAudioBuffers));
+      }else if (this.undoArray.length >= 3){
+        this.undoArray.splice(0,1);
+        this.undoArray.push(setClone(this.trackAudioBuffers));
+      }
     }
-    this.handleCheckUndoArrayStatus();
+
   },
   handleLoadFromUndoArray: function(){
     if(this.fileLoadedOrRecorder == false){
       this.setStatusMsg('#FF4D1D','NOTHING TO UNDO', this.currentStatusMsg);
       return;
     }
-    if(this.undoArray >= 1){
-      this.wavesurferPostRecording.loadDecodedBuffer(this.undoArray.pop());
+    function setClone( ab ) {
+      var copyArray = [new Float32Array(ab[0].length),new Float32Array(ab[1].length)];
+      copyArray[0].set(ab[0]);
+      copyArray[1].set(ab[1]);
+      return copyArray;
     }
-    this.handleCheckUndoArrayStatus();
+
+    if(this.undoArray.length >= 1){
+      var buffers = setClone(this.undoArray.pop());
+      this.trackAudioBuffers = buffers;
+      var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+      newBuffer.getChannelData(0).set(buffers[0]);
+      newBuffer.getChannelData(1).set(buffers[1]);
+      this.wavesurferPostRecording.empty();
+      this.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+    }
   },
   handleCheckUndoArrayStatus: function(){
     if(this.undoArray < 1){
@@ -224,7 +245,7 @@ export var Track = React.createClass({
 
             var outerThis2 = this;
               this.rec.getBuffer(function(buffers){
-
+                outerThis2.handleAddToUndo();
                 outerThis2.mergeTrackAudioBuffer(buffers);
                 buffers = outerThis2.trackAudioBuffers;
                 var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
@@ -241,11 +262,9 @@ export var Track = React.createClass({
                 }
                 outerThis2.setState({loopButton:"buttonsInsideTrack"});
 
+
+
               });
-
-
-
-
       }
 
   },
@@ -318,6 +337,7 @@ export var Track = React.createClass({
     }
 
 
+    this.handleAddToUndo();
     var buffers = this.trackAudioBuffers;
     if(endBufferPos > buffers[0].length){
       endBufferPos = buffers[0].length -1 ;
@@ -331,6 +351,7 @@ export var Track = React.createClass({
     newBuffer.getChannelData(1).set(buffers[1]);
     outerThis2.wavesurferPostRecording.empty();
     outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+
 
 
   },
@@ -369,7 +390,7 @@ export var Track = React.createClass({
         this.wavesurferPostRecording.stop();
       }
 
-
+      this.handleAddToUndo();
       var buffers = this.trackAudioBuffers;
 
 
@@ -400,6 +421,7 @@ export var Track = React.createClass({
       outerThis2.wavesurferPostRecording.clearRegions();
       this.regionCreated = false;
       this.setState({loopButton:"buttonsInsideTrack"});
+
 
 
   },
