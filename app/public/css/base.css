@@ -541,8 +541,7 @@ input[type="submit"]:focus{
   background-color: #7B7B7B;
   font-size: 9px;
   padding: 4px;
-  min-width: 66px;
-  max-width: 120px;
+  width: 170px;
   font-weight: 500;
   color: white;
   text-align: center;

@@ -1162,7 +1162,8 @@ var Track = exports.Track = React.createClass({
 
   getInitialState: function getInitialState() {
     return { value: 50, style: { background: '#848383' },
-      loopButton: "buttonsInsideTrack", muteButton: "buttonsInsideTrack", muteStatus: false };
+      loopButton: "buttonsInsideTrack", muteButton: "buttonsInsideTrack",
+      muteStatus: false, undoButton: "buttonsInsideTrackUndoUnactive" };
   },
   setMicToRecorder: function setMicToRecorder() {
     this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
@@ -1205,6 +1206,33 @@ var Track = exports.Track = React.createClass({
 
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     console.log(this.trackAudioBuffers);
+    this.undoArray = [];
+  },
+  handleAddToUndo: function handleAddToUndo(bufferToAdd) {
+    if (this.undoArray.length < 3) {
+      this.undoArray.push(buffersToAdd);
+    } else if (this.undoArray.length >= 3) {
+      this.undoArray.splice(0, 1);
+      this.undoArray.push(buffersToAdd);
+    }
+    this.handleCheckUndoArrayStatus();
+  },
+  handleLoadFromUndoArray: function handleLoadFromUndoArray() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NOTHING TO UNDO', this.currentStatusMsg);
+      return;
+    }
+    if (this.undoArray >= 1) {
+      this.wavesurferPostRecording.loadDecodedBuffer(this.undoArray.pop());
+    }
+    this.handleCheckUndoArrayStatus();
+  },
+  handleCheckUndoArrayStatus: function handleCheckUndoArrayStatus() {
+    if (this.undoArray < 1) {
+      this.setState({ undoButton: "buttonsInsideTrackUndoUnactive" });
+    } else {
+      this.setState({ undoButton: "buttonsInsideTrackUndoActive" });
+    }
   },
   handleDeleteAudio: function handleDeleteAudio() {
     this.fileLoadedOrRecorder = false;
@@ -1573,6 +1601,11 @@ var Track = exports.Track = React.createClass({
             'div',
             { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio },
             ' Delete Audio '
+          ),
+          React.createElement(
+            'div',
+            { className: 'buttonsInsideTrack', onClick: this.handleLoadFromUndoArray },
+            ' Undo '
           ),
           React.createElement(
             'div',

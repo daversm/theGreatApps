@@ -8,8 +8,9 @@ var Tuna = require('tunajs');
 
 export var Track = React.createClass({
   getInitialState: function() {
-    return {value:50, style:{background:'#848383'},
-            loopButton:"buttonsInsideTrack", muteButton:"buttonsInsideTrack", muteStatus:false};
+    return ({value:50, style:{background:'#848383'},
+            loopButton:"buttonsInsideTrack", muteButton:"buttonsInsideTrack",
+            muteStatus:false, undoButton: "buttonsInsideTrackUndoUnactive"});
   },
   setMicToRecorder: function(){
     this.rec = new Recorder(mediaStreamSource, { bufferLen: 8192 });
@@ -52,6 +53,34 @@ export var Track = React.createClass({
 
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     console.log(this.trackAudioBuffers);
+    this.undoArray = [];
+
+  },
+  handleAddToUndo:function(bufferToAdd){
+    if (this.undoArray.length < 3){
+      this.undoArray.push(buffersToAdd);
+    }else if (this.undoArray.length >= 3){
+      this.undoArray.splice(0,1);
+      this.undoArray.push(buffersToAdd);
+    }
+    this.handleCheckUndoArrayStatus();
+  },
+  handleLoadFromUndoArray: function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NOTHING TO UNDO', this.currentStatusMsg);
+      return;
+    }
+    if(this.undoArray >= 1){
+      this.wavesurferPostRecording.loadDecodedBuffer(this.undoArray.pop());
+    }
+    this.handleCheckUndoArrayStatus();
+  },
+  handleCheckUndoArrayStatus: function(){
+    if(this.undoArray < 1){
+      this.setState({undoButton: "buttonsInsideTrackUndoUnactive"});
+    }else{
+      this.setState({undoButton: "buttonsInsideTrackUndoActive"});
+    }
 
   },
   handleDeleteAudio: function(){
@@ -424,11 +453,14 @@ export var Track = React.createClass({
       <div className="trackMasterPanel">
 
        <div className="trackInfoPanel">
+
           <div className="trackName"> {this.props.trackTitle} </div>
           <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
           <div className={this.state.muteButton} onClick={this.handleMute}> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
+          <div className="buttonsInsideTrack" onClick={this.handleLoadFromUndoArray}> Undo </div>
+
           <div className="regionPanel">
             <div className="RegionName"> REGION CONTROLS </div>
             <div className="buttonsInsideTrack" onClick={this.handleUndoSelection}> Undo Selection </div>
