@@ -31,7 +31,7 @@ export var Track = React.createClass({
     this.fileLoadedOrRecorder = false;
     this.trackReady = false;
     this.enablePlayBackButtons = false;
-    this.currentColorMicIcon = "#5A5A5A";
+    this.currentColorMicIcon = "#797676";
     this.currentlyRecording = false;
     this.recordingIsPaused = false;
     this.regionCreated = false;
@@ -54,8 +54,17 @@ export var Track = React.createClass({
 
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     this.undoArray = [];
+    this.liveFeedStatus = false;
 
 
+  },
+  muteThisTrack:function(){
+    if(this.state.muteStatus == false){
+      this.handleMute();
+    }
+  },
+  isThisTrackLive:function(){
+    return this.liveFeedStatus;
   },
   handleAddToUndo:function(){
     if(this.trackAudioBuffers[0].length>0){
@@ -117,6 +126,7 @@ export var Track = React.createClass({
     if (!this.currentlyRecording && ! this.recordingIsPaused){
       this.fileLoadedOrRecorder = false;
       this.wavesurferPostRecording.empty();
+      this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
       this.enablePlayBackButtons = false;
       this.undoArray = [];
       this.undoCount = 0;
@@ -127,14 +137,10 @@ export var Track = React.createClass({
 
   },
   mouseOver: function (e) {
-    if(this.trackReady == true){
-      e.target.style.color = "#0099FF";
-    }
+    e.target.style.color = "#0099FF";
   },
   mouseOut: function (e) {
-    if(this.trackReady == true){
-      e.target.style.color =  this.currentColorMicIcon;
-    }
+    e.target.style.color =  this.currentColorMicIcon;
   },
   handleRecord: function(){
     var outerThis = this;
@@ -153,7 +159,7 @@ export var Track = React.createClass({
         this.wavesurfer = Object.create(WaveSurfer);
         this.wavesurfer.init({
           container     : "#" + outerThis.props.trackName,
-          waveColor     : "#5A5A5A",
+          waveColor     : "#848383",
           interact      : false,
           cursorWidth   : 0,
           height        : 170
@@ -202,16 +208,32 @@ export var Track = React.createClass({
 
 
   },
-  handleLiveFeed: function(){
-
+  handleLiveFeed: function(e){
+    var outerThis = this;
+    if(this.liveFeedStatus == false){
+      if(this.props.checkForLiveTrack == false){
+        mediaStreamSource.connect( audioContext.destination);
+        this.liveFeedStatus = true;
+        e.target.style.color =  '#FF4D1D';
+        this.currentColorMicIcon = '#FF4D1D';
+      }
+    }else if(this.liveFeedStatus == true){
+      mediaStreamSource.disconnect( audioContext.destination);
+      this.liveFeedStatus = false;
+      e.target.style.color =  '#797676';
+      this.currentColorMicIcon = '#797676';
+    }
 
   },
   handleDownloadTrack: function(){
+    /*
     var outerThis = this;
     this.rec.exportWAV(function(e){
         outerThis.rec.clear();
         Recorder.forceDownload(e, "filename.wav");
       });
+    */
+    mediaStreamSource.connect( audioContext.destination );
 
   },
   handleRecStop: function(){
@@ -233,7 +255,7 @@ export var Track = React.createClass({
               audioContext : audioContext,
               container: "#" + outerThis2.props.trackName,
               waveColor: '#31A9F9',
-              progressColor: '#5A5A5A',
+              progressColor: '#848383',
               interact      : true,
               cursorWidth   : 3,
               cursorColor   : '#FF6D45',
@@ -493,9 +515,7 @@ export var Track = React.createClass({
        <div className="trackInfoPanel">
 
           <div className="trackName"> {this.props.trackTitle} </div>
-          <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
           <div className={this.state.muteButton} onClick={this.handleMute}> Mute </div>
-          <div className="buttonsInsideTrack"> Solo </div>
           <div className="buttonsInsideTrack" onClick={this.handleClearTrack}> Clear Track </div>
           <div className="buttonsInsideTrack" onClick={this.handleLoadFromUndoArray}> Undo : Count {this.state.undoCount} </div>
 
@@ -520,7 +540,11 @@ export var Track = React.createClass({
             <div className="recordingOptionsDiv">
               <div id="recTrack" onClick={this.handleRecord}></div>
               <div id="recStop" onClick={this.handleRecStop}></div>
-              <div className="icono-headphone" onClick={this.handleDownloadTrack}></div>
+              <div className="icono-headphone"
+                  onMouseOver={this.mouseOver}
+                  onMouseLeave={this.mouseOut}
+                  onClick={this.handleLiveFeed}>
+              </div>
 
             </div>
 

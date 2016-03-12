@@ -17,7 +17,7 @@ const MasterController = React.createClass({
     var outerThis = this;
     navigator.getUserMedia({audio: true}, function(localMediaStream){
       mediaStream = localMediaStream;
-      mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
+      mediaStreamSource = audioContext.createMediaStreamSource(mediaStream);
       masterMicStatus = true;
       outerThis.refs['track1'].setMicToRecorder();
       outerThis.refs['track2'].setMicToRecorder();
@@ -45,6 +45,13 @@ const MasterController = React.createClass({
   userDropDown : function(option) {
 
   },
+  handleCheckForLiveTracks: function(){
+    return (
+      this.refs['track1'].isThisTrackLive() ||
+      this.refs['track2'].isThisTrackLive() ||
+      this.refs['track3'].isThisTrackLive()
+    );
+  },
 
   render: function() {
     const trackListItems = this.state.tracksArray.map((trackData) => {
@@ -54,6 +61,7 @@ const MasterController = React.createClass({
             key={trackData.trackName}
             trackName={trackData.trackName}
             trackTitle={trackData.tracksTitle}
+            checkForLiveTrack = {this.handleCheckForLiveTracks}
         />
       );
     });
@@ -73,7 +81,6 @@ const MasterController = React.createClass({
     return (
       <div>
         <div className="masterControllPanel" >
-
 
           <div className="masterControllPanelControls">
 

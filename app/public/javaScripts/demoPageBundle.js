@@ -764,7 +764,7 @@ var MasterController = _react2.default.createClass({
     var outerThis = this;
     navigator.getUserMedia({ audio: true }, function (localMediaStream) {
       mediaStream = localMediaStream;
-      mediaStreamSource = contextForRec.createMediaStreamSource(mediaStream);
+      mediaStreamSource = audioContext.createMediaStreamSource(mediaStream);
       masterMicStatus = true;
       outerThis.refs['track1'].setMicToRecorder();
       outerThis.refs['track2'].setMicToRecorder();
@@ -789,14 +789,20 @@ var MasterController = _react2.default.createClass({
     this.refs['track3'].handleStop();
   },
   userDropDown: function userDropDown(option) {},
+  handleCheckForLiveTracks: function handleCheckForLiveTracks() {
+    return this.refs['track1'].isThisTrackLive() || this.refs['track2'].isThisTrackLive() || this.refs['track3'].isThisTrackLive();
+  },
 
   render: function render() {
+    var _this = this;
+
     var trackListItems = this.state.tracksArray.map(function (trackData) {
       return _react2.default.createElement(_Track.Track, {
         ref: trackData.trackName,
         key: trackData.trackName,
         trackName: trackData.trackName,
-        trackTitle: trackData.tracksTitle
+        trackTitle: trackData.tracksTitle,
+        checkForLiveTrack: _this.handleCheckForLiveTracks
       });
     });
     var testData = [{
@@ -1184,7 +1190,7 @@ var Track = exports.Track = React.createClass({
     this.fileLoadedOrRecorder = false;
     this.trackReady = false;
     this.enablePlayBackButtons = false;
-    this.currentColorMicIcon = "#5A5A5A";
+    this.currentColorMicIcon = "#797676";
     this.currentlyRecording = false;
     this.recordingIsPaused = false;
     this.regionCreated = false;
@@ -1207,6 +1213,15 @@ var Track = exports.Track = React.createClass({
 
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     this.undoArray = [];
+    this.liveFeedStatus = false;
+  },
+  muteThisTrack: function muteThisTrack() {
+    if (this.state.muteStatus == false) {
+      this.handleMute();
+    }
+  },
+  isThisTrackLive: function isThisTrackLive() {
+    return this.liveFeedStatus;
   },
   handleAddToUndo: function handleAddToUndo() {
     if (this.trackAudioBuffers[0].length > 0) {
@@ -1266,6 +1281,7 @@ var Track = exports.Track = React.createClass({
     if (!this.currentlyRecording && !this.recordingIsPaused) {
       this.fileLoadedOrRecorder = false;
       this.wavesurferPostRecording.empty();
+      this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
       this.enablePlayBackButtons = false;
       this.undoArray = [];
       this.undoCount = 0;
@@ -1275,14 +1291,10 @@ var Track = exports.Track = React.createClass({
     }
   },
   mouseOver: function mouseOver(e) {
-    if (this.trackReady == true) {
-      e.target.style.color = "#0099FF";
-    }
+    e.target.style.color = "#0099FF";
   },
   mouseOut: function mouseOut(e) {
-    if (this.trackReady == true) {
-      e.target.style.color = this.currentColorMicIcon;
-    }
+    e.target.style.color = this.currentColorMicIcon;
   },
   handleRecord: function handleRecord() {
     var outerThis = this;
@@ -1301,7 +1313,7 @@ var Track = exports.Track = React.createClass({
       this.wavesurfer = Object.create(WaveSurfer);
       this.wavesurfer.init({
         container: "#" + outerThis.props.trackName,
-        waveColor: "#5A5A5A",
+        waveColor: "#848383",
         interact: false,
         cursorWidth: 0,
         height: 170
@@ -1345,13 +1357,31 @@ var Track = exports.Track = React.createClass({
       console.log(Data.size);
     };
   },
-  handleLiveFeed: function handleLiveFeed() {},
-  handleDownloadTrack: function handleDownloadTrack() {
+  handleLiveFeed: function handleLiveFeed(e) {
     var outerThis = this;
-    this.rec.exportWAV(function (e) {
-      outerThis.rec.clear();
-      Recorder.forceDownload(e, "filename.wav");
-    });
+    if (this.liveFeedStatus == false) {
+      if (this.props.checkForLiveTrack == false) {
+        mediaStreamSource.connect(audioContext.destination);
+        this.liveFeedStatus = true;
+        e.target.style.color = '#FF4D1D';
+        this.currentColorMicIcon = '#FF4D1D';
+      }
+    } else if (this.liveFeedStatus == true) {
+      mediaStreamSource.disconnect(audioContext.destination);
+      this.liveFeedStatus = false;
+      e.target.style.color = '#797676';
+      this.currentColorMicIcon = '#797676';
+    }
+  },
+  handleDownloadTrack: function handleDownloadTrack() {
+    /*
+    var outerThis = this;
+    this.rec.exportWAV(function(e){
+        outerThis.rec.clear();
+        Recorder.forceDownload(e, "filename.wav");
+      });
+    */
+    mediaStreamSource.connect(audioContext.destination);
   },
   handleRecStop: function handleRecStop() {
     if (this.currentlyRecording || this.recordingIsPaused) {
@@ -1371,7 +1401,7 @@ var Track = exports.Track = React.createClass({
         audioContext: audioContext,
         container: "#" + outerThis2.props.trackName,
         waveColor: '#31A9F9',
-        progressColor: '#5A5A5A',
+        progressColor: '#848383',
         interact: true,
         cursorWidth: 3,
         cursorColor: '#FF6D45',
@@ -1624,18 +1654,8 @@ var Track = exports.Track = React.createClass({
           ),
           React.createElement(
             'div',
-            { className: 'buttonsInsideTrack', onClick: this.handleShowWaveLive },
-            ' Show Wave '
-          ),
-          React.createElement(
-            'div',
             { className: this.state.muteButton, onClick: this.handleMute },
             ' Mute '
-          ),
-          React.createElement(
-            'div',
-            { className: 'buttonsInsideTrack' },
-            ' Solo '
           ),
           React.createElement(
             'div',
@@ -1697,7 +1717,10 @@ var Track = exports.Track = React.createClass({
               { className: 'recordingOptionsDiv' },
               React.createElement('div', { id: 'recTrack', onClick: this.handleRecord }),
               React.createElement('div', { id: 'recStop', onClick: this.handleRecStop }),
-              React.createElement('div', { className: 'icono-headphone', onClick: this.handleDownloadTrack })
+              React.createElement('div', { className: 'icono-headphone',
+                onMouseOver: this.mouseOver,
+                onMouseLeave: this.mouseOut,
+                onClick: this.handleLiveFeed })
             )
           ),
           React.createElement(

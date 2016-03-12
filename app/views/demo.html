@@ -50,29 +50,6 @@
     var outerThis3 = this;
 
 
-
-    function FeedbackDelayNode(context, delay, feedback){
-    this.delayTime.value = delay;
-    this.gainNode = context.createGain();
-    this.gainNode.gain.value = feedback;
-    this.connect(this.gainNode);
-    this.gainNode.connect(this);
-    }
-
-    function FeedbackDelayFactory(context, delayTime, feedback){
-      var delay = context.createDelay(delayTime + 1);
-      FeedbackDelayNode.call(delay, context, delayTime, feedback);
-      return delay;
-    }
-
-    Context.prototype.createFeedbackDelay = function(delay, feedback){
-        return FeedbackDelayFactory(this, delay, feedback);
-    };
-
-    //var reverb = audioContext.createFeedbackDelay(.3,0);
-
-
-
   </script>
 
   <script src="../public/javaScripts/demoPageBundle.js"></script>
