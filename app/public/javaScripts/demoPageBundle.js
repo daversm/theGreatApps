@@ -1258,8 +1258,21 @@ var Track = exports.Track = React.createClass({
       this.setState({ undoButton: "buttonsInsideTrackUndoActive" });
     }
   },
-  handleDeleteAudio: function handleDeleteAudio() {
-    this.fileLoadedOrRecorder = false;
+  handleClearTrack: function handleClearTrack() {
+    if (this.fileLoadedOrRecorder == false) {
+      this.setStatusMsg('#FF4D1D', 'NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (!this.currentlyRecording && !this.recordingIsPaused) {
+      this.fileLoadedOrRecorder = false;
+      this.wavesurferPostRecording.empty();
+      this.enablePlayBackButtons = false;
+      this.undoArray = [];
+      this.undoCount = 0;
+      this.regionCreated = false;
+      this.wavesurferPostRecording.clearRegions();
+      this.setState({ undoCount: this.undoCount, loopButton: "buttonsInsideTrack", muteButton: "buttonsInsideTrack" });
+    }
   },
   mouseOver: function mouseOver(e) {
     if (this.trackReady == true) {
@@ -1402,8 +1415,9 @@ var Track = exports.Track = React.createClass({
         if (outerThis2.state.muteStatus == true) {
           outerThis2.wavesurferPostRecording.toggleMute();
         }
-        outerThis2.setState({ loopButton: "buttonsInsideTrack" });
       });
+      this.setState({ loopButton: "buttonsInsideTrack" });
+      this.refs['Effects'].handleEffectsPower();
     }
   },
   handlePlay: function handlePlay() {
@@ -1625,8 +1639,8 @@ var Track = exports.Track = React.createClass({
           ),
           React.createElement(
             'div',
-            { className: 'buttonsInsideTrack', onClick: this.handleDeleteAudio },
-            ' Delete Audio '
+            { className: 'buttonsInsideTrack', onClick: this.handleClearTrack },
+            ' Clear Track '
           ),
           React.createElement(
             'div',

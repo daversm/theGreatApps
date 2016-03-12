@@ -109,8 +109,21 @@ export var Track = React.createClass({
     }
 
   },
-  handleDeleteAudio: function(){
-    this.fileLoadedOrRecorder = false;
+  handleClearTrack: function(){
+    if(this.fileLoadedOrRecorder == false){
+      this.setStatusMsg('#FF4D1D','NO RECORDING!', this.currentStatusMsg);
+      return;
+    }
+    if (!this.currentlyRecording && ! this.recordingIsPaused){
+      this.fileLoadedOrRecorder = false;
+      this.wavesurferPostRecording.empty();
+      this.enablePlayBackButtons = false;
+      this.undoArray = [];
+      this.undoCount = 0;
+      this.regionCreated = false;
+      this.wavesurferPostRecording.clearRegions();
+      this.setState({undoCount:this.undoCount, loopButton:"buttonsInsideTrack", muteButton:"buttonsInsideTrack"});
+    }
 
   },
   mouseOver: function (e) {
@@ -248,28 +261,26 @@ export var Track = React.createClass({
 
           this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
 
-            var outerThis2 = this;
-              this.rec.getBuffer(function(buffers){
-                outerThis2.handleAddToUndo();
-                outerThis2.mergeTrackAudioBuffer(buffers);
-                buffers = outerThis2.trackAudioBuffers;
-                var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
-                newBuffer.getChannelData(0).set(buffers[0]);
-                newBuffer.getChannelData(1).set(buffers[1]);
-                outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
-                outerThis2.currentStatusMsg = {trackStatusMsg: "READY", style:{background:'#848383'}};
-                outerThis2.setStatusMsg('#31A9F9',"RECORDING DONE", outerThis2.currentStatusMsg);
-                outerThis2.enablePlayBackButtons = true;
-                outerThis2.rec.clear();
-                outerThis2.fileLoadedOrRecorder = true;
-                if(outerThis2.state.muteStatus == true){
+          var outerThis2 = this;
+          this.rec.getBuffer(function(buffers){
+              outerThis2.handleAddToUndo();
+              outerThis2.mergeTrackAudioBuffer(buffers);
+              buffers = outerThis2.trackAudioBuffers;
+              var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+              newBuffer.getChannelData(0).set(buffers[0]);
+              newBuffer.getChannelData(1).set(buffers[1]);
+              outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+              outerThis2.currentStatusMsg = {trackStatusMsg: "READY", style:{background:'#848383'}};
+              outerThis2.setStatusMsg('#31A9F9',"RECORDING DONE", outerThis2.currentStatusMsg);
+              outerThis2.enablePlayBackButtons = true;
+              outerThis2.rec.clear();
+              outerThis2.fileLoadedOrRecorder = true;
+              if(outerThis2.state.muteStatus == true){
                   outerThis2.wavesurferPostRecording.toggleMute();
-                }
-                outerThis2.setState({loopButton:"buttonsInsideTrack"});
-
-
-
-              });
+              }
+           });
+           this.setState({loopButton:"buttonsInsideTrack"});
+           this.refs['Effects'].handleEffectsPower();
       }
 
   },
@@ -485,7 +496,7 @@ export var Track = React.createClass({
           <div className="buttonsInsideTrack" onClick={this.handleShowWaveLive}> Show Wave </div>
           <div className={this.state.muteButton} onClick={this.handleMute}> Mute </div>
           <div className="buttonsInsideTrack"> Solo </div>
-          <div className="buttonsInsideTrack" onClick={this.handleDeleteAudio}> Delete Audio </div>
+          <div className="buttonsInsideTrack" onClick={this.handleClearTrack}> Clear Track </div>
           <div className="buttonsInsideTrack" onClick={this.handleLoadFromUndoArray}> Undo : Count {this.state.undoCount} </div>
 
           <div className="regionPanel">
