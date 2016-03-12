@@ -209,13 +209,15 @@ export var Track = React.createClass({
 
   },
   handleLiveFeed: function(e){
-    var outerThis = this;
+
     if(this.liveFeedStatus == false){
-      if(this.props.checkForLiveTrack == false){
+      if(this.props.checkForLiveTrack() == false){
         mediaStreamSource.connect( audioContext.destination);
         this.liveFeedStatus = true;
         e.target.style.color =  '#FF4D1D';
         this.currentColorMicIcon = '#FF4D1D';
+      }else {
+        this.setStatusMsg('#FF4D1D',"OTHER TRACK LIVE", this.currentStatusMsg);
       }
     }else if(this.liveFeedStatus == true){
       mediaStreamSource.disconnect( audioContext.destination);
