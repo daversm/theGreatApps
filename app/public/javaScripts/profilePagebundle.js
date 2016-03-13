@@ -30,7 +30,12 @@ var MasterController = _react2.default.createClass({
       this.setState({ userName: result.username });
     }.bind(this));
   },
-  userDropDown: function userDropDown(option) {},
+  userDropDown: function userDropDown(option) {
+    console.log(option);
+    if (option.id === "LogOut") {
+      window.location.href = '/logout';
+    }
+  },
 
   render: function render() {
     /*
@@ -60,14 +65,34 @@ var MasterController = _react2.default.createClass({
         { className: 'masterControllPanel' },
         _react2.default.createElement(
           'div',
+          { className: 'projectsSettings' },
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButtonClicked' },
+            'PROJECTS'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton' },
+            'SETTINGS'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
           { className: 'titleTopCorner' },
           'GORILLA DAW'
         ),
         _react2.default.createElement(
           'div',
           { className: 'masterInfo' },
-          _react2.default.createElement('div', { className: 'userIcon' }),
-          _react2.default.createElement(ReactSuperSelect, { placeholder: this.state.userName, dataSource: userData, onChange: this.userDropDown
+          _react2.default.createElement(ReactSuperSelect, {
+            placeholder: this.state.userName,
+            dataSource: [{
+              "id": "LogOut",
+              "name": "LogOut",
+              "size": "Large"
+            }],
+            onChange: this.userDropDown
           })
         )
       ),

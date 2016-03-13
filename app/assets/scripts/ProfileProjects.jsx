@@ -20,6 +20,10 @@ const MasterController = React.createClass({
 
   },
   userDropDown : function(option) {
+    
+    if(option.id === "LogOut"){
+      window.location.href = '/logout';
+    }
 
   },
 
@@ -48,13 +52,29 @@ const MasterController = React.createClass({
     return (
       <div>
         <div className="masterControllPanel" >
+          <div className="projectsSettings">
+            <div className="projectsSettingsButtonClicked">
+              PROJECTS
+            </div>
+            <div className="projectsSettingsButton">
+              SETTINGS
+            </div>
+          </div>
 
           <div className="titleTopCorner">
             GORILLA DAW
           </div>
           <div className="masterInfo">
-            <div className="userIcon"></div>
-            <ReactSuperSelect placeholder={this.state.userName}  dataSource={userData}  onChange={this.userDropDown}
+            <ReactSuperSelect
+              placeholder={this.state.userName}
+              dataSource={[
+                {
+                  "id": "LogOut",
+                  "name": "LogOut",
+                  "size": "Large"
+                }
+              ]}
+              onChange={this.userDropDown}
             />
           </div>
         </div>

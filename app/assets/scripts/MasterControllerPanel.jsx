@@ -59,6 +59,13 @@ const MasterController = React.createClass({
       this.refs['track3'].isThisTrackLive()
     );
   },
+  navHome:function(){
+    window.location.href= "/";
+  },
+  navSignup:function(){
+    window.location.href= "/signup";
+  },
+
 
   render: function() {
     const trackListItems = this.state.tracksArray.map((trackData) => {
@@ -72,18 +79,6 @@ const MasterController = React.createClass({
         />
       );
     });
-    var testData = [
-    {
-      "id": "5507c0528152e61f3c348d56",
-      "name": "elit laborum et",
-      "size": "Large"
-    },
-    {
-      "id": "5507c0526305bceb0c0e2c7a",
-      "name": "dolor nulla velit",
-      "size": "Medium"
-    },
-    ];
 
     return (
       <div>
@@ -100,22 +95,12 @@ const MasterController = React.createClass({
             GORILLA DAW
           </div>
           <div className="masterInfo">
-            <div className="userIcon"></div>
-            <ReactSuperSelect placeholder="user: demo"
-                  dataSource={[
-                  {
-                    "id": "5507c0528152e61f3c348d56",
-                    "name": "elit laborum et",
-                    "size": "Large"
-                  },
-                  {
-                    "id": "5507c0526305bceb0c0e2c7a",
-                    "name": "dolor nulla velit",
-                    "size": "Medium"
-                  },
-                  ]}
-                  onChange={this.userDropDown}
-            />
+            <div className="projectsSettingsButton" onclick={this.navHome}>
+              HOME
+            </div>
+            <div className="projectsSettingsButton" onclick={this.navSignup}>
+              SIGNUP
+            </div>
           </div>
         </div>
           <div id="tracksDiv">

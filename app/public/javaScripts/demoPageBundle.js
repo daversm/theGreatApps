@@ -795,6 +795,12 @@ var MasterController = _react2.default.createClass({
   handleMuteThisTrack: function handleMuteThisTrack(e) {
     return this.refs['track1'].isThisTrackLive() || this.refs['track2'].isThisTrackLive() || this.refs['track3'].isThisTrackLive();
   },
+  navHome: function navHome() {
+    window.location.href = "/";
+  },
+  navSignup: function navSignup() {
+    window.location.href = "/signup";
+  },
 
   render: function render() {
     var _this = this;
@@ -808,15 +814,6 @@ var MasterController = _react2.default.createClass({
         checkForLiveTrack: _this.handleCheckForLiveTracks
       });
     });
-    var testData = [{
-      "id": "5507c0528152e61f3c348d56",
-      "name": "elit laborum et",
-      "size": "Large"
-    }, {
-      "id": "5507c0526305bceb0c0e2c7a",
-      "name": "dolor nulla velit",
-      "size": "Medium"
-    }];
 
     return _react2.default.createElement(
       'div',
@@ -839,19 +836,16 @@ var MasterController = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: 'masterInfo' },
-          _react2.default.createElement('div', { className: 'userIcon' }),
-          _react2.default.createElement(ReactSuperSelect, { placeholder: 'user: demo',
-            dataSource: [{
-              "id": "5507c0528152e61f3c348d56",
-              "name": "elit laborum et",
-              "size": "Large"
-            }, {
-              "id": "5507c0526305bceb0c0e2c7a",
-              "name": "dolor nulla velit",
-              "size": "Medium"
-            }],
-            onChange: this.userDropDown
-          })
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onclick: this.navHome },
+            'HOME'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onclick: this.navSignup },
+            'SIGNUP'
+          )
         )
       ),
       _react2.default.createElement(

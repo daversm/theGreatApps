@@ -23,11 +23,12 @@ body, html {
   justify-content: space-between;
 }
 .masterInfo{
+  display: flex;
+  flex-direction: row;
   width: 33%;
   height: 55px;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 
 }
 .masterControllPanelControls{
@@ -38,6 +39,48 @@ body, html {
   align-items: center;
   justify-content: space-around;
   border-right: solid 1px #E2E2E2;
+}
+.projectsSettings{
+  display: flex;
+  flex-direction: row;
+  width: 33%;
+  height: 55px;
+  align-items: center;
+  justify-content: space-around;
+  border-right: solid 1px #E2E2E2;
+}
+.projectsSettingsButtonClicked{
+  display: flex;
+  height: 28px;
+  cursor: default;
+  font-weight: 400;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 17px;
+  border-bottom: 2px solid #FF4D1D;
+}
+
+
+.projectsSettingsButton{
+  font-weight: 400;
+  display: flex;
+  height: 28px;
+  cursor: default;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 17px;
+  cursor: pointer;
+  border-bottom: 2px solid white;
+}
+
+.projectsSettingsButton:hover{
+  display: flex;
+  height: 28px;
+  cursor:grab;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 17px;
+  border-bottom: 2px solid #FF4D1D;
 }
 
 .titleTopCorner{
