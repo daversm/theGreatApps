@@ -9,7 +9,7 @@ var userSchema = mongoose.Schema({
         password     : String,
         pin          : String,
         displayName  : String,
-        trackOne     : {}
+        projects     : {}
     }
 
 });

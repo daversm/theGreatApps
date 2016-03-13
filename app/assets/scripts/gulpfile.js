@@ -9,6 +9,14 @@ gulp.task('build', function () {
     return browserify({ entries: './MasterControllerPanel.jsx', extensions: ['.jsx'], debug: true }).transform(babelify).bundle().pipe(source('demoPagebundle.js')).pipe(gulp.dest('../../public/javaScripts'));
 });
 
+gulp.task('buildProfile', function () {
+    return browserify({ entries: './ProfileProjects.jsx', extensions: ['.jsx'], debug: true }).transform(babelify).bundle().pipe(source('profilePagebundle.js')).pipe(gulp.dest('../../public/javaScripts'));
+});
+
+gulp.task('watch', ['buildProfile'], function () {
+    gulp.watch('*.jsx', ['buildprofile']);
+});
+
 gulp.task('watch', ['build'], function () {
     gulp.watch('*.jsx', ['build']);
 });

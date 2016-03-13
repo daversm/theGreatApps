@@ -52,6 +52,13 @@ const MasterController = React.createClass({
       this.refs['track3'].isThisTrackLive()
     );
   },
+  handleMuteThisTrack: function(e){
+    return (
+      this.refs['track1'].isThisTrackLive() ||
+      this.refs['track2'].isThisTrackLive() ||
+      this.refs['track3'].isThisTrackLive()
+    );
+  },
 
   render: function() {
     const trackListItems = this.state.tracksArray.map((trackData) => {

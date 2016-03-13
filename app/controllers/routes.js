@@ -79,7 +79,7 @@ app.post('/getUserName', function(req, res) {
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {
-		res.sendfile('app/views/demo.html');
+		res.sendfile('app/views/profileProject.html');
 });
 
 app.post('/upload', upload.any(), function(req, res) {
