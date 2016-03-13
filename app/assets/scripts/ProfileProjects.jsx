@@ -20,7 +20,7 @@ const MasterController = React.createClass({
 
   },
   userDropDown : function(option) {
-    
+
     if(option.id === "LogOut"){
       window.location.href = '/logout';
     }
@@ -71,7 +71,7 @@ const MasterController = React.createClass({
                 {
                   "id": "LogOut",
                   "name": "LogOut",
-                  "size": "Large"
+                  "size": "small"
                 }
               ]}
               onChange={this.userDropDown}

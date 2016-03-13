@@ -59,11 +59,12 @@ const MasterController = React.createClass({
       this.refs['track3'].isThisTrackLive()
     );
   },
-  navHome:function(){
-    window.location.href= "/";
+  navHome: function(){
+    console.log("redirect Hom");
+    window.location.href= '/';
   },
-  navSignup:function(){
-    window.location.href= "/signup";
+  navSignup: function(){
+    window.location.href= '/signup';
   },
 
 
@@ -95,10 +96,10 @@ const MasterController = React.createClass({
             GORILLA DAW
           </div>
           <div className="masterInfo">
-            <div className="projectsSettingsButton" onclick={this.navHome}>
+            <div className="projectsSettingsButton" onClick={this.navHome}>
               HOME
             </div>
-            <div className="projectsSettingsButton" onclick={this.navSignup}>
+            <div className="projectsSettingsButton" onClick={this.navSignup}>
               SIGNUP
             </div>
           </div>

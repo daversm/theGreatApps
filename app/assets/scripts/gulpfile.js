@@ -13,12 +13,12 @@ gulp.task('buildProfile', function () {
     return browserify({ entries: './ProfileProjects.jsx', extensions: ['.jsx'], debug: true }).transform(babelify).bundle().pipe(source('profilePagebundle.js')).pipe(gulp.dest('../../public/javaScripts'));
 });
 
-gulp.task('watch', ['buildProfile'], function () {
-    gulp.watch('*.jsx', ['buildprofile']);
+gulp.task('watchProfile', ['buildProfile'], function () {
+    gulp.watch('*.jsx', ['buildProfile']);
 });
 
 gulp.task('watch', ['build'], function () {
     gulp.watch('*.jsx', ['build']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'watchProfile']);

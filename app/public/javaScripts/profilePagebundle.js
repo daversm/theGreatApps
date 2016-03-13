@@ -31,7 +31,7 @@ var MasterController = _react2.default.createClass({
     }.bind(this));
   },
   userDropDown: function userDropDown(option) {
-    console.log(option);
+
     if (option.id === "LogOut") {
       window.location.href = '/logout';
     }
@@ -90,7 +90,7 @@ var MasterController = _react2.default.createClass({
             dataSource: [{
               "id": "LogOut",
               "name": "LogOut",
-              "size": "Large"
+              "size": "small"
             }],
             onChange: this.userDropDown
           })

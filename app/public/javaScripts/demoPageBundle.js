@@ -796,10 +796,11 @@ var MasterController = _react2.default.createClass({
     return this.refs['track1'].isThisTrackLive() || this.refs['track2'].isThisTrackLive() || this.refs['track3'].isThisTrackLive();
   },
   navHome: function navHome() {
-    window.location.href = "/";
+    console.log("redirect Hom");
+    window.location.href = '/';
   },
   navSignup: function navSignup() {
-    window.location.href = "/signup";
+    window.location.href = '/signup';
   },
 
   render: function render() {
@@ -838,12 +839,12 @@ var MasterController = _react2.default.createClass({
           { className: 'masterInfo' },
           _react2.default.createElement(
             'div',
-            { className: 'projectsSettingsButton', onclick: this.navHome },
+            { className: 'projectsSettingsButton', onClick: this.navHome },
             'HOME'
           ),
           _react2.default.createElement(
             'div',
-            { className: 'projectsSettingsButton', onclick: this.navSignup },
+            { className: 'projectsSettingsButton', onClick: this.navSignup },
             'SIGNUP'
           )
         )
