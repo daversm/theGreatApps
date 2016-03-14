@@ -12,9 +12,18 @@ const MasterController = React.createClass({
     this.userName = '';
 
     $.post('getUserInfo', function(result) {
-        this.setState({userName : result.username, numberProjects: result.projects.length});
-        console.log(result.projects);
+        this.setState({userName : result.username});
     }.bind(this));
+
+    $.ajax({
+      url: '/updateProjects',
+      type: 'POST',
+      data: {projectToPush: "hi" },
+      success: function(data) {
+        console.log(data.msg)
+
+       }
+     });
 
 
   },

@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
   var multer  = require('multer');
   var upload = multer({ dest: 'uploads/' });
 
+
 	app.get('/', function(req, res) {
 		res.sendfile('app/views/index.html');
 	});
@@ -74,8 +75,20 @@ app.post('/passwordReset', function(req, res) {
 });
 
 app.post('/getUserInfo',isLoggedIn, function(req, res) {
-	console.log(req.user.local.projects);
-	res.json({username: req.user.local.displayName, projects: req.user.local.projects});
+	res.json({username: req.user.local.displayName});
+});
+
+app.post('/updateProjects',isLoggedIn, function(req, res) {
+  req.user.local.projects.push(req.body.projectToPush);
+
+  req.user.save(function(err) {
+      if (err){
+        res.json({msg:"error"});
+      }
+      console.log("User projects Updated");
+      res.json({msg:req.user.local.projects});
+  });
+
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {

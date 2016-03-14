@@ -26,9 +26,17 @@ var MasterController = _react2.default.createClass({
     this.userName = '';
 
     $.post('getUserInfo', function (result) {
-      this.setState({ userName: result.username, numberProjects: result.projects.length });
-      console.log(result.projects);
+      this.setState({ userName: result.username });
     }.bind(this));
+
+    $.ajax({
+      url: '/updateProjects',
+      type: 'POST',
+      data: { projectToPush: "hi" },
+      success: function success(data) {
+        console.log(data.msg);
+      }
+    });
   },
   userDropDown: function userDropDown(option) {
 
