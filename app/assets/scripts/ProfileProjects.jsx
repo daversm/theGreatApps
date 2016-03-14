@@ -5,16 +5,15 @@ var ReactSuperSelect = require('react-super-select');
 
 const MasterController = React.createClass({
   getInitialState:function(){
-    return({userName:"Loading"});
+    return({userName:"Loading", numberProjects:0});
   },
   componentDidMount: function(){
     var outerThis = this;
     this.userName = '';
 
-    $.post('getUserName', function(result) {
-
-        this.setState({userName : result.username});
-
+    $.post('getUserInfo', function(result) {
+        this.setState({userName : result.username, numberProjects: result.projects.length});
+        console.log(result.projects);
     }.bind(this));
 
 
@@ -74,7 +73,7 @@ const MasterController = React.createClass({
           <div id="projects">
             <div className="addProject">
               Your Projects
-              <div className="numberPorjects">0/10</div>
+              <div className="numberPorjects">{this.state.numberProjects}/10</div>
               <div className="plusButton"> + </div>
             </div>
           </div>

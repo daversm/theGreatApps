@@ -73,9 +73,9 @@ app.post('/passwordReset', function(req, res) {
 	});
 });
 
-app.post('/getUserName', function(req, res) {
-	console.log(req.user.local.displayName);
-	res.json({username: req.user.local.displayName});
+app.post('/getUserInfo',isLoggedIn, function(req, res) {
+	console.log(req.user.local.projects);
+	res.json({username: req.user.local.displayName, projects: req.user.local.projects});
 });
 
 app.get('/profile', isLoggedIn, function(req, res) {

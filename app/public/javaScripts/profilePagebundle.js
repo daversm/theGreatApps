@@ -19,15 +19,15 @@ var MasterController = _react2.default.createClass({
   displayName: 'MasterController',
 
   getInitialState: function getInitialState() {
-    return { userName: "Loading" };
+    return { userName: "Loading", numberProjects: 0 };
   },
   componentDidMount: function componentDidMount() {
     var outerThis = this;
     this.userName = '';
 
-    $.post('getUserName', function (result) {
-
-      this.setState({ userName: result.username });
+    $.post('getUserInfo', function (result) {
+      this.setState({ userName: result.username, numberProjects: result.projects.length });
+      console.log(result.projects);
     }.bind(this));
   },
   userDropDown: function userDropDown(option) {
@@ -101,7 +101,8 @@ var MasterController = _react2.default.createClass({
           _react2.default.createElement(
             'div',
             { className: 'numberPorjects' },
-            '0/10'
+            this.state.numberProjects,
+            '/10'
           ),
           _react2.default.createElement(
             'div',
