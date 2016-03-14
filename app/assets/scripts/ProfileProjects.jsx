@@ -74,6 +74,7 @@ const MasterController = React.createClass({
           <div id="projects">
             <div className="addProject">
               Your Projects
+              <div className="numberPorjects">0/10</div>
               <div className="plusButton"> + </div>
             </div>
           </div>

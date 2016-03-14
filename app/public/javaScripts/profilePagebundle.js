@@ -100,6 +100,11 @@ var MasterController = _react2.default.createClass({
           'Your Projects',
           _react2.default.createElement(
             'div',
+            { className: 'numberPorjects' },
+            '0/10'
+          ),
+          _react2.default.createElement(
+            'div',
             { className: 'plusButton' },
             ' + '
           )

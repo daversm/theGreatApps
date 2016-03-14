@@ -1094,8 +1094,18 @@ input[type="text"].DropDownDiv {
   align-content: center;
   justify-content: flex-start;
   width: 100%;
-  padding-top: 100px;
+  padding-top: 130px;
   padding-left: 65px;
+}
+
+.numberPorjects{
+  font-size: 25px;
+  font-weight: 300;
+  color:#D0D0D0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 40px;
 }
 
 .addProject{
@@ -1104,21 +1114,23 @@ input[type="text"].DropDownDiv {
   justify-content: space-between;
   flex-direction: row;
   width: 400px;
-  height: 50px;
-  font-size: 30px;
+  height: 40px;
+  font-size: 25px;
   font-weight: 300;
   cursor: default;
+  color: #5a5a5a;
   border-bottom: 1px solid #D0D0D0;
 
 }
 .plusButton{
-  font-size: 35px;
-  padding: 0px;
-  margin: 0px;
-  font-weight: 300;
+  color: #5a5a5a;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 27px;
+  font-weight: 400;
 }
 .plusButton:hover{
-  font-size: 35px;
   padding: 0px;
   margin: 0px;
   color:#FF4D1D;
