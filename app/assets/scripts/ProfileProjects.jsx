@@ -41,13 +41,6 @@ const MasterController = React.createClass({
       );
     });
     */
-    var userData = [
-      {
-        "id": "LogOut",
-        "name": this.userName,
-        "size": "Large"
-      }
-    ];
 
     return (
       <div>
@@ -78,12 +71,13 @@ const MasterController = React.createClass({
             />
           </div>
         </div>
-          <div id="tracksDiv">
-            <div>
-
+          <div id="projects">
+            <div className="addProject">
+              Your Projects
+              <div className="plusButton"> + </div>
             </div>
           </div>
-      </ div>
+      </div>
     );
   }
 });

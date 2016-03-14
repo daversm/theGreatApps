@@ -51,11 +51,6 @@ var MasterController = _react2.default.createClass({
       );
     });
     */
-    var userData = [{
-      "id": "LogOut",
-      "name": this.userName,
-      "size": "Large"
-    }];
 
     return _react2.default.createElement(
       'div',
@@ -98,8 +93,17 @@ var MasterController = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'div',
-        { id: 'tracksDiv' },
-        _react2.default.createElement('div', null)
+        { id: 'projects' },
+        _react2.default.createElement(
+          'div',
+          { className: 'addProject' },
+          'Your Projects',
+          _react2.default.createElement(
+            'div',
+            { className: 'plusButton' },
+            ' + '
+          )
+        )
       )
     );
   }
