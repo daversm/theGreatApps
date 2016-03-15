@@ -75,18 +75,25 @@ app.post('/passwordReset', function(req, res) {
 });
 
 app.post('/getUserInfo',isLoggedIn, function(req, res) {
-	res.json({username: req.user.local.displayName});
+  console.log(req.user.local.projects.length);
+  if(req.user.local.projects.length == 0){
+    res.json({username: req.user.local.displayName, projects:false});
+  }else{
+	   res.json({username: req.user.local.displayName, projects:req.user.local.projects[0]});
+  }
 });
 
 app.post('/updateProjects',isLoggedIn, function(req, res) {
-  req.user.local.projects.push(req.body.projectToPush);
+
+  req.user.local.projects[0] = req.body.projects;
 
   req.user.save(function(err) {
       if (err){
-        res.json({msg:"error"});
+        res.json({projects: req.user.local.projects[0], error:true});
       }
       console.log("User projects Updated");
-      res.json({msg:req.user.local.projects});
+      console.log(req.body.projects);
+      res.json({projects:req.user.local.projects[0], error:false});
   });
 
 });

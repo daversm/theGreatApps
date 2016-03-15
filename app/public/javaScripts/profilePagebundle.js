@@ -27,17 +27,46 @@ var MasterController = _react2.default.createClass({
     this.userName = '';
 
     $.post('getUserInfo', function (result) {
-      this.setState({ userName: result.username });
-    }.bind(this));
-
-    $.ajax({
-      url: '/updateProjects',
-      type: 'POST',
-      data: { projectToPush: "hi" },
-      success: function success(data) {
-        console.log(data.msg);
+      if (result.projects == false) {
+        this.projects = {};
+        console.log(result.projects);
+        this.numberProjects = 0;
+      } else {
+        this.projects = result.projects;
+        console.log(result.projects);
+        this.numberProjects = Object.keys(result.projects).length;
       }
-    });
+      this.setState({ userName: result.username, numberProjects: this.numberProjects });
+    }.bind(this));
+  },
+  addNewProject: function addNewProject() {
+    console.log("current projects object");
+    console.log(this.projects.keys);
+
+    if (this.numberProjects < 10) {
+      var outerThis = this;
+
+      for (var i = 0; i < 10; i++) {
+        console.log(i);
+        if (!(i in Object.keys(this.projects))) {
+          this.projects[i] = { title: "", trackOneUrl: "", trackTwoUrl: "", trackThreeUrl: "" };
+          $.ajax({
+            url: '/updateProjects',
+            type: 'POST',
+            data: { projects: outerThis.projects },
+            success: function success(data) {
+              if (data.error == false) {
+                console.log(data.projects);
+                outerThis.projects = data.projects;
+                this.numberProjects = Object.keys(this.projects).length;
+                outerThis.setState({ numberProjects: this.numberProjects });
+              }
+            }
+          });
+          return;
+        }
+      }
+    }
   },
   userDropDown: function userDropDown(option) {
 
@@ -115,7 +144,7 @@ var MasterController = _react2.default.createClass({
           ),
           _react2.default.createElement(
             'div',
-            { className: 'plusButton' },
+            { className: 'plusButton', onClick: this.addNewProject },
             ' + '
           )
         ),
@@ -139,13 +168,30 @@ var ReactDOM = require('react-dom');
 var project = React.createClass({
   displayName: 'project',
 
+  getInitialState: function getInitialState() {
+    return { loadButton: "LOAD", classLoad: "loadProjectButton" };
+  },
+
+  handleTitleChange: function handleTitleChange() {
+    var outer = this;
+    this.setState({ loadButton: "SAVING", classLoad: "loadProjectButtonSaving" });
+
+    setTimeout(function () {
+      outer.setState({ loadButton: "LOAD", classLoad: "loadProjectButton" });
+    }, 200);
+  },
 
   render: function render() {
 
     return React.createElement(
       'div',
       { className: 'projectDiv' },
-      'project title',
+      React.createElement('input', { type: 'text', className: 'projectName', placeholder: 'enter project title', onChange: this.handleTitleChange }),
+      React.createElement(
+        'div',
+        { className: this.state.classLoad },
+        this.state.loadButton
+      ),
       React.createElement(
         'div',
         { className: 'deleteProjectButton' },

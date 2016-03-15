@@ -1142,7 +1142,7 @@ input[type="text"].DropDownDiv {
 .projectDiv{
   padding-top: 6px;
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: space-between;
   flex-direction: row;
   width: 400px;
@@ -1151,27 +1151,69 @@ input[type="text"].DropDownDiv {
   font-weight: 300;
   cursor: default;
   color: #5a5a5a;
-  border-bottom: 1px solid #D0D0D0;
+  border-bottom: 1px solid #E2E2E2;
 
 }
 
 .deleteProjectButton{
+  padding-right: 3px;
+  color: #5a5a5a;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.deleteProjectButton:hover{
+  padding-right: 3px;
+  color:#FF4D1D;
+  cursor:pointer;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.loadProjectButton{
+  height: 10px;
   padding-right: 4px;
   color: #5a5a5a;
   display: flex;
   align-content: center;
   justify-content: center;
-  font-size: 25px;
+  font-size: 12px;
   font-weight: 500;
+  margin-left: -26px;
+}
+.loadProjectButtonSaving{
+  height: 10px;
+  padding-right: 4px;
+  color: #FF4D1D;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: -26px;
 }
 
-.deleteProjectButton:hover{
+.loadProjectButton:hover{
   padding-right: 4px;
   color:#FF4D1D;
   cursor:pointer;
   display: flex;
   align-content: center;
   justify-content: center;
-  font-size: 25px;
+  font-size: 12px;
   font-weight: 500;
+}
+
+input[type="text"].projectName{
+  width: 170px;
+  height: 25px;
+  border: none;
+  font-size: 20px;
+  margin-left: -2px;
 }

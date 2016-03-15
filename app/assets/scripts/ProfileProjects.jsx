@@ -13,20 +13,48 @@ const MasterController = React.createClass({
     this.userName = '';
 
     $.post('getUserInfo', function(result) {
-        this.setState({userName : result.username});
+        if(result.projects == false){
+          this.projects = {};
+          console.log(result.projects);
+          this.numberProjects = 0;
+        }else{
+          this.projects = result.projects;
+          console.log(result.projects);
+          this.numberProjects = Object.keys(result.projects).length;
+        }
+        this.setState({userName : result.username, numberProjects: this.numberProjects});
     }.bind(this));
 
-    $.ajax({
-      url: '/updateProjects',
-      type: 'POST',
-      data: {projectToPush: "hi" },
-      success: function(data) {
-        console.log(data.msg)
 
-       }
-     });
+  },
+  addNewProject: function(){
+    console.log("current projects object");
+    console.log(this.projects.keys);
 
+    if(this.numberProjects < 10){
+      var outerThis = this;
 
+      for(var i=0; i<10; i++){
+        console.log(i);
+        if(!(i in Object.keys(this.projects))){
+          this.projects[i] = {title:"", trackOneUrl:"", trackTwoUrl:"", trackThreeUrl:""};
+          $.ajax({
+            url: '/updateProjects',
+            type: 'POST',
+            data: {projects:outerThis.projects},
+            success: function(data) {
+              if(data.error == false){
+                console.log(data.projects)
+                outerThis.projects = data.projects;
+                this.numberProjects = Object.keys(this.projects).length;
+                outerThis.setState({numberProjects: this.numberProjects});
+              }
+             }
+           });
+          return;
+        }
+      }
+    }
   },
   userDropDown : function(option) {
 
@@ -81,10 +109,10 @@ const MasterController = React.createClass({
           </div>
         </div>
           <div id="projects">
-            <div className="addProject">
+            <div className="addProject" >
               Your Projects
               <div className="numberPorjects">{this.state.numberProjects}/10</div>
-              <div className="plusButton"> + </div>
+              <div className="plusButton" onClick={this.addNewProject}> + </div>
             </div>
             <br></br>
             <Project />
