@@ -2,6 +2,7 @@ import jQuery from 'jquery';
 import React from 'react';
 import { render } from 'react-dom';
 var ReactSuperSelect = require('react-super-select');
+var Project = require('./Project.jsx');
 
 const MasterController = React.createClass({
   getInitialState:function(){
@@ -85,6 +86,10 @@ const MasterController = React.createClass({
               <div className="numberPorjects">{this.state.numberProjects}/10</div>
               <div className="plusButton"> + </div>
             </div>
+            <br></br>
+            <Project />
+            <Project />
+            <Project />
           </div>
       </div>
     );
