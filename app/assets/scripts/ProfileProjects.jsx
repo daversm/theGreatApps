@@ -14,7 +14,7 @@ const MasterController = React.createClass({
 
     $.post('getUserInfo', function(result) {
 
-          this.projects = result.projects;
+          this.projects = JSON.parse(result.projects);
           console.log(this.projects);
           this.numberProjects = Object.keys(this.projects).length;
 
@@ -29,9 +29,7 @@ const MasterController = React.createClass({
       var outerThis = this;
 
       for(var i=0; i<10; i++){
-        console.log("------------------------------");
-        console.log(i);
-        console.log(this.projects);
+
         if(!(i in Object.keys(this.projects))){
 
           this.projects[i] = {title:"", trackOneUrl:"", trackTwoUrl:"", trackThreeUrl:""};
@@ -43,10 +41,10 @@ const MasterController = React.createClass({
             data: {projects:toStr},
             success: function(data) {
               if(data.error == false){
-                console.log(outerThis.projects);
-                console.log(data.projects)
-                outerThis.projects = data.projects;
-                outerThis.numberProjects = Object.keys(data.projects).length;
+                console.log("------------------------------");
+                console.log(JSON.parse(data.projects));
+                outerThis.projects = JSON.parse(data.projects);
+                outerThis.numberProjects = Object.keys(outerThis.projects).length;
                 outerThis.setState({numberProjects: outerThis.numberProjects});
               }
              }

@@ -75,15 +75,13 @@ app.post('/passwordReset', function(req, res) {
 });
 
 app.post('/getUserInfo',isLoggedIn, function(req, res) {
-	  res.json({username: req.user.local.displayName, projects:{}});
+	  res.json({username: req.user.local.displayName, projects:req.user.local.projects});
 
 });
 
 app.post('/updateProjects',isLoggedIn, function(req, res) {
 
-  console.log(JSON.parse(req.body.projects));
-
-  req.user.local.projects = JSON.parse(req.body.projects);
+  req.user.local.projects = req.body.projects;
 
   req.user.save(function(err) {
       if (err){

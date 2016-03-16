@@ -39,6 +39,7 @@ module.exports = function(passport) {
                 newUser.local.displayName = req.body.displayName;
                 newUser.local.pin         = req.body.pin;
                 newUser.local.password    = newUser.generateHash(password);
+                newUser.local.projects    = JSON.stringify({});
 
                 newUser.save(function(err) {
                     if (err)
