@@ -13,41 +13,41 @@ const MasterController = React.createClass({
     this.userName = '';
 
     $.post('getUserInfo', function(result) {
-        if(result.projects == false){
-          this.projects = {};
-          console.log(result.projects);
-          this.numberProjects = 0;
-        }else{
+
           this.projects = result.projects;
-          console.log(result.projects);
-          this.numberProjects = Object.keys(result.projects).length;
-        }
+          console.log(this.projects);
+          this.numberProjects = Object.keys(this.projects).length;
+
+
         this.setState({userName : result.username, numberProjects: this.numberProjects});
     }.bind(this));
 
 
   },
   addNewProject: function(){
-    console.log("current projects object");
-    console.log(this.projects.keys);
-
     if(this.numberProjects < 10){
       var outerThis = this;
 
       for(var i=0; i<10; i++){
+        console.log("------------------------------");
         console.log(i);
+        console.log(this.projects);
         if(!(i in Object.keys(this.projects))){
+
           this.projects[i] = {title:"", trackOneUrl:"", trackTwoUrl:"", trackThreeUrl:""};
+          var toStr = JSON.stringify(this.projects);
           $.ajax({
             url: '/updateProjects',
             type: 'POST',
-            data: {projects:outerThis.projects},
+            dataType: "json",
+            data: {projects:toStr},
             success: function(data) {
               if(data.error == false){
+                console.log(outerThis.projects);
                 console.log(data.projects)
                 outerThis.projects = data.projects;
-                this.numberProjects = Object.keys(this.projects).length;
-                outerThis.setState({numberProjects: this.numberProjects});
+                outerThis.numberProjects = Object.keys(data.projects).length;
+                outerThis.setState({numberProjects: outerThis.numberProjects});
               }
              }
            });
