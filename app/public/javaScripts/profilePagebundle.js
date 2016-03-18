@@ -20,6 +20,7 @@ var MasterController = _react2.default.createClass({
   displayName: 'MasterController',
 
   getInitialState: function getInitialState() {
+    //this.projectList={};
     return { userName: "Loading", numberProjects: 0 };
   },
   componentDidMount: function componentDidMount() {
@@ -33,7 +34,21 @@ var MasterController = _react2.default.createClass({
       this.numberProjects = Object.keys(this.projects).length;
 
       this.setState({ userName: result.username, numberProjects: this.numberProjects });
+      this.rerender();
     }.bind(this));
+
+    //this.rerender();
+  },
+  rerender: function rerender() {
+    var outerThis = this;
+    this.projectList = Object.keys(this.projects).map(function (index) {
+      return _react2.default.createElement(Project, {
+        key: index,
+        id: index,
+        projectObject: outerThis.projects[index]
+      });
+    });
+    this.forceUpdate();
   },
   addNewProject: function addNewProject() {
     if (this.numberProjects < 10) {
@@ -57,6 +72,7 @@ var MasterController = _react2.default.createClass({
                 outerThis.projects = JSON.parse(data.projects);
                 outerThis.numberProjects = Object.keys(outerThis.projects).length;
                 outerThis.setState({ numberProjects: outerThis.numberProjects });
+                this.rerender();
               }
             }
           });
@@ -146,9 +162,7 @@ var MasterController = _react2.default.createClass({
           )
         ),
         _react2.default.createElement('br', null),
-        _react2.default.createElement(Project, null),
-        _react2.default.createElement(Project, null),
-        _react2.default.createElement(Project, null)
+        this.projectList
       )
     );
   }
@@ -166,16 +180,12 @@ var project = React.createClass({
   displayName: 'project',
 
   getInitialState: function getInitialState() {
-    return { loadButton: "LOAD", classLoad: "loadProjectButton" };
+    return { loadButton: "LOAD", classLoad: "loadProjectButton", value: this.props.projectObject.title };
   },
 
-  handleTitleChange: function handleTitleChange() {
+  handleTitleChange: function handleTitleChange(e) {
     var outer = this;
-    this.setState({ loadButton: "SAVING", classLoad: "loadProjectButtonSaving" });
-
-    setTimeout(function () {
-      outer.setState({ loadButton: "LOAD", classLoad: "loadProjectButton" });
-    }, 200);
+    this.setState({ loadButton: "SAVE", classLoad: "loadProjectButtonSaving", value: e.target.value });
   },
 
   render: function render() {
@@ -183,7 +193,12 @@ var project = React.createClass({
     return React.createElement(
       'div',
       { className: 'projectDiv' },
-      React.createElement('input', { type: 'text', className: 'projectName', placeholder: 'enter project title', onChange: this.handleTitleChange }),
+      React.createElement('input', {
+        value: this.state.value,
+        type: 'text', className: 'projectName',
+        placeholder: 'enter project title',
+        onChange: this.handleTitleChange
+      }),
       React.createElement(
         'div',
         { className: this.state.classLoad },

@@ -6,6 +6,7 @@ var Project = require('./Project.jsx');
 
 const MasterController = React.createClass({
   getInitialState:function(){
+    //this.projectList={};
     return({userName:"Loading", numberProjects:0});
   },
   componentDidMount: function(){
@@ -18,11 +19,26 @@ const MasterController = React.createClass({
           console.log(this.projects);
           this.numberProjects = Object.keys(this.projects).length;
 
-
         this.setState({userName : result.username, numberProjects: this.numberProjects});
+        this.rerender();
     }.bind(this));
 
+    //this.rerender();
 
+
+  },
+  rerender: function(){
+    var outerThis = this;
+    this.projectList = Object.keys(this.projects).map(function(index) {
+      return(
+        <Project
+          key={index}
+          id={index}
+          projectObject = {outerThis.projects[index]}
+        />
+      );
+    });
+    this.forceUpdate();
   },
   addNewProject: function(){
     if(this.numberProjects < 10){
@@ -46,6 +62,7 @@ const MasterController = React.createClass({
                 outerThis.projects = JSON.parse(data.projects);
                 outerThis.numberProjects = Object.keys(outerThis.projects).length;
                 outerThis.setState({numberProjects: outerThis.numberProjects});
+                this.rerender();
               }
              }
            });
@@ -113,9 +130,7 @@ const MasterController = React.createClass({
               <div className="plusButton" onClick={this.addNewProject}> + </div>
             </div>
             <br></br>
-            <Project />
-            <Project />
-            <Project />
+            {this.projectList}
           </div>
       </div>
     );
