@@ -10,10 +10,14 @@ var project = React.createClass({
     var outer = this;
     this.setState({loadButton:"SAVE", classLoad:"loadProjectButtonSaving", value:e.target.value});
 
-    setTimeout(function(){
-      outer.setState({loadButton:"LOAD", classLoad:"loadProjectButton"});
-    }, 200);
 
+  },
+  handleClickLoadSave:function(){
+    this.props.handleLoadSave(this.state.loadButton, this.props.id, this.state.value);
+    this.setState({loadButton:"LOAD", classLoad:"loadProjectButton"});
+  },
+  handleDeleteProject:function(){
+    this.props.handleDeleteProject(this.props.id);
   },
 
   render:function(){
@@ -26,8 +30,8 @@ var project = React.createClass({
           placeholder="enter project title"
           onChange={this.handleTitleChange}
         />
-        <div className={this.state.classLoad}>{this.state.loadButton}</div>
-        <div className="deleteProjectButton">-</div>
+      <div className={this.state.classLoad} onClick={this.handleClickLoadSave}>{this.state.loadButton}</div>
+        <div className="deleteProjectButton" onClick={this.handleDeleteProject}>-</div>
       </div>
     )
   }

@@ -1199,6 +1199,10 @@ input[type="text"].DropDownDiv {
   margin-left: -26px;
 }
 
+.loadProjectButtonSaving:hover{
+  cursor:pointer;
+}
+
 .loadProjectButton:hover{
   padding-right: 4px;
   color:#FF4D1D;

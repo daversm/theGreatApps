@@ -45,7 +45,9 @@ var MasterController = _react2.default.createClass({
       return _react2.default.createElement(Project, {
         key: index,
         id: index,
-        projectObject: outerThis.projects[index]
+        projectObject: outerThis.projects[index],
+        handleLoadSave: outerThis.handleLoadSave,
+        handleDeleteProject: outerThis.handleDeleteProject
       });
     });
     this.forceUpdate();
@@ -56,7 +58,7 @@ var MasterController = _react2.default.createClass({
 
       for (var i = 0; i < 10; i++) {
 
-        if (!(i in Object.keys(this.projects))) {
+        if (!(i in this.projects)) {
 
           this.projects[i] = { title: "", trackOneUrl: "", trackTwoUrl: "", trackThreeUrl: "" };
           var toStr = JSON.stringify(this.projects);
@@ -72,7 +74,7 @@ var MasterController = _react2.default.createClass({
                 outerThis.projects = JSON.parse(data.projects);
                 outerThis.numberProjects = Object.keys(outerThis.projects).length;
                 outerThis.setState({ numberProjects: outerThis.numberProjects });
-                this.rerender();
+                outerThis.rerender();
               }
             }
           });
@@ -86,6 +88,50 @@ var MasterController = _react2.default.createClass({
     if (option.id === "LogOut") {
       window.location.href = '/logout';
     }
+  },
+  handleLoadSave: function handleLoadSave(buttonType, id, newTitle) {
+    if (buttonType === "SAVE") {
+      this.projects[id].title = newTitle;
+      var toStr = JSON.stringify(this.projects);
+      var outerThis = this;
+      $.ajax({
+        url: '/updateProjects',
+        type: 'POST',
+        dataType: "json",
+        data: { projects: toStr },
+        success: function success(data) {
+          if (data.error == false) {
+            console.log("------------------------------");
+            console.log(JSON.parse(data.projects));
+            outerThis.projects = JSON.parse(data.projects);
+            outerThis.numberProjects = Object.keys(outerThis.projects).length;
+            outerThis.setState({ numberProjects: outerThis.numberProjects });
+            outerThis.rerender();
+          }
+        }
+      });
+    }
+  },
+  handleDeleteProject: function handleDeleteProject(id) {
+    delete this.projects[id];
+    var toStr = JSON.stringify(this.projects);
+    var outerThis = this;
+    $.ajax({
+      url: '/updateProjects',
+      type: 'POST',
+      dataType: "json",
+      data: { projects: toStr },
+      success: function success(data) {
+        if (data.error == false) {
+          console.log("------------------------------");
+          console.log(JSON.parse(data.projects));
+          outerThis.projects = JSON.parse(data.projects);
+          outerThis.numberProjects = Object.keys(outerThis.projects).length;
+          outerThis.setState({ numberProjects: outerThis.numberProjects });
+          outerThis.rerender();
+        }
+      }
+    });
   },
 
   render: function render() {
@@ -187,6 +233,13 @@ var project = React.createClass({
     var outer = this;
     this.setState({ loadButton: "SAVE", classLoad: "loadProjectButtonSaving", value: e.target.value });
   },
+  handleClickLoadSave: function handleClickLoadSave() {
+    this.props.handleLoadSave(this.state.loadButton, this.props.id, this.state.value);
+    this.setState({ loadButton: "LOAD", classLoad: "loadProjectButton" });
+  },
+  handleDeleteProject: function handleDeleteProject() {
+    this.props.handleDeleteProject(this.props.id);
+  },
 
   render: function render() {
 
@@ -201,12 +254,12 @@ var project = React.createClass({
       }),
       React.createElement(
         'div',
-        { className: this.state.classLoad },
+        { className: this.state.classLoad, onClick: this.handleClickLoadSave },
         this.state.loadButton
       ),
       React.createElement(
         'div',
-        { className: 'deleteProjectButton' },
+        { className: 'deleteProjectButton', onClick: this.handleDeleteProject },
         '-'
       )
     );

@@ -35,6 +35,8 @@ const MasterController = React.createClass({
           key={index}
           id={index}
           projectObject = {outerThis.projects[index]}
+          handleLoadSave = {outerThis.handleLoadSave}
+          handleDeleteProject = {outerThis.handleDeleteProject}
         />
       );
     });
@@ -46,7 +48,7 @@ const MasterController = React.createClass({
 
       for(var i=0; i<10; i++){
 
-        if(!(i in Object.keys(this.projects))){
+        if(!(i in this.projects)){
 
           this.projects[i] = {title:"", trackOneUrl:"", trackTwoUrl:"", trackThreeUrl:""};
           var toStr = JSON.stringify(this.projects);
@@ -62,7 +64,7 @@ const MasterController = React.createClass({
                 outerThis.projects = JSON.parse(data.projects);
                 outerThis.numberProjects = Object.keys(outerThis.projects).length;
                 outerThis.setState({numberProjects: outerThis.numberProjects});
-                this.rerender();
+                outerThis.rerender();
               }
              }
            });
@@ -78,6 +80,51 @@ const MasterController = React.createClass({
     }
 
   },
+  handleLoadSave: function(buttonType, id, newTitle){
+    if(buttonType === "SAVE"){
+      this.projects[id].title = newTitle;
+      var toStr = JSON.stringify(this.projects);
+      var outerThis = this;
+      $.ajax({
+        url: '/updateProjects',
+        type: 'POST',
+        dataType: "json",
+        data: {projects:toStr},
+        success: function(data) {
+          if(data.error == false){
+            console.log("------------------------------");
+            console.log(JSON.parse(data.projects));
+            outerThis.projects = JSON.parse(data.projects);
+            outerThis.numberProjects = Object.keys(outerThis.projects).length;
+            outerThis.setState({numberProjects: outerThis.numberProjects});
+            outerThis.rerender();
+          }
+         }
+       });
+    }
+  },
+  handleDeleteProject:function(id){
+    delete this.projects[id];
+    var toStr = JSON.stringify(this.projects);
+    var outerThis = this;
+    $.ajax({
+      url: '/updateProjects',
+      type: 'POST',
+      dataType: "json",
+      data: {projects:toStr},
+      success: function(data) {
+        if(data.error == false){
+          console.log("------------------------------");
+          console.log(JSON.parse(data.projects));
+          outerThis.projects = JSON.parse(data.projects);
+          outerThis.numberProjects = Object.keys(outerThis.projects).length;
+          outerThis.setState({numberProjects: outerThis.numberProjects});
+          outerThis.rerender();
+        }
+       }
+     });
+  },
+
 
   render: function() {
     /*
