@@ -796,7 +796,6 @@ var MasterController = _react2.default.createClass({
     return this.refs['track1'].isThisTrackLive() || this.refs['track2'].isThisTrackLive() || this.refs['track3'].isThisTrackLive();
   },
   navHome: function navHome() {
-    console.log("redirect Hom");
     window.location.href = '/';
   },
   navSignup: function navSignup() {

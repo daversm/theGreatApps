@@ -110,6 +110,18 @@ var MasterController = _react2.default.createClass({
           }
         }
       });
+      return;
+    }
+    if (buttonType === "LOAD") {
+      $.ajax({
+        url: '/loadProject',
+        type: 'POST',
+        dataType: "json",
+        data: { project: id },
+        success: function success(data) {
+          window.location.href = '/daw';
+        }
+      });
     }
   },
   handleDeleteProject: function handleDeleteProject(id) {

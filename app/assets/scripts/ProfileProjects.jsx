@@ -101,6 +101,18 @@ const MasterController = React.createClass({
           }
          }
        });
+       return;
+    }
+    if(buttonType === "LOAD"){
+      $.ajax({
+          url: '/loadProject',
+          type: 'POST',
+          dataType: "json",
+          data: {project:id},
+          success: function(data) {
+            window.location.href= '/daw';
+          }
+       });
     }
   },
   handleDeleteProject:function(id){

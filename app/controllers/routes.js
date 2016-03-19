@@ -13,6 +13,10 @@ module.exports = function(app, passport) {
 		res.sendfile('app/views/index.html');
 	});
 
+  app.get('/daw',isLoggedIn, function(req, res) {
+		res.sendfile('app/views/daw.html');
+	});
+
 	app.get('/signup', function(req, res) {
 		res.sendfile('app/views/signup.html');
 	});
@@ -77,6 +81,18 @@ app.post('/passwordReset', function(req, res) {
 app.post('/getUserInfo',isLoggedIn, function(req, res) {
 	  res.json({username: req.user.local.displayName, projects:req.user.local.projects});
 
+});
+
+app.post('/loadProject',isLoggedIn, function(req, res) {
+    req.user.local.currentProject = req.body.project;
+    req.user.save(function(err) {
+        if (err){
+          res.json({error:true});
+
+        }else{
+          res.json({error:false});
+        }
+    });
 });
 
 app.post('/updateProjects',isLoggedIn, function(req, res) {

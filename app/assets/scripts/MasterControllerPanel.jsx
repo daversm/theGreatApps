@@ -60,7 +60,6 @@ const MasterController = React.createClass({
     );
   },
   navHome: function(){
-    console.log("redirect Hom");
     window.location.href= '/';
   },
   navSignup: function(){
