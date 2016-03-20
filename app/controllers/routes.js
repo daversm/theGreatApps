@@ -122,6 +122,17 @@ app.get('/profile', isLoggedIn, function(req, res) {
 });
 
 app.post('/uploadTrackOne', function(req, res) {
+  var data = new Buffer('');
+  req.on('data', function(chunk) {
+    console.log(new Float32Array(chunk));
+
+  });
+  req.on('end', function() {
+    req.rawBody = data;
+    
+
+  });
+  /*
   var id = mongoose.Types.ObjectId();
   var writestream = gfs.createWriteStream({filename:"new", id:id});
   //emitter.setMaxListeners(0);
@@ -130,6 +141,7 @@ app.post('/uploadTrackOne', function(req, res) {
     console.log(req.body);
 
   });
+  */
    /*
    var tempfile    = req.files[0].path;
    console.log(temp)
