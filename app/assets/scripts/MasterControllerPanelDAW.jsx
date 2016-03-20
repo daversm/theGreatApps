@@ -33,7 +33,11 @@ const MasterController = React.createClass({
           this.numberProjects = Object.keys(this.projects).length;
 
         this.setState({userName : result.username});
-        this.rerender();
+
+    }.bind(this));
+
+    $.post('getProjectID', function(result) {
+          this.projectID = result.projectID;
     }.bind(this));
 
   },
@@ -88,6 +92,9 @@ const MasterController = React.createClass({
     }
 
   },
+  handleSave:function(){
+    this.refs['track1'].handleSave();
+  },
 
 
   render: function() {
@@ -99,6 +106,7 @@ const MasterController = React.createClass({
             trackName={trackData.trackName}
             trackTitle={trackData.tracksTitle}
             checkForLiveTrack = {this.handleCheckForLiveTracks}
+            projectID = {this.projectID}
         />
       );
     });
@@ -118,7 +126,7 @@ const MasterController = React.createClass({
             GORILLA DAW
           </div>
           <div className="masterInfo">
-            <div className="projectsSettingsButton" onClick={this.navHome}>
+            <div className="projectsSettingsButton" onClick={this.handleSave}>
               SAVE
             </div>
             <ReactSuperSelect

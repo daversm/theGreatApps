@@ -2,8 +2,9 @@ var fs           = require('fs');
 var path         = require('path');
 var port         = process.env.PORT || 8080;
 var express      = require('express');
-var bodyParser   = require('body-parser');
 var app          = express();
+var bodyParser   = require('body-parser');
+
 //var MongoClient  = require('mongodb').MongoClient;
 var mongoose     = require('mongoose');
 var request      = require('request');
@@ -21,7 +22,10 @@ var Grid         = require('gridfs-stream');
 app.use("/public", express.static('app/public'));
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(bodyParser.json({limit: '500mb'}));
+app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
 app.use(bodyParser());
+
 
 app.use(session({ secret: 'bbking' }));
 app.use(passport.initialize());

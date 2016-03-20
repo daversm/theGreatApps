@@ -1211,6 +1211,19 @@ var Track = exports.Track = React.createClass({
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     this.undoArray = [];
     this.liveFeedStatus = false;
+    /*
+    var outerThis = this;
+    var request = new XMLHttpRequest();
+    request.open("GET", "/download", true);
+      request.onload = function() {
+      var Data = request.response;
+      process(Data);
+    };
+     request.send();
+     function process(Data){
+      console.log(Data);
+     };
+    */
   },
   muteThisTrack: function muteThisTrack() {
     if (this.state.muteStatus == false) {
@@ -1347,11 +1360,7 @@ var Track = exports.Track = React.createClass({
     request.send();
 
     function process(Data) {
-      var blob = new Blob([Data]);
-      outerThis.wavesurferPostRecording.empty();
-      outerThis.wavesurferPostRecording.loadBlob(blob);
       console.log(Data);
-      console.log(Data.size);
     };
   },
   handleLiveFeed: function handleLiveFeed(e) {
@@ -1380,7 +1389,8 @@ var Track = exports.Track = React.createClass({
         Recorder.forceDownload(e, "filename.wav");
       });
     */
-    mediaStreamSource.connect(audioContext.destination);
+    //mediaStreamSource.connect( audioContext.destination );
+
   },
   handleRecStop: function handleRecStop() {
     if (this.currentlyRecording || this.recordingIsPaused) {
@@ -1632,6 +1642,32 @@ var Track = exports.Track = React.createClass({
       this.wavesurferPostRecording.toggleMute();
       this.setState({ muteButton: "buttonsInsideTrack", muteStatus: false });
     }
+  },
+  handleSave: function handleSave() {
+    var outerThis = this;
+    console.log(this.trackAudioBuffers);
+    this.fd;
+    //var currentBuffers = this.trackAudioBuffers;
+    //var projectID = this.props.projectID;
+    //console.log(currentBuffers);
+
+    /*
+    
+          $.ajax({
+                type: 'POST',
+                url: '/uploadTrackOne',
+                data: {buffer :JSON.stringify(outerThis.trackAudioBuffers)},
+                dataType: "buffer"
+            });
+      */
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("POST", "/uploadTrackOne", true);
+    oReq.onload = function (oEvent) {};
+
+    var blob = new Blob(this.trackAudioBuffers, { type: 'text/plain' });
+
+    oReq.send(blob);
   },
 
   render: function render() {

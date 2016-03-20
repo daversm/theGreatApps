@@ -5,6 +5,7 @@ module.exports = function(app, passport) {
   var fs      = require('fs');
   var path = require('path');
   var gfs = app.get('gridfs');
+  var mongoose     = require('mongoose');
   var multer  = require('multer');
   var upload = multer({ dest: 'uploads/' });
 
@@ -82,6 +83,9 @@ app.post('/getUserInfo',isLoggedIn, function(req, res) {
 	  res.json({username: req.user.local.displayName, projects:req.user.local.projects});
 
 });
+app.post('/getProjectID', isLoggedIn, function(req, res){
+    res.json({projectID: req.user.local.currentProject});
+});
 
 app.post('/loadProject',isLoggedIn, function(req, res) {
     req.user.local.currentProject = req.body.project;
@@ -94,6 +98,7 @@ app.post('/loadProject',isLoggedIn, function(req, res) {
         }
     });
 });
+app.post
 
 app.post('/updateProjects',isLoggedIn, function(req, res) {
 
@@ -116,13 +121,23 @@ app.get('/profile', isLoggedIn, function(req, res) {
 		res.sendfile('app/views/profileProject.html');
 });
 
-app.post('/upload', upload.any(), function(req, res) {
-  console.log(req.files);
-  var tempfile    = req.files[0].path;
-   var origname    = req.files[0].filename;
-   var writestream = gfs.createWriteStream({ filename: origname });
+app.post('/uploadTrackOne', function(req, res) {
+  var id = mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({filename:"new", id:id});
+  //emitter.setMaxListeners(0);
+  req.on('readable', function(){
+    //console.log(req.read());
+    console.log(req.body);
+
+  });
+   /*
+   var tempfile    = req.files[0].path;
+   console.log(temp)
+
+   var writestream = gfs.createWriteStream({filename:"hi"});
+   //req.user.local.projects[0].trackOneUrl = id;
    // open a stream to the temporary file created by Express...
-   fs.createReadStream(tempfile)
+   fs.createReadStream(req.body.buffers)
      .on('end', function() {
        res.send('OK');
      })
@@ -131,11 +146,11 @@ app.post('/upload', upload.any(), function(req, res) {
      })
      // and pipe it to gfs
      .pipe(writestream);
-
+     */
 });
 
 app.get('/download', function(req, res) {
-    var file = gfs.createReadStream({ filename: '045a24da09e3aad0eb9c93e7d29a8afa' });
+    var file = gfs.createReadStream({ filename: 'new' });
     res.set({'Content-Type': 'audio/wav'});
     file.pipe(res);
     console.log(file);
