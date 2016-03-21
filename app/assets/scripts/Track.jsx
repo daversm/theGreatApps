@@ -55,24 +55,29 @@ export var Track = React.createClass({
     this.trackAudioBuffers = [new Float32Array(0), new Float32Array(0)];
     this.undoArray = [];
     this.liveFeedStatus = false;
-    /*
+
+    var buffers;
     var outerThis = this;
     var request = new XMLHttpRequest();
-    request.open("GET", "/download", true);
+     request.open("GET", "/download", true);
+     request.responseType = 'arraybuffer';
 
+      request.onload = function() {
+      console.log(new Float32Array(request.response));
 
-    request.onload = function() {
-      var Data = request.response;
-      process(Data);
-    };
+      buffers = [new Float32Array(request.response), new Float32Array(request.response)];
+      done();
+
+   };
 
     request.send();
 
-    function process(Data){
-      console.log(Data);
+    function done(){
+      outerThis.trackAudioBuffers = buffers;
+    }
+    
 
-    };
-*/
+
   },
   muteThisTrack:function(){
     if(this.state.muteStatus == false){
@@ -569,10 +574,6 @@ for(var i = 0; i < test.length; i++){
 console.log("back to Float32Array");
 console.log(test);
 
-
-var data = new Uint32Array(1);
-   data[0] = 0xFD008001;
-   var outerThis = this;
    $.ajax({
       url: '/uploadTrackOne',
       type: 'POST',

@@ -13,7 +13,7 @@ var flash        = require('connect-flash');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
+//var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var Grid         = require('gridfs-stream');
 
@@ -22,9 +22,7 @@ var Grid         = require('gridfs-stream');
 app.use("/public", express.static('app/public'));
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser.json({limit: '500mb'}));
-app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
-app.use(bodyParser());
+//app.use(bodyParser());
 
 
 app.use(session({ secret: 'bbking' }));

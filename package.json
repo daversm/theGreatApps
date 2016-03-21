@@ -2,6 +2,7 @@
   "name": "theGreatAps",
   "main": "server.js",
   "dependencies": {
+    "GridFS": "^0.3.0",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.14.1",
     "connect-flash": "~0.1.1",

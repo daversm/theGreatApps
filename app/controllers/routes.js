@@ -6,8 +6,7 @@ module.exports = function(app, passport) {
   var path = require('path');
   var gfs = app.get('gridfs');
   var mongoose     = require('mongoose');
-  var multer  = require('multer');
-  var upload = multer({ dest: 'uploads/' });
+  var bodyParser   = require('body-parser');
 
 
 	app.get('/', function(req, res) {
@@ -34,7 +33,7 @@ module.exports = function(app, passport) {
 		res.json({ message: "hello" });
 	});
 
-app.post('/login', function handleLocalAuthentication(req, res, next) {
+app.post('/login', bodyParser(), function handleLocalAuthentication(req, res, next) {
     passport.authenticate('local-login', function(err, user, info) {
         if (err) return next(err);
         if (!user) {
@@ -53,7 +52,7 @@ app.post('/login', function handleLocalAuthentication(req, res, next) {
     })(req, res, next);
 });
 
-app.post('/signup', function handleLocalAuthentication(req, res, next) {
+app.post('/signup',bodyParser(), function handleLocalAuthentication(req, res, next) {
 		passport.authenticate('local-signup', function(err, user, info) {
 				if (err) return next(err);
 				if (!user) {
@@ -72,22 +71,22 @@ app.post('/signup', function handleLocalAuthentication(req, res, next) {
 		})(req, res, next);
 });
 
-app.post('/passwordReset', function(req, res) {
+app.post('/passwordReset',bodyParser(), function(req, res) {
 	PasswordReset.reset(req.body.pin,req.body.email,req.body.password, function(ret){
 		res.json(ret);
 
 	});
 });
 
-app.post('/getUserInfo',isLoggedIn, function(req, res) {
+app.post('/getUserInfo',bodyParser(),isLoggedIn, function(req, res) {
 	  res.json({username: req.user.local.displayName, projects:req.user.local.projects});
 
 });
-app.post('/getProjectID', isLoggedIn, function(req, res){
+app.post('/getProjectID',bodyParser(), isLoggedIn, function(req, res){
     res.json({projectID: req.user.local.currentProject});
 });
 
-app.post('/loadProject',isLoggedIn, function(req, res) {
+app.post('/loadProject',bodyParser(), isLoggedIn, function(req, res) {
     req.user.local.currentProject = req.body.project;
     req.user.save(function(err) {
         if (err){
@@ -100,7 +99,7 @@ app.post('/loadProject',isLoggedIn, function(req, res) {
 });
 app.post
 
-app.post('/updateProjects',isLoggedIn, function(req, res) {
+app.post('/updateProjects', bodyParser(), isLoggedIn, function(req, res) {
 
   req.user.local.projects = req.body.projects;
 
@@ -117,21 +116,32 @@ app.post('/updateProjects',isLoggedIn, function(req, res) {
 
 });
 
-app.get('/profile', isLoggedIn, function(req, res) {
+app.get('/profile',bodyParser(), isLoggedIn, function(req, res) {
 		res.sendfile('app/views/profileProject.html');
 });
 
 app.post('/uploadTrackOne', function(req, res) {
-  var data = new Buffer('');
-  req.on('data', function(chunk) {
-    console.log(new Float32Array(chunk));
 
-  });
-  req.on('end', function() {
-    req.rawBody = data;
-    
+  var writestream = gfs.createWriteStream({filename:"oknow3"});
+  req.pipe(writestream);
 
-  });
+  function createFile(){
+
+  var wstream = fs.createWriteStream('data.dat');
+  var writestream = gfs.createWriteStream({filename:"oknow2"});
+
+  wstream.write(data);
+  wstream.end();
+  var readBuffer = fs.createReadStream('data.dat');
+  readBuffer.pipe(writestream);
+}
+
+
+
+
+
+
+
   /*
   var id = mongoose.Types.ObjectId();
   var writestream = gfs.createWriteStream({filename:"new", id:id});
@@ -162,10 +172,10 @@ app.post('/uploadTrackOne', function(req, res) {
 });
 
 app.get('/download', function(req, res) {
-    var file = gfs.createReadStream({ filename: 'new' });
-    res.set({'Content-Type': 'audio/wav'});
+    var file = gfs.createReadStream({filename:'oknow3'});
+    res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log(file);
+    console.log("doneSending");
   });
 
 app.get('/logout', function(req, res) {
