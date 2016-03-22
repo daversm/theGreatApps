@@ -92,8 +92,164 @@ const MasterController = React.createClass({
     }
 
   },
+
+  handleLoad: function(){
+     var outerThis = this;
+     var request1l = new XMLHttpRequest();
+     var request1r = new XMLHttpRequest();
+
+     var request2l = new XMLHttpRequest();
+     var request2r = new XMLHttpRequest();
+
+     var request3l = new XMLHttpRequest();
+     var request3r = new XMLHttpRequest();
+
+     request1l.open("GET", "/downloadTrackOneL", true);
+     request1r.open("GET", "/downloadTrackOneR", true);
+
+     request2l.open("GET", "/downloadTrackTwoL", true);
+     request2r.open("GET", "/downloadTrackTwoR", true);
+
+     request3l.open("GET", "/downloadTrackThreeL", true);
+     request3r.open("GET", "/downloadTrackThreeR", true);
+
+     request1l.responseType = 'arraybuffer';
+     request1r.responseType = 'arraybuffer';
+
+     request2l.responseType = 'arraybuffer';
+     request2r.responseType = 'arraybuffer';
+
+     request3l.responseType = 'arraybuffer';
+     request3r.responseType = 'arraybuffer';
+
+     var buffer1l
+     request1l.onload = function() {
+        console.log(new Float32Array(request1l.response));
+        buffer1l = request1l.response;
+        request1r.send();
+     };
+     var buffer1r
+     request1r.onload = function() {
+        console.log(new Float32Array(request1r.response));
+        buffer1r = request1r.response;
+        outerThis.refs['track1'].handleLoad(buffer1l, buffer1r);
+     };
+     request1l.send();
+
+
+     var buffer2l
+     request2l.onload = function() {
+        console.log(new Float32Array(request2l.response));
+        buffer2l = request2l.response;
+        request2r.send();
+     };
+     var buffer2r
+     request2r.onload = function() {
+        console.log(new Float32Array(request2r.response));
+        buffer2r = request2r.response;
+        outerThis.refs['track2'].handleLoad(buffer2l, buffer2r);
+     };
+     request2l.send();
+
+
+     var buffer3l
+     request3l.onload = function() {
+        console.log(new Float32Array(request3l.response));
+        buffer3l = request3l.response;
+        request3r.send();
+     };
+     var buffer3r
+     request3r.onload = function() {
+        console.log(new Float32Array(request3r.response));
+        buffer3r = request3r.response;
+        outerThis.refs['track3'].handleLoad(buffer3l, buffer3r);
+     };
+     request3l.send();
+
+  },
   handleSave:function(){
-    this.refs['track1'].handleSave();
+    var outerThis = this;
+    var trackOneBuffers = this.refs['track1'].handleSave() || [[]];
+    var trackTwoBuffers = this.refs['track2'].handleSave() || [[]];
+    var trackThreeBuffers = this.refs['track3'].handleSave() || [[]];
+
+    if(trackOneBuffers[0].length > 1){
+      $.ajax({
+         url: '/uploadTrackOneL',
+         type: 'POST',
+         data:trackOneBuffers[0],
+         contentType: false,
+         processData: false,
+         success:function(data) {
+           $.ajax({
+              url: '/uploadTrackOneR',
+              type: 'POST',
+              data:trackOneBuffers[1],
+              contentType: false,
+              processData: false,
+              success:function(data){
+                if(data.error === false){
+                  trackTwoSave();
+                }
+              }
+           });
+         }
+      });
+    }else{
+      trackTwoSave();
+    }
+
+    function trackTwoSave(){
+      if(trackTwoBuffers[0].length > 1){
+        $.ajax({
+           url: '/uploadTrackTwoL',
+           type: 'POST',
+           data: trackTwoBuffers[0],
+           contentType: false,
+           processData: false,
+           success:function(data) {
+             $.ajax({
+                url: '/uploadTrackTwoR',
+                type: 'POST',
+                data: trackTwoBuffers[1],
+                contentType: false,
+                processData: false,
+                success:function(data){
+                  if(data.error === false){
+                    trackThreeSave();
+                  }
+                }
+
+             });
+           }
+        });
+      }else{
+        trackThreeSave();
+      }
+    }
+
+    function trackThreeSave(){
+      if(trackThreeBuffers[0].length > 1){
+        $.ajax({
+           url: '/uploadTrackThreeL',
+           type: 'POST',
+           data: trackThreeBuffers[0],
+           contentType: false,
+           processData: false,
+           success:function(data) {
+             $.ajax({
+                url: '/uploadTrackThreeR',
+                type: 'POST',
+                data: trackThreeBuffers[1],
+                contentType: false,
+                processData: false,
+
+             });
+           }
+        });
+      }
+    }
+
   },
 
 
@@ -129,6 +285,9 @@ const MasterController = React.createClass({
             <div className="projectsSettingsButton" onClick={this.handleSave}>
               SAVE
             </div>
+            <div className="projectsSettingsButton" onClick={this.handleLoad}>
+              LOAD
+            </div>
             <ReactSuperSelect
               placeholder={this.state.userName}
               dataSource={[
@@ -163,6 +322,5 @@ const MasterController = React.createClass({
 });
 
 render(
-<MasterController />,
-document.getElementById('masterContainer')
+  <MasterController />, document.getElementById('masterContainer')
 );

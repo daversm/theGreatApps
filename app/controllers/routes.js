@@ -52,7 +52,7 @@ app.post('/login', bodyParser(), function handleLocalAuthentication(req, res, ne
     })(req, res, next);
 });
 
-app.post('/signup',bodyParser(), function handleLocalAuthentication(req, res, next) {
+app.post('/signup', bodyParser(), function handleLocalAuthentication(req, res, next) {
 		passport.authenticate('local-signup', function(err, user, info) {
 				if (err) return next(err);
 				if (!user) {
@@ -120,63 +120,219 @@ app.get('/profile',bodyParser(), isLoggedIn, function(req, res) {
 		res.sendfile('app/views/profileProject.html');
 });
 
-app.post('/uploadTrackOne', function(req, res) {
+app.post('/uploadTrackOneR', function(req, res) {
 
-  var writestream = gfs.createWriteStream({filename:"oknow3"});
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
   req.pipe(writestream);
 
-  function createFile(){
+  req.on('end', function() {
 
-  var wstream = fs.createWriteStream('data.dat');
-  var writestream = gfs.createWriteStream({filename:"oknow2"});
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackOne.R = id;
+    req.user.local.projects = JSON.stringify(projects);
 
-  wstream.write(data);
-  wstream.end();
-  var readBuffer = fs.createReadStream('data.dat');
-  readBuffer.pipe(writestream);
-}
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
 
-
-
-
-
-
-
-  /*
-  var id = mongoose.Types.ObjectId();
-  var writestream = gfs.createWriteStream({filename:"new", id:id});
-  //emitter.setMaxListeners(0);
-  req.on('readable', function(){
-    //console.log(req.read());
-    console.log(req.body);
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
 
   });
-  */
-   /*
-   var tempfile    = req.files[0].path;
-   console.log(temp)
 
-   var writestream = gfs.createWriteStream({filename:"hi"});
-   //req.user.local.projects[0].trackOneUrl = id;
-   // open a stream to the temporary file created by Express...
-   fs.createReadStream(req.body.buffers)
-     .on('end', function() {
-       res.send('OK');
-     })
-     .on('error', function() {
-       res.send('ERR');
-     })
-     // and pipe it to gfs
-     .pipe(writestream);
-     */
 });
 
-app.get('/download', function(req, res) {
-    var file = gfs.createReadStream({filename:'oknow3'});
+app.post('/uploadTrackOneL', function(req, res) {
+
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
+  req.pipe(writestream);
+
+  req.on('end', function() {
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackOne.L = id;
+    req.user.local.projects = JSON.stringify(projects);
+
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
+
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
+
+  });
+
+});
+
+app.post('/uploadTrackTwoR', function(req, res) {
+
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
+  req.pipe(writestream);
+
+  req.on('end', function() {
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackTwo.R = id;
+    req.user.local.projects = JSON.stringify(projects);
+
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
+
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
+
+  });
+
+});
+
+app.post('/uploadTrackTwoL', function(req, res) {
+
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
+  req.pipe(writestream);
+
+  req.on('end', function() {
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackTwo.L = id;
+    req.user.local.projects = JSON.stringify(projects);
+
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
+
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
+
+  });
+
+});
+app.post('/uploadTrackThreeR', function(req, res) {
+
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
+  req.pipe(writestream);
+
+  req.on('end', function() {
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackThree.R = id;
+    req.user.local.projects = JSON.stringify(projects);
+
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
+
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
+
+  });
+
+});
+
+app.post('/uploadTrackThreeL', function(req, res) {
+
+  var id = new mongoose.Types.ObjectId();
+  var writestream = gfs.createWriteStream({_id:id});
+  req.pipe(writestream);
+
+  req.on('end', function() {
+    var projects = JSON.parse(req.user.local.projects);
+    projects[req.user.local.currentProject].trackThree.L = id;
+    req.user.local.projects = JSON.stringify(projects);
+
+    req.user.save(function(err) {
+        if (err){
+          console.log(err);
+          res.json({error:true});
+
+        }else{
+          console.log("User projects Updated");
+          res.json({error:false});
+        }
+    });
+
+  });
+
+});
+
+app.get('/downloadTrackOneR', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackOne.R;
+
+    var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending");
-  });
+    console.log("doneSending T1R");
+});
+app.get('/downloadTrackOneL', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackOne.L;
+
+    var file = gfs.createReadStream({_id:id});
+    res.set({'Content-Type': 'arraybuffer'});
+    file.pipe(res);
+    console.log("doneSending T1L");
+});
+
+app.get('/downloadTrackTwoR', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackTwo.R;
+
+    var file = gfs.createReadStream({_id:id});
+    res.set({'Content-Type': 'arraybuffer'});
+    file.pipe(res);
+    console.log("doneSending T2R");
+});
+app.get('/downloadTrackTwoL', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackTwo.L;
+
+    var file = gfs.createReadStream({_id:id});
+    res.set({'Content-Type': 'arraybuffer'});
+    file.pipe(res);
+    console.log("doneSending T2L");
+});
+
+app.get('/downloadTrackThreeR', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackThree.R;
+
+    var file = gfs.createReadStream({_id:id});
+    res.set({'Content-Type': 'arraybuffer'});
+    file.pipe(res);
+    console.log("doneSending T3R");
+});
+app.get('/downloadTrackThreeL', function(req, res) {
+    var projects = JSON.parse(req.user.local.projects);
+    id = projects[req.user.local.currentProject].trackThree.L;
+
+    var file = gfs.createReadStream({_id:id});
+    res.set({'Content-Type': 'arraybuffer'});
+    file.pipe(res);
+    console.log("doneSending T3L");
+});
+
 
 app.get('/logout', function(req, res) {
 		req.logout();

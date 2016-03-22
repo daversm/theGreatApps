@@ -60,7 +60,7 @@ var MasterController = _react2.default.createClass({
 
         if (!(i in this.projects)) {
 
-          this.projects[i] = { title: "", trackOneUrl: "", trackTwoUrl: "", trackThreeUrl: "" };
+          this.projects[i] = { title: "", trackOne: { L: "", R: "" }, trackTwo: { L: "", R: "" }, trackThree: { L: "", R: "" } };
           var toStr = JSON.stringify(this.projects);
           $.ajax({
             url: '/updateProjects',

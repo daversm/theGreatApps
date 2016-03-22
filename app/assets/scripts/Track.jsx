@@ -56,27 +56,6 @@ export var Track = React.createClass({
     this.undoArray = [];
     this.liveFeedStatus = false;
 
-    var buffers;
-    var outerThis = this;
-    var request = new XMLHttpRequest();
-     request.open("GET", "/download", true);
-     request.responseType = 'arraybuffer';
-
-      request.onload = function() {
-      console.log(new Float32Array(request.response));
-
-      buffers = [new Float32Array(request.response), new Float32Array(request.response)];
-      done();
-
-   };
-
-    request.send();
-
-    function done(){
-      outerThis.trackAudioBuffers = buffers;
-    }
-    
-
 
   },
   muteThisTrack:function(){
@@ -527,9 +506,7 @@ export var Track = React.createClass({
     }
   },
   handleSave:function(){
-    var outerThis = this;
-    console.log(this.trackAudioBuffers);
-    this.fd;
+    return this.trackAudioBuffers;
     //var currentBuffers = this.trackAudioBuffers;
     //var projectID = this.props.projectID;
     //console.log(currentBuffers);
@@ -553,7 +530,7 @@ oReq.onload = function (oEvent) {
 var blob = new Blob(this.trackAudioBuffers, {type: 'text/plain'});
 
 oReq.send(blob);
-*/
+
 var buffer = new Buffer(this.trackAudioBuffers[0].length*4);
 
 
@@ -573,16 +550,66 @@ for(var i = 0; i < test.length; i++){
 
 console.log("back to Float32Array");
 console.log(test);
+*/
 
-   $.ajax({
-      url: '/uploadTrackOne',
-      type: 'POST',
-      //data:'253,0,128,1',
-      data:outerThis.trackAudioBuffers[0],
-      contentType: false,
-      processData: false,
 
-   });
+
+  },
+  handleLoad: function(l,r){
+    var buffers = [new Float32Array(l), new Float32Array(r)];
+    var outerthis2 = this;
+
+    this.wavesurfer.empty();
+    this.wavesurfer.destroy();
+
+    this.wavesurferPostRecording = Object.create(WaveSurfer);
+    var outerThis2 = this;
+
+    this.wavesurferPostRecording.init({
+        audioContext : audioContext,
+        container: "#" + outerThis2.props.trackName,
+        waveColor: '#31A9F9',
+        progressColor: '#848383',
+        interact      : true,
+        cursorWidth   : 3,
+        cursorColor   : '#FF6D45',
+        height        : 170
+    });
+    this.wavesurferPostRecording.on('ready', function () {
+      outerThis2.timeline = Object.create(WaveSurfer.Timeline);
+      outerThis2.timeline.init({
+          wavesurfer: outerThis2.wavesurferPostRecording,
+          container: "#" + outerThis2.props.trackName,
+          primaryColor: '#5A5A5A',
+          secondaryColor: '#5A5A5A',
+          primaryFontColor: '#5A5A5A',
+          height: 40
+      });
+      var testOut = outerThis2.wavesurferPostRecording.enableDragSelection();
+
+    });
+
+    this.wavesurferPostRecording.on('region-created', function (region) {
+
+      outerThis2.regionTest = region;
+      outerThis2.regionCreated = true;
+    });
+
+    this.refs['Effects'].setPropsToEffects(this.wavesurferPostRecording);
+
+
+
+    var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+    newBuffer.getChannelData(0).set(buffers[0]);
+    newBuffer.getChannelData(1).set(buffers[1]);
+    outerThis2.wavesurferPostRecording.empty();
+    outerThis2.wavesurferPostRecording.loadDecodedBuffer(newBuffer);
+    outerThis2.wavesurferPostRecording.clearRegions();
+
+    outerThis2.currentStatusMsg = {trackStatusMsg: "READY", style:{background:'#848383'}};
+    outerThis2.setStatusMsg('#31A9F9',"DONE LOADING", outerThis2.currentStatusMsg);
+    outerThis2.enablePlayBackButtons = true;
+    outerThis2.fileLoadedOrRecorder = true;
 
 
   },
