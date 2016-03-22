@@ -6,7 +6,9 @@ var ReactSuperSelect = require('react-super-select');
 
 const MasterController = React.createClass({
   getInitialState: function() {
-    return {micSwitchState: false, userName:"Loading",
+
+    return {micSwitchState: false, userName:"Loading", dropDownMore:[],
+            dropDownActive: false,
             tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
                            {trackName:"track2", tracksTitle:"TRACK 2"},
                            {trackName:"track3", tracksTitle:"TRACK 3"}
@@ -251,6 +253,16 @@ const MasterController = React.createClass({
     }
 
   },
+  handleMore:function(){
+    if(this.state.dropDownActive == false){
+      var drop = function(){
+        return(<div className="testBox" />);
+      }();
+      this.setState({dropDownMore:drop, dropDownActive:true});
+    }else{
+      this.setState({dropDownMore:[], dropDownActive:false});
+    }
+  },
 
 
   render: function() {
@@ -266,6 +278,7 @@ const MasterController = React.createClass({
         />
       );
     });
+
 
     return (
       <div>
@@ -288,27 +301,10 @@ const MasterController = React.createClass({
             <div className="projectsSettingsButton" onClick={this.handleLoad}>
               LOAD
             </div>
-            <ReactSuperSelect
-              placeholder={this.state.userName}
-              dataSource={[
-                {
-                  "id": "LogOut",
-                  "name": "LogOut",
-                  "size": "small"
-                },
-                {
-                  "id": "Projects",
-                  "name": "Projects",
-                  "size": "small"
-                },
-                {
-                  "id": "Settings",
-                  "name": "Settings",
-                  "size": "small"
-                }
-              ]}
-              onChange={this.userDropDown}
-            />
+            <div className="projectsSettingsButton" onClick={this.handleMore}>
+              MORE
+              {this.state.dropDownMore}
+            </div>
           </div>
         </div>
           <div id="tracksDiv">

@@ -1728,7 +1728,6 @@ var Track = exports.Track = React.createClass({
     outerThis2.currentStatusMsg = { trackStatusMsg: "READY", style: { background: '#848383' } };
     outerThis2.setStatusMsg('#31A9F9', "DONE LOADING", outerThis2.currentStatusMsg);
     outerThis2.enablePlayBackButtons = true;
-    outerThis2.rec.clear();
     outerThis2.fileLoadedOrRecorder = true;
   },
 

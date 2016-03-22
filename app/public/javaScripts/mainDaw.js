@@ -756,7 +756,9 @@ var MasterController = _react2.default.createClass({
   displayName: 'MasterController',
 
   getInitialState: function getInitialState() {
-    return { micSwitchState: false, userName: "Loading",
+
+    return { micSwitchState: false, userName: "Loading", dropDownMore: [],
+      dropDownActive: false,
       tracksArray: [{ trackName: "track1", tracksTitle: "TRACK 1" }, { trackName: "track2", tracksTitle: "TRACK 2" }, { trackName: "track3", tracksTitle: "TRACK 3" }]
     };
   },
@@ -981,6 +983,18 @@ var MasterController = _react2.default.createClass({
       }
     }
   },
+  handleMore: function handleMore() {
+    if (this.state.dropDownActive == false) {
+      var drop = function () {
+        return _react2.default.createElement('div', { className: 'testBox' });
+      }();
+      this.setState({ dropDownMore: drop, dropDownActive: true });
+    } else {
+      this.setState({ dropDownMore: [], dropDownActive: false });
+    }
+
+    this.setState({ dropDownMore: drop });
+  },
 
   render: function render() {
     var _this = this;
@@ -1027,23 +1041,12 @@ var MasterController = _react2.default.createClass({
             { className: 'projectsSettingsButton', onClick: this.handleLoad },
             'LOAD'
           ),
-          _react2.default.createElement(ReactSuperSelect, {
-            placeholder: this.state.userName,
-            dataSource: [{
-              "id": "LogOut",
-              "name": "LogOut",
-              "size": "small"
-            }, {
-              "id": "Projects",
-              "name": "Projects",
-              "size": "small"
-            }, {
-              "id": "Settings",
-              "name": "Settings",
-              "size": "small"
-            }],
-            onChange: this.userDropDown
-          })
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onClick: this.handleMore },
+            'MORE',
+            this.state.dropDownMore
+          )
         )
       ),
       _react2.default.createElement(
@@ -1926,7 +1929,6 @@ var Track = exports.Track = React.createClass({
     outerThis2.currentStatusMsg = { trackStatusMsg: "READY", style: { background: '#848383' } };
     outerThis2.setStatusMsg('#31A9F9', "DONE LOADING", outerThis2.currentStatusMsg);
     outerThis2.enablePlayBackButtons = true;
-    outerThis2.rec.clear();
     outerThis2.fileLoadedOrRecorder = true;
   },
 

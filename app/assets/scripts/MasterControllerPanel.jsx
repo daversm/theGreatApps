@@ -98,6 +98,7 @@ const MasterController = React.createClass({
             <div className="projectsSettingsButton" onClick={this.navHome}>
               HOME
             </div>
+
             <div className="projectsSettingsButton" onClick={this.navSignup}>
               SIGNUP
             </div>
