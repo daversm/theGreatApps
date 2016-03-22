@@ -8,7 +8,7 @@ const MasterController = React.createClass({
   getInitialState: function() {
 
     return {micSwitchState: false, userName:"Loading", dropDownMore:[],
-            dropDownActive: false,
+            dropDownActive: false, moreButtonStatus:"projectsSettingsButton",
             tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
                            {trackName:"track2", tracksTitle:"TRACK 2"},
                            {trackName:"track3", tracksTitle:"TRACK 3"}
@@ -258,9 +258,9 @@ const MasterController = React.createClass({
       var drop = function(){
         return(<div className="testBox" />);
       }();
-      this.setState({dropDownMore:drop, dropDownActive:true});
+      this.setState({dropDownMore:drop, dropDownActive:true,moreButtonStatus:"projectsSettingsButtonClicked" });
     }else{
-      this.setState({dropDownMore:[], dropDownActive:false});
+      this.setState({dropDownMore:[], dropDownActive:false,moreButtonStatus:"projectsSettingsButton"});
     }
   },
 
@@ -301,7 +301,7 @@ const MasterController = React.createClass({
             <div className="projectsSettingsButton" onClick={this.handleLoad}>
               LOAD
             </div>
-            <div className="projectsSettingsButton" onClick={this.handleMore}>
+            <div className={this.state.moreButtonStatus} onClick={this.handleMore}>
               MORE
               {this.state.dropDownMore}
             </div>

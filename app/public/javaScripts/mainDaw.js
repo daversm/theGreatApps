@@ -758,7 +758,7 @@ var MasterController = _react2.default.createClass({
   getInitialState: function getInitialState() {
 
     return { micSwitchState: false, userName: "Loading", dropDownMore: [],
-      dropDownActive: false,
+      dropDownActive: false, moreButtonStatus: "projectsSettingsButton",
       tracksArray: [{ trackName: "track1", tracksTitle: "TRACK 1" }, { trackName: "track2", tracksTitle: "TRACK 2" }, { trackName: "track3", tracksTitle: "TRACK 3" }]
     };
   },
@@ -988,12 +988,10 @@ var MasterController = _react2.default.createClass({
       var drop = function () {
         return _react2.default.createElement('div', { className: 'testBox' });
       }();
-      this.setState({ dropDownMore: drop, dropDownActive: true });
+      this.setState({ dropDownMore: drop, dropDownActive: true, moreButtonStatus: "projectsSettingsButtonClicked" });
     } else {
-      this.setState({ dropDownMore: [], dropDownActive: false });
+      this.setState({ dropDownMore: [], dropDownActive: false, moreButtonStatus: "projectsSettingsButton" });
     }
-
-    this.setState({ dropDownMore: drop });
   },
 
   render: function render() {
@@ -1043,7 +1041,7 @@ var MasterController = _react2.default.createClass({
           ),
           _react2.default.createElement(
             'div',
-            { className: 'projectsSettingsButton', onClick: this.handleMore },
+            { className: this.state.moreButtonStatus, onClick: this.handleMore },
             'MORE',
             this.state.dropDownMore
           )
