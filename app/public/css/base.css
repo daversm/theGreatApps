@@ -91,11 +91,12 @@ body, html {
 .titleTopCorner{
   border-right: solid 1px #E2E2E2;
   display: flex;
-  font-family: 'Permanent Marker';
+  font-family: 'Quicksand', sans-serif;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 400;
+  cursor: default;
   color:#4C4C4C;
-  font-size: 36px;
+  font-size: 40px;
   width: 33%;
   height: 55px;
   align-items: center;
@@ -758,13 +759,14 @@ form{
   display:inline;
 }
 h1{
-  font-family: 'Permanent Marker';
+  font-family: 'Quicksand', sans-serif;
    font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   color:#4C4C4C;
   margin-bottom: -10px;
+  margin-left:-5px;
   padding: 0;
-  font-size: 70px;
+  font-size: 64px;
 }
 h6{
   font-family: 'Roboto', sans-serif;
@@ -1239,7 +1241,7 @@ input[type="text"].projectName{
   height: 170px;
   font-size: 16px;
   margin-top: 12px;
-  width: 150px;
+  width: 140px;
   background: white;
   border-radius: 2px;
   box-shadow: 0px 0px 3px rgba(0,0,0,.30);

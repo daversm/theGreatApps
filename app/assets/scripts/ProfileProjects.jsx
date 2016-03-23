@@ -191,7 +191,7 @@ const MasterController = React.createClass({
           </div>
 
           <div className="titleTopCorner">
-            GORILLA DAW
+            PENTATONIC
           </div>
           <div className="masterInfo">
             <div className={this.state.moreButtonStatus} onClick={this.handleMore}>

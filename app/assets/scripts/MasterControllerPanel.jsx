@@ -92,7 +92,7 @@ const MasterController = React.createClass({
 
           </div>
           <div className="titleTopCorner">
-            GORILLA DAW
+            PENTATONIC
           </div>
           <div className="masterInfo">
             <div className="projectsSettingsButton" onClick={this.navHome}>

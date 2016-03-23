@@ -209,7 +209,7 @@ var MasterController = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: 'titleTopCorner' },
-          'GORILLA DAW'
+          'PENTATONIC'
         ),
         _react2.default.createElement(
           'div',
