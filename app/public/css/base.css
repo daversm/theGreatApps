@@ -96,7 +96,7 @@ body, html {
   font-weight: 400;
   cursor: default;
   color:#4C4C4C;
-  font-size: 40px;
+  font-size: 38px;
   width: 33%;
   height: 55px;
   align-items: center;
@@ -508,15 +508,14 @@ input[type="text"] {
   font-family: 'Roboto', sans-serif;
   font-size: 25px;
   padding: 2px;
+  padding-left: 0px;
   width: 400px;
   height: 35px;
   border: none;
-  border: solid 2px #5a5a5a;
-  border-radius: 2px;
-  padding-left: 4px;
+  border-bottom: solid 1px #9A9A9A;
   font-weight: 300;
   color: #5a5a5a;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
   margin-top: 3px;
   transition: box-shadow 150ms ease;
   background: rgba(255,255,255,1);
@@ -526,15 +525,14 @@ input[type="password"] {
   font-family: 'Roboto', sans-serif;
   font-size: 25px;
   padding: 2px;
+  padding-left: 0px;
   width: 400px;
   height: 35px;
   border: none;
-  border: solid 2px #5a5a5a;
-  border-radius: 2px;
-  padding-left: 4px;
+  border-bottom: solid 1px #9A9A9A;
   font-weight: 300;
   color: #5a5a5a;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
   margin-top: 3px;
   transition: box-shadow 150ms ease;
   background: rgba(255,255,255,1);
@@ -546,14 +544,14 @@ input[type="submit"]{
   padding: 8px;
   min-width: 130px;
   height: 50px;
-  border: solid 2px #5a5a5a;
+  border: solid 1px #5a5a5a;
   border-radius: 2px;
-  font-weight: 500;
+  font-weight: 400;
   color: #5a5a5a;
-  margin-right: 8px;
+  margin-right: 10px;
   margin-left: 0px;
   margin-bottom: 3px;
-  margin-top: 3px;
+  margin-top: 15px;
   transition: box-shadow 100ms ease;
   background: rgba(255,255,255,1);
 }
@@ -660,7 +658,7 @@ input#doneButton{
   outline: none;
   border: solid 2px #0099FF;
   border-radius: 2px;
-  font-weight: 500;
+  font-weight: 400;
   color: white;
   margin-right: 8px;
   margin-left: 0px;
@@ -686,7 +684,7 @@ input[type="submit"]:hover {
 
 input[type="password"]:hover {
   transition: box-shadow 100ms ease;
-  border-color: #5a5a5a;
+
   -webkit-box-shadow: 0 4px 4px -4px gray;
    -moz-box-shadow: 0 4px 4px -4px gray;
         box-shadow: 0 4px 4px -4px gray;
@@ -719,17 +717,12 @@ input[type="text"]:hover{
 }
 
 #loginSection{
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   background: transparent;
-
 }
 
 #signupSection{
-  display: flex;
-  align-items: center;
+
   padding-left: 100px;
   background-size:cover;
   background-image: url('c4.jpg');
@@ -750,8 +743,11 @@ input[type="text"]:hover{
   flex-direction: row;
 }
 .loginForm{
-  height: 310px;
-  margin-top: -15px;
+  position: absolute;
+  bottom:50%;
+  left:14%;
+  transform: translate(0%,40%);
+
 }
 
 form{
@@ -763,14 +759,14 @@ h1{
    font-style: normal;
   font-weight: 400;
   color:#4C4C4C;
-  margin-bottom: -10px;
-  margin-left:-5px;
+  margin-bottom: -5px;
+  margin-left:-3px;
   padding: 0;
-  font-size: 64px;
+  font-size: 63px;
 }
 h6{
   font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   color:#5a5a5a;
   margin:1px;
   padding: 0;
@@ -1082,21 +1078,6 @@ input[type="text"].tangleInput {
   margin-top: 3px;
   cursor:col-resize;
 }
-input[type="text"].DropDownDiv {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  padding: 2px;
-  width: 80px;
-  height: 25px;
-  border: solid 1px #5a5a5a;
-  border-radius: 2px;
-  padding-left: 4px;
-  font-weight: 300;
-  color: #5a5a5a;
-  margin-bottom: 3px;
-  margin-top: 3px;
-  cursor:col-resize;
-}
 
 #projects{
   display: flex;
@@ -1224,11 +1205,19 @@ input[type="text"].DropDownDiv {
 }
 
 input[type="text"].projectName{
+  margin-bottom: -1px;
   width: 170px;
   height: 25px;
-  border: none;
   font-size: 20px;
-  margin-left: -2px;
+  margin-left: -1px;
+  border: none;
+  padding: 0px;
+}
+input[type="text"].projectName:hover{
+  width: 170px;
+  height: 25px;
+  font-size: 20px;
+  margin-left: -1px;
 }
 
 .testBox{
