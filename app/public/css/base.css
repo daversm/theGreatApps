@@ -1230,11 +1230,23 @@ input[type="text"].projectName{
 
 .testBox{
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   right:0px;
-  height: 150px;
-  margin-top: 10px;
-  width: 120px;
+  height: 170px;
+  font-size: 16px;
+  margin-top: 12px;
+  width: 150px;
   background: white;
   border-radius: 2px;
   box-shadow: 0px 0px 3px rgba(0,0,0,.30);
+}
+
+hr.hrStyle{
+  height: 0px;
+  border-right: solid 20px rgba(0,0,0,.20);
+  border-left: solid 20px rgba(0,0,0,.20);
+
 }

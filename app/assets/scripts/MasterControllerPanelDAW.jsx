@@ -81,19 +81,16 @@ const MasterController = React.createClass({
   navSignup: function(){
     window.location.href= '/signup';
   },
-  userDropDown : function(option) {
-
-    if(option.id === "LogOut"){
-      window.location.href = '/logout';
-    }
-    if(option.id === "Settings"){
-      window.location.href = '/settings';
-    }
-    if(option.id === "Projects"){
-      window.location.href = '/profile';
-    }
-
+  handleSettingsURL: function(){
+    window.location.href = '/settings';
   },
+  handleProjectsURL: function(){
+    window.location.href = '/profile';
+  },
+  handleLogoutURL: function(){
+    window.location.href = '/logout';
+  },
+
 
   handleLoad: function(){
      var outerThis = this;
@@ -254,9 +251,24 @@ const MasterController = React.createClass({
 
   },
   handleMore:function(){
+    var outerThis = this;
     if(this.state.dropDownActive == false){
       var drop = function(){
-        return(<div className="testBox" />);
+        return(
+          <div className="testBox" >
+            {outerThis.state.userName}
+            <hr className="hrStyle"></hr>
+            <div className="projectsSettingsButton" onClick={outerThis.handleSettingsURL}>
+              settings
+            </div>
+            <div className="projectsSettingsButton" onClick={outerThis.handleProjectsURL}>
+              projects
+            </div>
+            <div className="projectsSettingsButton" onClick={outerThis.handleLogoutURL}>
+              logout
+            </div>
+          </div>
+        );
       }();
       this.setState({dropDownMore:drop, dropDownActive:true,moreButtonStatus:"projectsSettingsButtonClicked" });
     }else{
@@ -302,7 +314,7 @@ const MasterController = React.createClass({
               LOAD
             </div>
             <div className={this.state.moreButtonStatus} onClick={this.handleMore}>
-              MORE
+              USER
               {this.state.dropDownMore}
             </div>
           </div>

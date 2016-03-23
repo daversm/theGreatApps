@@ -21,7 +21,8 @@ var MasterController = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     //this.projectList={};
-    return { userName: "Loading", numberProjects: 0 };
+    return { userName: "Loading", numberProjects: 0, dropDownMore: [],
+      dropDownActive: false, moreButtonStatus: "projectsSettingsButton" };
   },
   componentDidMount: function componentDidMount() {
     var outerThis = this;
@@ -145,6 +146,30 @@ var MasterController = _react2.default.createClass({
       }
     });
   },
+  handleLogoutURL: function handleLogoutURL() {
+    window.location.href = '/logout';
+  },
+  handleMore: function handleMore() {
+    var outerThis = this;
+    if (this.state.dropDownActive == false) {
+      var drop = function () {
+        return _react2.default.createElement(
+          'div',
+          { className: 'testBox' },
+          outerThis.state.userName,
+          _react2.default.createElement('hr', { className: 'hrStyle' }),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onClick: outerThis.handleLogoutURL },
+            'logout'
+          )
+        );
+      }();
+      this.setState({ dropDownMore: drop, dropDownActive: true, moreButtonStatus: "projectsSettingsButtonClicked" });
+    } else {
+      this.setState({ dropDownMore: [], dropDownActive: false, moreButtonStatus: "projectsSettingsButton" });
+    }
+  },
 
   render: function render() {
     /*
@@ -189,15 +214,12 @@ var MasterController = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: 'masterInfo' },
-          _react2.default.createElement(ReactSuperSelect, {
-            placeholder: this.state.userName,
-            dataSource: [{
-              "id": "LogOut",
-              "name": "LogOut",
-              "size": "small"
-            }],
-            onChange: this.userDropDown
-          })
+          _react2.default.createElement(
+            'div',
+            { className: this.state.moreButtonStatus, onClick: this.handleMore },
+            'USER',
+            this.state.dropDownMore
+          )
         )
       ),
       _react2.default.createElement(

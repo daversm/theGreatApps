@@ -816,17 +816,14 @@ var MasterController = _react2.default.createClass({
   navSignup: function navSignup() {
     window.location.href = '/signup';
   },
-  userDropDown: function userDropDown(option) {
-
-    if (option.id === "LogOut") {
-      window.location.href = '/logout';
-    }
-    if (option.id === "Settings") {
-      window.location.href = '/settings';
-    }
-    if (option.id === "Projects") {
-      window.location.href = '/profile';
-    }
+  handleSettingsURL: function handleSettingsURL() {
+    window.location.href = '/settings';
+  },
+  handleProjectsURL: function handleProjectsURL() {
+    window.location.href = '/profile';
+  },
+  handleLogoutURL: function handleLogoutURL() {
+    window.location.href = '/logout';
   },
 
   handleLoad: function handleLoad() {
@@ -984,9 +981,30 @@ var MasterController = _react2.default.createClass({
     }
   },
   handleMore: function handleMore() {
+    var outerThis = this;
     if (this.state.dropDownActive == false) {
       var drop = function () {
-        return _react2.default.createElement('div', { className: 'testBox' });
+        return _react2.default.createElement(
+          'div',
+          { className: 'testBox' },
+          outerThis.state.userName,
+          _react2.default.createElement('hr', { className: 'hrStyle' }),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onClick: outerThis.handleSettingsURL },
+            'settings'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onClick: outerThis.handleProjectsURL },
+            'projects'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'projectsSettingsButton', onClick: outerThis.handleLogoutURL },
+            'logout'
+          )
+        );
       }();
       this.setState({ dropDownMore: drop, dropDownActive: true, moreButtonStatus: "projectsSettingsButtonClicked" });
     } else {
@@ -1042,7 +1060,7 @@ var MasterController = _react2.default.createClass({
           _react2.default.createElement(
             'div',
             { className: this.state.moreButtonStatus, onClick: this.handleMore },
-            'MORE',
+            'USER',
             this.state.dropDownMore
           )
         )

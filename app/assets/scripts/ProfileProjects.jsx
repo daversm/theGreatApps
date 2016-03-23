@@ -7,7 +7,8 @@ var Project = require('./Project.jsx');
 const MasterController = React.createClass({
   getInitialState:function(){
     //this.projectList={};
-    return({userName:"Loading", numberProjects:0});
+    return({userName:"Loading", numberProjects:0, dropDownMore:[],
+            dropDownActive: false, moreButtonStatus:"projectsSettingsButton"});
   },
   componentDidMount: function(){
     var outerThis = this;
@@ -136,6 +137,30 @@ const MasterController = React.createClass({
        }
      });
   },
+  handleLogoutURL: function(){
+    window.location.href = '/logout';
+  },
+  handleMore:function(){
+    var outerThis = this;
+    if(this.state.dropDownActive == false){
+      var drop = function(){
+        return(
+          <div className="testBox" >
+            {outerThis.state.userName}
+            <hr className="hrStyle"></hr>
+
+            <div className="projectsSettingsButton" onClick={outerThis.handleLogoutURL}>
+              logout
+            </div>
+          </div>
+        );
+      }();
+      this.setState({dropDownMore:drop, dropDownActive:true,moreButtonStatus:"projectsSettingsButtonClicked" });
+    }else{
+      this.setState({dropDownMore:[], dropDownActive:false,moreButtonStatus:"projectsSettingsButton"});
+    }
+  },
+
 
 
   render: function() {
@@ -169,17 +194,10 @@ const MasterController = React.createClass({
             GORILLA DAW
           </div>
           <div className="masterInfo">
-            <ReactSuperSelect
-              placeholder={this.state.userName}
-              dataSource={[
-                {
-                  "id": "LogOut",
-                  "name": "LogOut",
-                  "size": "small"
-                }
-              ]}
-              onChange={this.userDropDown}
-            />
+            <div className={this.state.moreButtonStatus} onClick={this.handleMore}>
+              USER
+              {this.state.dropDownMore}
+            </div>
           </div>
         </div>
           <div id="projects">
