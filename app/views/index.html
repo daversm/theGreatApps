@@ -13,23 +13,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Quicksand:400,700,300' rel='stylesheet' type='text/css'>
 
-    <script src="../public/css/parallax.min.js"></script>
-
   </head>
   <body>
-    
+  <style>
+    body{
+      background-image: url("../public/css/c4.jpg");
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+  </style>
     <div class="arrow-down"></div>
     <div class="arrow-up"></div>
     <div id="naviBar">
-        <a href="/"><h6>About </h6></a>
+        <a id="aboutButton"><h6>About </h6></a>
         <a href="/signup"><h6>Register </h6></a>
         <a href="/passwordReset"><h6>Forgot Password</h6></a>
     </div>
-      <div id="loginSection" class="parallax-window" data-parallax="scroll"  data-image-src="../public/css/c4.jpg">
+      <div id="loginSection">
 
       </div>
 
       <script type="text/babel">
+      document.getElementById("aboutButton").addEventListener("click", ScrollToBottom);
+
+      function ScrollToBottom(){
+        window.scrollTo(0,document.body.scrollHeight);
+      };
+
       $('.arrow-up').hide();
 
       $(window).scroll(function() {
@@ -126,6 +137,16 @@
 
       </script>
 
-    <div id=aboutSection ></div>
+    <div id=aboutSection >
+      <div id="aboutSecOne">
+        <p>Simple Web-based Digital Audio Workstation</p>
+      </div>
+      <div id="aboutSecTwo">
+        <p>RECORD. EDIT. EFFECTS </p>
+      </div>
+      <div id="aboutSecThree">
+        <p>create account to save and continue work later</p>
+      </div>
+    </div>
   </body>
 </html>
