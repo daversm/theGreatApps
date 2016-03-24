@@ -507,52 +507,6 @@ export var Track = React.createClass({
   },
   handleSave:function(){
     return this.trackAudioBuffers;
-    //var currentBuffers = this.trackAudioBuffers;
-    //var projectID = this.props.projectID;
-    //console.log(currentBuffers);
-
-/*
-
-      $.ajax({
-            type: 'POST',
-            url: '/uploadTrackOne',
-            data: {buffer :JSON.stringify(outerThis.trackAudioBuffers)},
-            dataType: "buffer"
-        });
-  */
-/*
-  var oReq = new XMLHttpRequest();
-oReq.open("POST", "/uploadTrackOne", true);
-oReq.onload = function (oEvent) {
-
-};
-
-var blob = new Blob(this.trackAudioBuffers, {type: 'text/plain'});
-
-oReq.send(blob);
-
-var buffer = new Buffer(this.trackAudioBuffers[0].length*4);
-
-
-    for(var i = 0; i < this.trackAudioBuffers[0].length; i++){
-        //write the float in Little-Endian and move the offset
-        buffer.writeFloatLE(this.trackAudioBuffers[0][i], i*4);
-    }
-
-console.log("buffer");
-console.log(buffer);
-
-var test = new Float32Array(buffer.length/4);
-for(var i = 0; i < test.length; i++){
-    //write the float in Little-Endian and move the offset
-    test[i] = buffer.readFloatLE( i*4);
-}
-
-console.log("back to Float32Array");
-console.log(test);
-*/
-
-
 
   },
   handleLoad: function(l,r){

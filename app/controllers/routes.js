@@ -279,7 +279,10 @@ app.post('/uploadTrackThreeL', function(req, res) {
 app.get('/downloadTrackOneR', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackOne.R;
-
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
@@ -288,6 +291,11 @@ app.get('/downloadTrackOneR', function(req, res) {
 app.get('/downloadTrackOneL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackOne.L;
+    console.log("the track ID was:" + id);
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
 
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
@@ -298,6 +306,10 @@ app.get('/downloadTrackOneL', function(req, res) {
 app.get('/downloadTrackTwoR', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackTwo.R;
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
 
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
@@ -307,6 +319,10 @@ app.get('/downloadTrackTwoR', function(req, res) {
 app.get('/downloadTrackTwoL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackTwo.L;
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
 
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
@@ -317,6 +333,10 @@ app.get('/downloadTrackTwoL', function(req, res) {
 app.get('/downloadTrackThreeR', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackThree.R;
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
 
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
@@ -326,6 +346,10 @@ app.get('/downloadTrackThreeR', function(req, res) {
 app.get('/downloadTrackThreeL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackThree.L;
+    if(id === ""){
+      res.status(500).send('Something broke!');
+      return;
+    }
 
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});

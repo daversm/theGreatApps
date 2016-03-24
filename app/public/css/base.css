@@ -509,7 +509,7 @@ input[type="text"] {
   font-size: 25px;
   padding: 2px;
   padding-left: 0px;
-  width: 400px;
+  width: 398px;
   height: 35px;
   border: none;
   border-bottom: solid 1px #9A9A9A;
@@ -526,7 +526,7 @@ input[type="password"] {
   font-size: 25px;
   padding: 2px;
   padding-left: 0px;
-  width: 400px;
+  width: 398px;
   height: 35px;
   border: none;
   border-bottom: solid 1px #9A9A9A;
@@ -677,43 +677,31 @@ input[type="submit"]:hover {
   border-color: #0099FF;
   background: #0099FF;
   color:white;
-  -webkit-box-shadow: 0 4px 4px -4px gray;
-   -moz-box-shadow: 0 4px 4px -4px gray;
-        box-shadow: 0 4px 4px -4px gray;
+  box-shadow: 0 4px 5px -4px gray;
 }
 
 input[type="password"]:hover {
   transition: box-shadow 100ms ease;
-
-  -webkit-box-shadow: 0 4px 4px -4px gray;
-   -moz-box-shadow: 0 4px 4px -4px gray;
-        box-shadow: 0 4px 4px -4px gray;
+  box-shadow: 0 4px 5px -4px gray;
 }
 
 input[type="password"]:focus {
   outline: none;
   transition: box-shadow 100ms ease;
- border-color:#0099FF;
-  -webkit-box-shadow: 0 4px 4px -4px gray;
-   -moz-box-shadow: 0 4px 4px -4px gray;
-        box-shadow: 0 4px 4px -4px gray;
+  border-color:#0099FF;
+  box-shadow: 0 4px 5px -4px gray;
 }
 
 input[type="text"]:focus {
   outline: none;
   transition: box-shadow 100ms ease;
   border-color: #0099FF;
-
-  -webkit-box-shadow: 0 4px 4px -4px gray;
-   -moz-box-shadow: 0 4px 4px -4px gray;
-        box-shadow: 0 4px 4px -4px gray;
+  box-shadow: 0 4px 5px -4px gray;
 }
 
 input[type="text"]:hover{
   transition: box-shadow 100ms ease;
-  -webkit-box-shadow: 0 4px 4px -4px gray;
-   -moz-box-shadow: 0 4px 4px -4px gray;
-        box-shadow: 0 4px 4px -4px gray;
+  box-shadow: 0 4px 5px -4px gray;
 }
 
 #loginSection{
@@ -762,7 +750,7 @@ h1{
   margin-bottom: -5px;
   margin-left:-3px;
   padding: 0;
-  font-size: 63px;
+  font-size: 62px;
 }
 h6{
   font-family: 'Roboto', sans-serif;

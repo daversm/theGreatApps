@@ -857,43 +857,50 @@ var MasterController = _react2.default.createClass({
 
     var buffer1l;
     request1l.onload = function () {
-      console.log(new Float32Array(request1l.response));
+      //console.log(new Float32Array(request1l.response));
       buffer1l = request1l.response;
       request1r.send();
     };
     var buffer1r;
     request1r.onload = function () {
-      console.log(new Float32Array(request1r.response));
+      console.log(request1r.status);
+
       buffer1r = request1r.response;
-      outerThis.refs['track1'].handleLoad(buffer1l, buffer1r);
+      if (request1r.status === 200 && request1l.status === 200) {
+        outerThis.refs['track1'].handleLoad(buffer1l, buffer1r);
+      }
     };
     request1l.send();
 
     var buffer2l;
     request2l.onload = function () {
-      console.log(new Float32Array(request2l.response));
+      //console.log(new Float32Array(request2l.response));
       buffer2l = request2l.response;
       request2r.send();
     };
     var buffer2r;
     request2r.onload = function () {
-      console.log(new Float32Array(request2r.response));
+      //console.log(new Float32Array(request2r.response));
       buffer2r = request2r.response;
-      outerThis.refs['track2'].handleLoad(buffer2l, buffer2r);
+      if (request2r.status === 200 && request2l.status === 200) {
+        outerThis.refs['track2'].handleLoad(buffer2l, buffer2r);
+      }
     };
     request2l.send();
 
     var buffer3l;
     request3l.onload = function () {
-      console.log(new Float32Array(request3l.response));
+      //console.log(new Float32Array(request3l.response));
       buffer3l = request3l.response;
       request3r.send();
     };
     var buffer3r;
     request3r.onload = function () {
-      console.log(new Float32Array(request3r.response));
+      //console.log(new Float32Array(request3r.response));
       buffer3r = request3r.response;
-      outerThis.refs['track3'].handleLoad(buffer3l, buffer3r);
+      if (request3r.status === 200 && request3l.status === 200) {
+        outerThis.refs['track3'].handleLoad(buffer3l, buffer3r);
+      }
     };
     request3l.send();
   },
@@ -1849,50 +1856,6 @@ var Track = exports.Track = React.createClass({
   },
   handleSave: function handleSave() {
     return this.trackAudioBuffers;
-    //var currentBuffers = this.trackAudioBuffers;
-    //var projectID = this.props.projectID;
-    //console.log(currentBuffers);
-
-    /*
-    
-          $.ajax({
-                type: 'POST',
-                url: '/uploadTrackOne',
-                data: {buffer :JSON.stringify(outerThis.trackAudioBuffers)},
-                dataType: "buffer"
-            });
-      */
-    /*
-      var oReq = new XMLHttpRequest();
-    oReq.open("POST", "/uploadTrackOne", true);
-    oReq.onload = function (oEvent) {
-    
-    };
-    
-    var blob = new Blob(this.trackAudioBuffers, {type: 'text/plain'});
-    
-    oReq.send(blob);
-    
-    var buffer = new Buffer(this.trackAudioBuffers[0].length*4);
-    
-    
-        for(var i = 0; i < this.trackAudioBuffers[0].length; i++){
-            //write the float in Little-Endian and move the offset
-            buffer.writeFloatLE(this.trackAudioBuffers[0][i], i*4);
-        }
-    
-    console.log("buffer");
-    console.log(buffer);
-    
-    var test = new Float32Array(buffer.length/4);
-    for(var i = 0; i < test.length; i++){
-        //write the float in Little-Endian and move the offset
-        test[i] = buffer.readFloatLE( i*4);
-    }
-    
-    console.log("back to Float32Array");
-    console.log(test);
-    */
   },
   handleLoad: function handleLoad(l, r) {
     var buffers = [new Float32Array(l), new Float32Array(r)];
