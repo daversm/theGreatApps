@@ -46,16 +46,20 @@
       $(window).scroll(function() {
         if ($(this).scrollTop() >= $('body').height() / 7) {        // If page is scrolled more than 50px
           $('.arrow-down').fadeOut(250);    // Fade in the arrow
+          $('#naviBar').fadeOut(250);
         } else {
-          $('.arrow-down').fadeIn(250);   // Else fade out the arrow
+          $('.arrow-down').fadeIn(250);
+          $('#naviBar').fadeIn(250);  // Else fade out the arrow
         }
       });
 
       $(window).scroll(function() {
         if ($(this).scrollTop() >= $('body').height() / 1.2) {        // If page is scrolled more than 50px
-          $('.arrow-up').fadeIn(250);    // Fade in the arrow
+          $('.arrow-up').fadeIn(250);
+              // Fade in the arrow
         } else {
-          $('.arrow-up').fadeOut(250);   // Else fade out the arrow
+          $('.arrow-up').fadeOut(250);
+           // Else fade out the arrow
         }
       });
 

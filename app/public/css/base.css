@@ -757,7 +757,7 @@ input[type="text"]:hover{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(88, 88, 88);
+  background-color: #4c4c4c;
 }
 
 #naviBar{
