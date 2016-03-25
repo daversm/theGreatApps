@@ -759,6 +759,7 @@ var MasterController = _react2.default.createClass({
 
     return { micSwitchState: false, userName: "Loading", dropDownMore: [],
       dropDownActive: false, moreButtonStatus: "projectsSettingsButton",
+      saveOrSaving: "SAVE", saveOrSavingClass: "projectsSettingsButton",
       tracksArray: [{ trackName: "track1", tracksTitle: "TRACK 1" }, { trackName: "track2", tracksTitle: "TRACK 2" }, { trackName: "track3", tracksTitle: "TRACK 3" }]
     };
   },
@@ -786,6 +787,7 @@ var MasterController = _react2.default.createClass({
 
     $.post('getProjectID', function (result) {
       this.projectID = result.projectID;
+      this.handleLoad();
     }.bind(this));
   },
   handleMasterPlay: function handleMasterPlay() {
@@ -909,6 +911,7 @@ var MasterController = _react2.default.createClass({
     var trackOneBuffers = this.refs['track1'].handleSave() || [[]];
     var trackTwoBuffers = this.refs['track2'].handleSave() || [[]];
     var trackThreeBuffers = this.refs['track3'].handleSave() || [[]];
+    this.setState({ saveOrSaving: "SAVING", saveOrSavingClass: "projectsSettingsButtonSaving" });
 
     if (trackOneBuffers[0].length > 1) {
       $.ajax({
@@ -985,6 +988,7 @@ var MasterController = _react2.default.createClass({
           }
         });
       }
+      outerThis.setState({ saveOrSaving: "SAVE", saveOrSavingClass: "projectsSettingsButton" });
     }
   },
   handleMore: function handleMore() {
@@ -1056,13 +1060,8 @@ var MasterController = _react2.default.createClass({
           { className: 'masterInfo' },
           _react2.default.createElement(
             'div',
-            { className: 'projectsSettingsButton', onClick: this.handleSave },
-            'SAVE'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'projectsSettingsButton', onClick: this.handleLoad },
-            'LOAD'
+            { className: this.state.saveOrSavingClass, onClick: this.handleSave },
+            this.state.saveOrSaving
           ),
           _react2.default.createElement(
             'div',
@@ -1641,7 +1640,7 @@ var Track = exports.Track = React.createClass({
       });
 
       this.wavesurferPostRecording.on('region-created', function (region) {
-
+        outerThis2.setState({ loopButton: "buttonsInsideTrack" });
         outerThis2.regionTest = region;
         outerThis2.regionCreated = true;
       });
@@ -1859,6 +1858,7 @@ var Track = exports.Track = React.createClass({
   },
   handleLoad: function handleLoad(l, r) {
     var buffers = [new Float32Array(l), new Float32Array(r)];
+    this.trackAudioBuffers = buffers;
     var outerthis2 = this;
 
     this.wavesurfer.empty();
@@ -1891,7 +1891,7 @@ var Track = exports.Track = React.createClass({
     });
 
     this.wavesurferPostRecording.on('region-created', function (region) {
-
+      outerThis2.setState({ loopButton: "buttonsInsideTrack" });
       outerThis2.regionTest = region;
       outerThis2.regionCreated = true;
     });

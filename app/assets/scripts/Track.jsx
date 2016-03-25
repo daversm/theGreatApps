@@ -275,7 +275,7 @@ export var Track = React.createClass({
           });
 
           this.wavesurferPostRecording.on('region-created', function (region) {
-
+            outerThis2.setState({loopButton:"buttonsInsideTrack"});
             outerThis2.regionTest = region;
             outerThis2.regionCreated = true;
           });
@@ -511,6 +511,7 @@ export var Track = React.createClass({
   },
   handleLoad: function(l,r){
     var buffers = [new Float32Array(l), new Float32Array(r)];
+    this.trackAudioBuffers = buffers;
     var outerthis2 = this;
 
     this.wavesurfer.empty();
@@ -544,7 +545,7 @@ export var Track = React.createClass({
     });
 
     this.wavesurferPostRecording.on('region-created', function (region) {
-
+      outerThis2.setState({loopButton:"buttonsInsideTrack"});
       outerThis2.regionTest = region;
       outerThis2.regionCreated = true;
     });

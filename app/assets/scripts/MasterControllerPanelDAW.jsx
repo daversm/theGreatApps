@@ -9,6 +9,7 @@ const MasterController = React.createClass({
 
     return {micSwitchState: false, userName:"Loading", dropDownMore:[],
             dropDownActive: false, moreButtonStatus:"projectsSettingsButton",
+            saveOrSaving:"SAVE", saveOrSavingClass:"projectsSettingsButton",
             tracksArray : [{trackName:"track1", tracksTitle:"TRACK 1"},
                            {trackName:"track2", tracksTitle:"TRACK 2"},
                            {trackName:"track3", tracksTitle:"TRACK 3"}
@@ -40,6 +41,7 @@ const MasterController = React.createClass({
 
     $.post('getProjectID', function(result) {
           this.projectID = result.projectID;
+          this.handleLoad();
     }.bind(this));
 
   },
@@ -178,6 +180,7 @@ const MasterController = React.createClass({
     var trackOneBuffers = this.refs['track1'].handleSave() || [[]];
     var trackTwoBuffers = this.refs['track2'].handleSave() || [[]];
     var trackThreeBuffers = this.refs['track3'].handleSave() || [[]];
+    this.setState({saveOrSaving:"SAVING", saveOrSavingClass:"projectsSettingsButtonSaving"});
 
     if(trackOneBuffers[0].length > 1){
       $.ajax({
@@ -254,7 +257,9 @@ const MasterController = React.createClass({
            }
         });
       }
+      outerThis.setState({saveOrSaving:"SAVE", saveOrSavingClass:"projectsSettingsButton"});
     }
+
 
   },
   handleMore:function(){
@@ -314,11 +319,8 @@ const MasterController = React.createClass({
             PENTATONIC
           </div>
           <div className="masterInfo">
-            <div className="projectsSettingsButton" onClick={this.handleSave}>
-              SAVE
-            </div>
-            <div className="projectsSettingsButton" onClick={this.handleLoad}>
-              LOAD
+            <div className={this.state.saveOrSavingClass} onClick={this.handleSave}>
+              {this.state.saveOrSaving}
             </div>
             <div className={this.state.moreButtonStatus} onClick={this.handleMore}>
               USER
