@@ -110,7 +110,6 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
       if (err) return handleError(err);
       console.log('Deleted file id:' + projects[id].trackOne.R);
 
-
     });
   }
   if(projects[id].trackOne.L !== ""){
@@ -166,10 +165,10 @@ app.post('/updateProjects', bodyParser(), isLoggedIn, function(req, res) {
         console.log(err);
         res.json({projects: req.user.local.projects, error:true});
 
-      }else{
+      }
         console.log("User projects Updated");
         res.json({projects:req.user.local.projects, error:false});
-      }
+
   });
 
 });
@@ -182,22 +181,29 @@ app.post('/uploadTrackOneR', function(req, res) {
 
   var id = new mongoose.Types.ObjectId();
   var writestream = gfs.createWriteStream({_id:id});
+
   req.pipe(writestream);
 
   req.on('end', function() {
 
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackOne.R;
     projects[req.user.local.currentProject].trackOne.R = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
-          console.log("User projects Updated");
-          res.json({error:false});
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
+            console.log("User projects Updated");
+            res.json({error:false});
+
         }
     });
 
@@ -213,20 +219,25 @@ app.post('/uploadTrackOneL', function(req, res) {
 
   req.on('end', function() {
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackOne.L;
     projects[req.user.local.currentProject].trackOne.L = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
-          console.log("User projects Updated");
-          res.json({error:false});
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
+            console.log("User projects Updated");
+            res.json({error:false});
+
         }
     });
-
   });
 
 });
@@ -239,17 +250,23 @@ app.post('/uploadTrackTwoR', function(req, res) {
 
   req.on('end', function() {
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackTwo.R;
     projects[req.user.local.currentProject].trackTwo.R = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
-          console.log("User projects Updated");
-          res.json({error:false});
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
+            console.log("User projects Updated");
+            res.json({error:false});
+
         }
     });
 
@@ -265,20 +282,25 @@ app.post('/uploadTrackTwoL', function(req, res) {
 
   req.on('end', function() {
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackTwo.L;
     projects[req.user.local.currentProject].trackTwo.L = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
-          console.log("User projects Updated");
-          res.json({error:false});
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
+            console.log("User projects Updated");
+            res.json({error:false});
+
         }
     });
-
   });
 
 });
@@ -290,17 +312,23 @@ app.post('/uploadTrackThreeR', function(req, res) {
 
   req.on('end', function() {
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackThree.R;
     projects[req.user.local.currentProject].trackThree.R = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
-          console.log("User projects Updated");
-          res.json({error:false});
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
+            console.log("User projects Updated");
+            res.json({error:false});
+
         }
     });
 
@@ -316,17 +344,23 @@ app.post('/uploadTrackThreeL', function(req, res) {
 
   req.on('end', function() {
     var projects = JSON.parse(req.user.local.projects);
+    var idTodelet = projects[req.user.local.currentProject].trackThree.L;
     projects[req.user.local.currentProject].trackThree.L = id;
     req.user.local.projects = JSON.stringify(projects);
 
     req.user.save(function(err) {
         if (err){
-          console.log(err);
           res.json({error:true});
 
         }else{
+          if(idTodelet !== ""){
+            gfs.remove({_id:new mongoose.Types.ObjectId(idTodelet)}, function (err) {
+
+            });
+          }
           console.log("User projects Updated");
           res.json({error:false});
+
         }
     });
 
