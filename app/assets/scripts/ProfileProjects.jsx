@@ -93,8 +93,8 @@ const MasterController = React.createClass({
         data: {projects:toStr},
         success: function(data) {
           if(data.error == false){
-            console.log("------------------------------");
-            console.log(JSON.parse(data.projects));
+            //console.log("------------------------------");
+            //console.log(JSON.parse(data.projects));
             outerThis.projects = JSON.parse(data.projects);
             outerThis.numberProjects = Object.keys(outerThis.projects).length;
             outerThis.setState({numberProjects: outerThis.numberProjects});
@@ -117,25 +117,37 @@ const MasterController = React.createClass({
     }
   },
   handleDeleteProject:function(id){
-    delete this.projects[id];
-    var toStr = JSON.stringify(this.projects);
     var outerThis = this;
+
     $.ajax({
-      url: '/updateProjects',
+      url: '/deleteAProject',
       type: 'POST',
       dataType: "json",
-      data: {projects:toStr},
+      data: {id:id},
       success: function(data) {
-        if(data.error == false){
-          console.log("------------------------------");
-          console.log(JSON.parse(data.projects));
-          outerThis.projects = JSON.parse(data.projects);
-          outerThis.numberProjects = Object.keys(outerThis.projects).length;
-          outerThis.setState({numberProjects: outerThis.numberProjects});
-          outerThis.rerender();
+        if (data.error == false){
+          delete outerThis.projects[id];
+          var toStr = JSON.stringify(outerThis.projects);
+          $.ajax({
+            url: '/updateProjects',
+            type: 'POST',
+            dataType: "json",
+            data: {projects:toStr},
+            success: function(data) {
+              if(data.error == false){
+                //console.log("------------------------------");
+                //console.log(JSON.parse(data.projects));
+                outerThis.projects = JSON.parse(data.projects);
+                outerThis.numberProjects = Object.keys(outerThis.projects).length;
+                outerThis.setState({numberProjects: outerThis.numberProjects});
+                outerThis.rerender();
+              }
+             }
+           });
         }
-       }
+      }
      });
+
   },
   handleLogoutURL: function(){
     window.location.href = '/logout';

@@ -97,7 +97,65 @@ app.post('/loadProject',bodyParser(), isLoggedIn, function(req, res) {
         }
     });
 });
-app.post
+app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
+
+  var projects = JSON.parse(req.user.local.projects);
+  var id = req.body.id;
+
+  function handleError(){
+    res.json({error:true});
+  }
+  if(projects[id].trackOne.R !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackOne.R)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackOne.R);
+
+
+    });
+  }
+  if(projects[id].trackOne.L !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackOne.L)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackOne.L);
+    });
+  }
+
+
+  if(projects[id].trackTwo.R !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackTwo.R)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackTwo.R);
+
+
+    });
+  }
+  if(projects[id].trackTwo.L !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackTwo.L)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackTwo.L);
+    });
+  }
+
+
+  if(projects[id].trackThree.R !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackThree.R)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackThree.R);
+
+
+    });
+  }
+  if(projects[id].trackThree.L !== ""){
+    gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackThree.L)}, function (err) {
+      if (err) return handleError(err);
+      console.log('Deleted file id:' + projects[id].trackThree.L);
+    });
+  }
+
+
+  res.json({error: false});
+
+});
 
 app.post('/updateProjects', bodyParser(), isLoggedIn, function(req, res) {
 

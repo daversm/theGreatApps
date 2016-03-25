@@ -102,8 +102,8 @@ var MasterController = _react2.default.createClass({
         data: { projects: toStr },
         success: function success(data) {
           if (data.error == false) {
-            console.log("------------------------------");
-            console.log(JSON.parse(data.projects));
+            //console.log("------------------------------");
+            //console.log(JSON.parse(data.projects));
             outerThis.projects = JSON.parse(data.projects);
             outerThis.numberProjects = Object.keys(outerThis.projects).length;
             outerThis.setState({ numberProjects: outerThis.numberProjects });
@@ -126,22 +126,33 @@ var MasterController = _react2.default.createClass({
     }
   },
   handleDeleteProject: function handleDeleteProject(id) {
-    delete this.projects[id];
-    var toStr = JSON.stringify(this.projects);
     var outerThis = this;
+
     $.ajax({
-      url: '/updateProjects',
+      url: '/deleteAProject',
       type: 'POST',
       dataType: "json",
-      data: { projects: toStr },
+      data: { id: id },
       success: function success(data) {
         if (data.error == false) {
-          console.log("------------------------------");
-          console.log(JSON.parse(data.projects));
-          outerThis.projects = JSON.parse(data.projects);
-          outerThis.numberProjects = Object.keys(outerThis.projects).length;
-          outerThis.setState({ numberProjects: outerThis.numberProjects });
-          outerThis.rerender();
+          delete outerThis.projects[id];
+          var toStr = JSON.stringify(outerThis.projects);
+          $.ajax({
+            url: '/updateProjects',
+            type: 'POST',
+            dataType: "json",
+            data: { projects: toStr },
+            success: function success(data) {
+              if (data.error == false) {
+                //console.log("------------------------------");
+                //console.log(JSON.parse(data.projects));
+                outerThis.projects = JSON.parse(data.projects);
+                outerThis.numberProjects = Object.keys(outerThis.projects).length;
+                outerThis.setState({ numberProjects: outerThis.numberProjects });
+                outerThis.rerender();
+              }
+            }
+          });
         }
       }
     });
