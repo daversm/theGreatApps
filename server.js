@@ -70,6 +70,6 @@ require('./app/middlewares/passport')(passport);
 require('./app/controllers/routes.js')(app, passport);
 
 
-https.createServer({options, app).listen(port);
+https.createServer(options, app).listen(port);
 
 console.log('Server started: http://localhost:' + port + '/');
