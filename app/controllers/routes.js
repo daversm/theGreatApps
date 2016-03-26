@@ -174,7 +174,7 @@ app.post('/updateProjects', bodyParser(), isLoggedIn, function(req, res) {
 });
 
 app.get('/profile',bodyParser(), isLoggedIn, function(req, res) {
-		res.sendfile('app/views/profileProject.html');
+		res.sendfile('app/views/profile.html');
 });
 
 app.post('/uploadTrackOneR', function(req, res) {
