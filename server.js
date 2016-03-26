@@ -16,7 +16,7 @@ var cookieParser = require('cookie-parser');
 //var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var Grid         = require('gridfs-stream');
-var checkSecure = function requireHTTPS(req, res, next) {
+function requireHTTPS(req, res, next) {
     if (!req.secure) {
         //FYI this should work for local development as well
         return res.redirect('https://' + req.get('host') + req.url);
@@ -28,7 +28,7 @@ var checkSecure = function requireHTTPS(req, res, next) {
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static('app/public'));
 
-app.use(checkSecure());
+app.use(requireHTTPS);
 app.use(morgan('dev'));
 app.use(cookieParser());
 //app.use(bodyParser());
