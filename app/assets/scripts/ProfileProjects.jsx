@@ -197,9 +197,7 @@ const MasterController = React.createClass({
             <div className="projectsSettingsButtonClicked">
               PROJECTS
             </div>
-            <div className="projectsSettingsButton">
-              SETTINGS
-            </div>
+
           </div>
 
           <div className="titleTopCorner">

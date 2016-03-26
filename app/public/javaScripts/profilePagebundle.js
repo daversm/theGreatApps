@@ -210,11 +210,6 @@ var MasterController = _react2.default.createClass({
             'div',
             { className: 'projectsSettingsButtonClicked' },
             'PROJECTS'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'projectsSettingsButton' },
-            'SETTINGS'
           )
         ),
         _react2.default.createElement(
