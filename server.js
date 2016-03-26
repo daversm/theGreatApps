@@ -17,16 +17,14 @@ var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var Grid         = require('gridfs-stream');
 
-var https = require('https');
 var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('ssl-key.pem', 'utf8');
+var certificate = fs.readFileSync('ssl-cert.pem', 'utf8');
 
-var sslkey = fs.readFileSync('ssl-key.pem');
-var sslcert = fs.readFileSync('ssl-cert.pem')
+var credentials = {key: privateKey, cert: certificate};
 
-var options = {
-    key: sslkey,
-    cert: sslcert
-};
 
 function requireHTTPS(req, res, next) {
     if (!req.secure) {
@@ -69,7 +67,10 @@ console.log("GridFS Set");
 require('./app/middlewares/passport')(passport);
 require('./app/controllers/routes.js')(app, passport);
 
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
-https.createServer(options, app).listen(port);
+httpServer.listen(80);
+httpsServer.listen(443);
 
 console.log('Server started: http://localhost:' + port + '/');
