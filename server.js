@@ -16,6 +16,18 @@ var cookieParser = require('cookie-parser');
 //var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var Grid         = require('gridfs-stream');
+
+var https = require('https');
+var fs = require('fs');
+
+var sslkey = fs.readFileSync('ssl-key.pem');
+var sslcert = fs.readFileSync('ssl-cert.pem')
+
+var options = {
+    key: sslkey,
+    cert: sslcert
+};
+
 function requireHTTPS(req, res, next) {
     if (!req.secure) {
         //FYI this should work for local development as well
@@ -58,6 +70,6 @@ require('./app/middlewares/passport')(passport);
 require('./app/controllers/routes.js')(app, passport);
 
 
+https.createServer({options, app).listen(port);
 
-app.listen(port);
 console.log('Server started: http://localhost:' + port + '/');
