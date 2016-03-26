@@ -38,7 +38,7 @@ function requireHTTPS(req, res, next) {
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static('app/public'));
 
-//app.use(requireHTTPS);
+app.use(requireHTTPS);
 app.use(morgan('dev'));
 app.use(cookieParser());
 //app.use(bodyParser());
