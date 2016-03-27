@@ -29,15 +29,15 @@ var credentials = {key: privateKey, cert: certificate};
 app.use("/public", express.static('app/public'));
 
 function requireHTTPS(req, res, next) {
-    console.log("https router");
     if (!req.secure) {
         //FYI this should work for local development as well
+        console.log("https redirect");
         return res.redirect('https://' + req.get('host') + req.url);
     }
     next();
 };
 
-function isChrome(useragent,req, res, next) {
+function isChrome(req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
 
