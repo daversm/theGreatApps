@@ -28,7 +28,7 @@ var credentials = {key: privateKey, cert: certificate};
 
 app.use("/public", express.static('app/public'));
 
-function requireHTTPS( useragent, req, res, next) {
+function requireHTTPS(req, res, next) {
     if (!req.secure) {
         //FYI this should work for local development as well
         return res.redirect('https://' + req.get('host') + req.url);
@@ -36,7 +36,7 @@ function requireHTTPS( useragent, req, res, next) {
     next();
 };
 
-function isChrome(req, res, next) {
+function isChrome(useragent,req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
 
@@ -48,7 +48,7 @@ function isChrome(req, res, next) {
     }
 };
 
-
+//app.use(useragent());
 app.use(requireHTTPS);
 app.use(isChrome);
 app.use(morgan('dev'));
