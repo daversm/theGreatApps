@@ -1281,5 +1281,15 @@ hr.hrStyle{
   height: 0px;
   border-right: solid 20px rgba(0,0,0,.20);
   border-left: solid 20px rgba(0,0,0,.20);
+}
 
+#noSupport{
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color:white;
+  font-size: 50px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
 }
