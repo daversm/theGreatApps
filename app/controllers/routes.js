@@ -108,14 +108,14 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
   if(projects[id].trackOne.R !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackOne.R)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackOne.R);
+      //console.log('Deleted file id:' + projects[id].trackOne.R);
 
     });
   }
   if(projects[id].trackOne.L !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackOne.L)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackOne.L);
+      //console.log('Deleted file id:' + projects[id].trackOne.L);
     });
   }
 
@@ -123,7 +123,7 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
   if(projects[id].trackTwo.R !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackTwo.R)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackTwo.R);
+      //console.log('Deleted file id:' + projects[id].trackTwo.R);
 
 
     });
@@ -131,7 +131,7 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
   if(projects[id].trackTwo.L !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackTwo.L)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackTwo.L);
+      //console.log('Deleted file id:' + projects[id].trackTwo.L);
     });
   }
 
@@ -139,7 +139,7 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
   if(projects[id].trackThree.R !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackThree.R)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackThree.R);
+      //console.log('Deleted file id:' + projects[id].trackThree.R);
 
 
     });
@@ -147,7 +147,7 @@ app.post('/deleteAProject', bodyParser(), isLoggedIn, function(req, res) {
   if(projects[id].trackThree.L !== ""){
     gfs.remove({_id:new mongoose.Types.ObjectId(projects[id].trackThree.L)}, function (err) {
       if (err) return handleError(err);
-      console.log('Deleted file id:' + projects[id].trackThree.L);
+      //console.log('Deleted file id:' + projects[id].trackThree.L);
     });
   }
 
@@ -162,11 +162,11 @@ app.post('/updateProjects', bodyParser(), isLoggedIn, function(req, res) {
 
   req.user.save(function(err) {
       if (err){
-        console.log(err);
+        //console.log(err);
         res.json({projects: req.user.local.projects, error:true});
 
       }
-        console.log("User projects Updated");
+        //console.log("User projects Updated");
         res.json({projects:req.user.local.projects, error:false});
 
   });
@@ -201,7 +201,7 @@ app.post('/uploadTrackOneR', function(req, res) {
 
             });
           }
-            console.log("User projects Updated");
+          //  console.log("User projects Updated");
             res.json({error:false});
 
         }
@@ -233,7 +233,7 @@ app.post('/uploadTrackOneL', function(req, res) {
 
             });
           }
-            console.log("User projects Updated");
+            //console.log("User projects Updated");
             res.json({error:false});
 
         }
@@ -264,7 +264,7 @@ app.post('/uploadTrackTwoR', function(req, res) {
 
             });
           }
-            console.log("User projects Updated");
+            //console.log("User projects Updated");
             res.json({error:false});
 
         }
@@ -296,7 +296,7 @@ app.post('/uploadTrackTwoL', function(req, res) {
 
             });
           }
-            console.log("User projects Updated");
+            //console.log("User projects Updated");
             res.json({error:false});
 
         }
@@ -326,7 +326,7 @@ app.post('/uploadTrackThreeR', function(req, res) {
 
             });
           }
-            console.log("User projects Updated");
+            //console.log("User projects Updated");
             res.json({error:false});
 
         }
@@ -358,7 +358,7 @@ app.post('/uploadTrackThreeL', function(req, res) {
 
             });
           }
-          console.log("User projects Updated");
+          //console.log("User projects Updated");
           res.json({error:false});
 
         }
@@ -378,12 +378,12 @@ app.get('/downloadTrackOneR', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T1R");
+    //console.log("doneSending T1R");
 });
 app.get('/downloadTrackOneL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
     id = projects[req.user.local.currentProject].trackOne.L;
-    console.log("the track ID was:" + id);
+    //console.log("the track ID was:" + id);
     if(id === ""){
       res.status(500).send('Something broke!');
       return;
@@ -392,7 +392,7 @@ app.get('/downloadTrackOneL', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T1L");
+    //console.log("doneSending T1L");
 });
 
 app.get('/downloadTrackTwoR', function(req, res) {
@@ -406,7 +406,7 @@ app.get('/downloadTrackTwoR', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T2R");
+    //console.log("doneSending T2R");
 });
 app.get('/downloadTrackTwoL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
@@ -419,7 +419,7 @@ app.get('/downloadTrackTwoL', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T2L");
+    //console.log("doneSending T2L");
 });
 
 app.get('/downloadTrackThreeR', function(req, res) {
@@ -433,7 +433,7 @@ app.get('/downloadTrackThreeR', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T3R");
+    //console.log("doneSending T3R");
 });
 app.get('/downloadTrackThreeL', function(req, res) {
     var projects = JSON.parse(req.user.local.projects);
@@ -446,7 +446,7 @@ app.get('/downloadTrackThreeL', function(req, res) {
     var file = gfs.createReadStream({_id:id});
     res.set({'Content-Type': 'arraybuffer'});
     file.pipe(res);
-    console.log("doneSending T3L");
+    //console.log("doneSending T3L");
 });
 
 

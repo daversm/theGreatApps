@@ -41,10 +41,6 @@ function requireHTTPS(req, res, next) {
 function isChrome(req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
-
-    console.log(browserName);
-    console.log(browserVersion);
-
     if (browserName !== 'Chrome' && browserVersion < 47){
       res.sendFile(__dirname + '/app/views/noSupport.html');
     }
