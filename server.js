@@ -28,7 +28,7 @@ var credentials = {key: privateKey, cert: certificate};
 
 app.use("/public", express.static('app/public'));
 
-function requireHTTPS( useragent(), req, res, next) {
+function requireHTTPS( useragent, req, res, next) {
     if (!req.secure) {
         //FYI this should work for local development as well
         return res.redirect('https://' + req.get('host') + req.url);
