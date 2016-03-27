@@ -25,6 +25,7 @@ var privateKey  = fs.readFileSync('ssl-key.pem', 'utf8');
 var certificate = fs.readFileSync('ssl-cert.pem', 'utf8');
 
 var credentials = {key: privateKey, cert: certificate};
+var useragentExpress = useragent.express();
 
 app.use("/public", express.static('app/public'));
 
@@ -37,7 +38,7 @@ function requireHTTPS(req, res, next) {
     next();
 };
 
-function isChrome(req, res, next) {
+function isChrome(useragentExpress, req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
 
@@ -52,7 +53,7 @@ function isChrome(req, res, next) {
     }
 };
 
-app.use(useragent());
+//app.use(useragent.express());
 app.use(requireHTTPS);
 app.use(isChrome);
 app.use(morgan('dev'));
