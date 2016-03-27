@@ -46,7 +46,7 @@ function isChrome(req, res, next) {
     console.log(browserVersion);
 
     if (browserName !== 'Chrome' && browserVersion < 47){
-      res.sendFile(__dirname + 'app/views/noSupport.html');
+      res.sendFile(__dirname + '/app/views/noSupport.html');
     }
     else{
       next();
