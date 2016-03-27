@@ -40,7 +40,7 @@ function isChrome(req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
 
-    if (browserName !== 'Chrome' && browserVersion !>= 47){
+    if (browserName !== 'Chrome' && browserVersion < 47){
       res.sendFile('app/views/noSupport.html');
     }
     else{
