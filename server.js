@@ -37,7 +37,7 @@ function requireHTTPS(req, res, next) {
     next();
 };
 
-function isChrome(useragent, req, res, next) {
+function isChrome(req, res, next) {
     var browserName = req.useragent["browser"];
     var browserVersion = req.useragent["version"]
 
@@ -52,7 +52,7 @@ function isChrome(useragent, req, res, next) {
     }
 };
 
-//app.use(useragent());
+app.use(useragent());
 app.use(requireHTTPS);
 app.use(isChrome);
 app.use(morgan('dev'));
