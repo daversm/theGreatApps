@@ -40,7 +40,7 @@ function requireHTTPS(req, res, next) {
 
 function isChrome(req, res, next) {
     var browserName = req.useragent["browser"];
-    var browserVersion = req.useragent["version"]
+    var browserVersion = req.useragent["version"];
     if (browserName !== 'Chrome' && browserVersion < 47){
       res.sendFile(__dirname + '/app/views/noSupport.html');
     }
@@ -81,7 +81,7 @@ require('./app/controllers/routes.js')(app, passport);
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(80, function(){
+httpServer.listen(8080, function(){
   console.log('Server started: Port 80');
 });
 httpsServer.listen(443, function(){
