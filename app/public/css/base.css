@@ -143,6 +143,8 @@ body, html {
 }
 .compressorHolder{
   display: flex;
+  flex-grow: 1;
+  align-items: center;
   flex-direction: column;
   width: 200;
   height: 150;
@@ -211,7 +213,7 @@ body, html {
 
 .trackAudioEffectsPanel{
   display: flex;
-  align-items: flex-start;
+  justify-content: space-around;
   height: 150px;
   background-color: rgba(255, 255, 255, 0.67);
   flex-direction: row;
@@ -250,6 +252,7 @@ body, html {
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
   justify-content:space-between;
@@ -260,6 +263,7 @@ body, html {
   padding-left: 10px;
   padding-right: 10px;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
   justify-content:space-between;
@@ -279,6 +283,7 @@ body, html {
 }
 .volumeHolder{
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
   justify-content:space-between;
@@ -289,6 +294,8 @@ body, html {
 
 .EQdiv{
   display: flex;
+  flex-grow: 1;
+  align-items: center;
   width: 430px;
   height: 150px;
   flex-direction: column;
